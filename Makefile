@@ -34,6 +34,9 @@ TESTS = GTestTest_unittest
 GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
                 $(GTEST_DIR)/include/gtest/internal/*.h
 
+# Dariusz Pasciak - YOUR app's header files
+APP_HEADERS = ${USER_DIR}/lib
+
 # House-keeping build targets.
 
 all : $(TESTS)
@@ -71,15 +74,15 @@ gtest_main.a : gtest-all.o gtest_main.o
 # function.
 
 # sample1.o : $(USER_DIR)/sample1.cc $(USER_DIR)/sample1.h $(GTEST_HEADERS)
-GTestTest.o : $(USER_DIR)/GTestTest.cc $(USER_DIR)/GTestTest.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/GTestTest.cc
+GTestTest.o : $(USER_DIR)/lib/GTestTest.cpp $(USER_DIR)/lib/GTestTest.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/lib/GTestTest.cpp
 
 #sample1_unittest.o : $(USER_DIR)/sample1_unittest.cc \
 #                     $(USER_DIR)/sample1.h $(GTEST_HEADERS)
 #	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/sample1_unittest.cc
-GTestTest_unittest.o : $(USER_DIR)/GTestTest_unittest.cc \
-                   $(USER_DIR)/GTestTest.h  $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/GTestTest_unittest.cc
+GTestTest_unittest.o : $(USER_DIR)/spec/GTestTest_unittest.cpp \
+                   $(USER_DIR)/lib/GTestTest.h  $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I${APP_HEADERS} -c $(USER_DIR)/spec/GTestTest_unittest.cpp
 
 #sample1_unittest : sample1.o sample1_unittest.o gtest_main.a
 GTestTest_unittest : GTestTest.o GTestTest_unittest.o gtest_main.a
