@@ -45,10 +45,16 @@ run : all
 	./$(TESTS)
 
 clean :
-	rm -f $(TESTS) gtest.a gtest_main.a *.o
+	rm -f *.a *.o main *Test
 
-server: ServerTest
+server : ServerTest
 	./ServerTest
+
+go : 
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread lib/*.cpp -o main
+	rm -r main.dSYM
+	./main
+
 
 # Builds gtest.a and gtest_main.a.
 

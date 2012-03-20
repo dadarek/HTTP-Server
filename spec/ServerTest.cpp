@@ -1,14 +1,14 @@
 #include "gtest/gtest.h"
 #include "Server.h"
 
-TEST(ServerTest, Starts) {
+TEST(Server, Starts) {
   Server server;
   server.start();
 
   EXPECT_TRUE(server.isStarted());
 }
 
-TEST(ServerTest, Stops) {
+TEST(Server, Stops) {
   Server server;
   server.stop();
 
