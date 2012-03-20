@@ -1,17 +1,12 @@
 #include "gtest/gtest.h"
 #include "Server.h"
+#include "mocks/MockRequestHandler.cpp"
 
-TEST(Server, Starts) {
-  Server server;
+TEST(Server, ListensToPortAndHandsOffToHandler) {
+  MockRequestHandler handler;
+  Server server( &handler );
+  
   server.start();
 
-  EXPECT_TRUE(server.isStarted());
+  EXPECT_EQ( handler.requestsHandled(), 1 );
 }
-
-TEST(Server, Stops) {
-  Server server;
-  server.stop();
-
-  EXPECT_FALSE(server.isStarted());
-}
-

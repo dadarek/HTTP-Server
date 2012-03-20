@@ -27,7 +27,8 @@ CXXFLAGS += -g -Wall -Wextra
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-TESTS = GTestTest_unittest ServerTest
+#TESTS = GTestTest_unittest ServerTest
+TESTS = ServerTest
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -39,7 +40,7 @@ APP_HEADERS = ${USER_DIR}/lib
 
 # House-keeping build targets.
 
-all : $(TESTS)
+all : server 
 
 run : all
 	./$(TESTS)
@@ -102,6 +103,10 @@ ServerTest.o : $(USER_DIR)/spec/ServerTest.cpp \
                    $(USER_DIR)/lib/Server.h  $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I${APP_HEADERS} -c $(USER_DIR)/spec/ServerTest.cpp
 
-ServerTest : Server.o ServerTest.o gtest_main.a
+MockRequestHandler.o : ${USER_DIR}/spec/mocks/MockRequestHandler.cpp \
+											${USER_DIR}/lib/RequestHandler.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I${APP_HEADERS} -c $(USER_DIR)/spec/mocks/MockRequestHandler.cpp
+
+ServerTest : MockRequestHandler.o Server.o ServerTest.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 

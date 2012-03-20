@@ -1,20 +1,15 @@
 #include "Server.h"
+#include "RequestHandler.h"
 
-Server::Server()
-  : isStarted_(false)
+Server::Server( RequestHandler* handler )
+  : handler_( handler )
+{ }
+
+void Server::start()
 {
+  handler_->handle();
 }
 
-void Server::start() {
-  this->isStarted_ = true;
-}
-
-void Server::stop() {
-  this->isStarted_ = false;
-}
-
-bool Server::isStarted() {
-  return this->isStarted_;
-}
-
+Server::~Server()
+{ }
 

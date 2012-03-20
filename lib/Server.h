@@ -1,13 +1,13 @@
+class RequestHandler;
+
 class Server
 {
   private:
-    bool isStarted_;
+    RequestHandler* handler_;
 
   public:
-    Server();
+    Server( RequestHandler* );
+    virtual ~Server();
 
-    void stop();
     void start();
-
-    bool isStarted();
 };
