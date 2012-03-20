@@ -2,4 +2,4 @@
 *.swo
 *.o
 *.a
-*_unittest
+*Test
