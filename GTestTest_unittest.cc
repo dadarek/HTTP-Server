@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "../lib/GTestTest.cpp"
+#include "GTestTest.h"
 
 TEST(SampleTest, SomethingHappens) {
   GTestTest test;
