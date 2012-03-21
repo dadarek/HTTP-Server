@@ -9,6 +9,7 @@ MockSocket::MockSocket()
   , destructorCalled_( 0 )
   , socketClosed_( -1 )
   , listeningTo_( -1 )
+  , boundToPort_( -1 )
 { }
 
 MockSocket::~MockSocket()
@@ -32,6 +33,7 @@ int MockSocket::bind( int socketFD, int portNumber )
     return -1;
 
   boundTo_ = socketFD;
+  boundToPort_ = portNumber;
   return 0;
 }
 

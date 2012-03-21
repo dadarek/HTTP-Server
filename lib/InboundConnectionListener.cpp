@@ -2,14 +2,14 @@
 #include "Socket.h"
 #include <iostream>
 
-InboundConnectionListener::InboundConnectionListener(Socket* socket)
+InboundConnectionListener::InboundConnectionListener( Socket* socket, int portToListenOn )
   : socket_( socket )
 { 
   int fd = socket_->socket();
   if( fd < 0 )
     throw Socket::SOCKET_EXCEPTION;
   
-  int bindResult = socket_->bind( fd, 0 );
+  int bindResult = socket_->bind( fd, portToListenOn );
   if( bindResult < 0 )
   {
     socket_->close( fd );

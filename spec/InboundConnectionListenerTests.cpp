@@ -6,13 +6,15 @@ class InboundConnectionListenerTester
   : public ::testing::Test
 {
   protected:
+    int portToListenOn_;
     MockSocket* socket_;
     InboundConnectionListener listener_;
 
   public:
     InboundConnectionListenerTester()
-      : socket_( new MockSocket() )
-      , listener_( socket_ )
+      : portToListenOn_( 9080 )
+      , socket_( new MockSocket() )
+      , listener_( socket_, portToListenOn_ )
     { }
 };
 
@@ -25,7 +27,7 @@ TEST_F( InboundConnectionListenerTester, CreatesASocket )
 TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorSocket ) 
 {
   socket_->returnErrorOnSocket_ = true;
-  ASSERT_THROW( InboundConnectionListener listener( socket_ ), int );
+  ASSERT_THROW( InboundConnectionListener listener( socket_, 0 ), int );
 }
 
 TEST_F( InboundConnectionListenerTester, ClosesFDOnBindException ) 
@@ -33,7 +35,7 @@ TEST_F( InboundConnectionListenerTester, ClosesFDOnBindException )
   socket_->returnErrorOnBind_ = true;
   try
   {
-    InboundConnectionListener listener( socket_ );
+    InboundConnectionListener listener( socket_, 0 );
   }
   catch( int )
   { }
@@ -41,15 +43,21 @@ TEST_F( InboundConnectionListenerTester, ClosesFDOnBindException )
   EXPECT_EQ( socket_->socketFD_, socket_->socketClosed_ );
 }
 
-TEST_F( InboundConnectionListenerTester, BindsToTheSocketFDItReceives ) 
+TEST_F( InboundConnectionListenerTester, BindsToSocketFDItReceives ) 
 {
   EXPECT_EQ( socket_->socketFD_, socket_->boundTo_ );
 }
 
+TEST_F( InboundConnectionListenerTester, BindsToPortSpecifiedInConstructor ) 
+{
+  EXPECT_EQ( portToListenOn_, socket_->boundToPort_ );
+}
+
+
 TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorBind )  
 {
   socket_->returnErrorOnBind_ = true;
-  ASSERT_THROW( InboundConnectionListener listener( socket_ ), int );
+  ASSERT_THROW( InboundConnectionListener listener( socket_, 0 ), int );
 }
 
 TEST_F( InboundConnectionListenerTester, DeletesInjectedSocket )
@@ -58,7 +66,7 @@ TEST_F( InboundConnectionListenerTester, DeletesInjectedSocket )
   {
     MockSocket* socket = new MockSocket();
     socket->destructorCalled_ = &destructorCalled;
-    InboundConnectionListener listener( socket );
+    InboundConnectionListener listener( socket, 0 );
   }
   EXPECT_TRUE( destructorCalled );
 }

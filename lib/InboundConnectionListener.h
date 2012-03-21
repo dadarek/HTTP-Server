@@ -9,7 +9,7 @@ class InboundConnectionListener
     Socket* socket_;
 
   public:
-    InboundConnectionListener(Socket* socket);
+    InboundConnectionListener(Socket* socket, int portToListenOn );
     virtual ~InboundConnectionListener();
 };
 
