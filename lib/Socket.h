@@ -5,9 +5,6 @@
 
 class Socket
 {
-  private:
-    struct sockaddr a;
-
   public:
     Socket() { }
     virtual ~Socket() { }
