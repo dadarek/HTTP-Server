@@ -6,10 +6,14 @@ MockSocket::MockSocket()
   , socketFD_( 0 )
   , returnErrorOnSocket_( false )
   , returnErrorOnBind_( false )
+  , destructorCalled_( 0 )
 { }
 
 MockSocket::~MockSocket()
-{ }
+{ 
+  if( 0 != destructorCalled_ )
+    (*destructorCalled_) = true;
+}
 
 int MockSocket::socket()
 {

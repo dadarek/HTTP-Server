@@ -12,6 +12,7 @@ class MockSocket
     int boundTo_;
     bool returnErrorOnSocket_;
     bool returnErrorOnBind_;
+    bool* destructorCalled_;
 
     MockSocket();
     virtual ~MockSocket();

@@ -39,8 +39,18 @@ TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorBind )
   ASSERT_THROW( InboundConnectionListener listener( socket_ ), int );
 }
 
+TEST_F( InboundConnectionListenerTester, DeletesInjectedSocket )
+{
+  bool destructorCalled = false;
+  {
+    MockSocket* socket = new MockSocket();
+    socket->destructorCalled_ = &destructorCalled;
+    InboundConnectionListener listener( socket );
+  }
+  EXPECT_TRUE( destructorCalled );
+}
+
 //TODO: Test error returns on:
-//      - bind( ... )
 //      - accept( ... )
 
 //TODO: Test proper parameters get sent to:
