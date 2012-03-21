@@ -35,8 +35,11 @@ TESTS = ServerTest
 GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
                 $(GTEST_DIR)/include/gtest/internal/*.h
 
-# Dariusz Pasciak - YOUR app's header files
-APP_HEADERS = ${USER_DIR}/lib
+# Dariusz Pasciak
+HEADERS_DIR = ${USER_DIR}/lib
+LIB_DIR = ${USER_DIR}/lib
+SPECS_DIR = ${USER_DIR}/spec
+MOCKS_DIR = ${SPECS_DIR}/mocks
 
 # House-keeping build targets.
 
@@ -50,6 +53,9 @@ clean :
 
 server : ServerTest
 	./ServerTest
+
+icl : InboundConnectionListenerTests
+	./InboundConnectionListenerTests
 
 go : 
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread ${USER_DIR}/lib/*.cpp -o main
@@ -90,7 +96,7 @@ GTestTest.o : $(USER_DIR)/lib/GTestTest.cpp $(USER_DIR)/lib/GTestTest.h $(GTEST_
 
 GTestTest_unittest.o : $(USER_DIR)/spec/GTestTest_unittest.cpp \
                    $(USER_DIR)/lib/GTestTest.h  $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I${APP_HEADERS} -c $(USER_DIR)/spec/GTestTest_unittest.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I${HEADERS_DIR} -c $(USER_DIR)/spec/GTestTest_unittest.cpp
 
 GTestTest_unittest : GTestTest.o GTestTest_unittest.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
@@ -102,14 +108,27 @@ Server.o : $(USER_DIR)/lib/Server.cpp $(USER_DIR)/lib/Server.h $(GTEST_HEADERS)
 ServerTest.o : $(USER_DIR)/spec/ServerTest.cpp \
 							$(USER_DIR)/lib/Server.h  $(GTEST_HEADERS) \
               MockRequestHandler.o MockPortListener.o
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I${APP_HEADERS} -c $(USER_DIR)/spec/ServerTest.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I${HEADERS_DIR} -c $(USER_DIR)/spec/ServerTest.cpp
 
 MockRequestHandler.o : ${USER_DIR}/spec/mocks/MockRequestHandler.cpp ${USER_DIR}/lib/RequestHandler.h
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${APP_HEADERS} -c ${USER_DIR}/spec/mocks/MockRequestHandler.cpp
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${USER_DIR}/spec/mocks/MockRequestHandler.cpp
 
 MockPortListener.o : ${USER_DIR}/spec/mocks/MockPortListener.cpp ${USER_DIR}/lib/PortListener.h
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${APP_HEADERS} -c ${USER_DIR}/spec/mocks/MockPortListener.cpp
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${USER_DIR}/spec/mocks/MockPortListener.cpp
 
 ServerTest : MockRequestHandler.o MockPortListener.o Server.o ServerTest.o gtest_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
+
+InboundConnectionListener.o : ${LIB_DIR}/InboundConnectionListener.cpp \
+	${HEADERS_DIR}/InboundConnectionListener.h ${HEADERS_DIR}/Socket.h
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${LIB_DIR}/InboundConnectionListener.cpp
+
+MockSocket.o : ${MOCKS_DIR}/MockSocket.h ${MOCKS_DIR}/MockSocket.cpp ${HEADERS_DIR}/Socket.h
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${MOCKS_DIR}/MockSocket.cpp
+
+InboundConnectionListenerTests.o : ${SPECS_DIR}/InboundConnectionListenerTests.cpp MockSocket.o
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${SPECS_DIR}/InboundConnectionListenerTests.cpp
+
+InboundConnectionListenerTests : MockSocket.o InboundConnectionListener.o InboundConnectionListenerTests.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
