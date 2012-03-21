@@ -19,18 +19,19 @@ int RawSocket::socket()
   return ::socket( AF_INET, SOCK_STREAM, 0 );
 }
 
-int RawSocket::bind( int socketFD )
+int RawSocket::bind( int socketFD, struct sockaddr* serverAddress, size_t serverAddressSize )
 {
-  return 0;
+  return ::bind( socketFD, serverAddress, serverAddressSize ); 
 }
 
 void RawSocket::listen( int socketFD )
 {
+  ::listen( socketFD, 5 );
 }
 
-int RawSocket::accept( int socketFD )
+int RawSocket::accept( int socketFD, struct sockaddr* clientAddress, socklen_t* clientAddressSize )
 {
-  return 0;
+  return ::accept( socketFD, clientAddress, clientAddressSize );
 }
 
 void RawSocket::close( int socketFD )
