@@ -10,7 +10,8 @@ class MockSocket
     int socketsCreated_;
     const int socketFD_;
     int boundTo_;
-    bool throwExceptionOnSocket_;
+    bool returnErrorOnSocket_;
+    bool returnErrorOnBind_;
 
     MockSocket();
     virtual ~MockSocket();

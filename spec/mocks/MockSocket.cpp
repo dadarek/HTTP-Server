@@ -4,7 +4,8 @@
 MockSocket::MockSocket()
   : socketsCreated_( 0 )
   , socketFD_( 0 )
-  , throwExceptionOnSocket_( false )
+  , returnErrorOnSocket_( false )
+  , returnErrorOnBind_( false )
 { }
 
 MockSocket::~MockSocket()
@@ -12,8 +13,8 @@ MockSocket::~MockSocket()
 
 int MockSocket::socket()
 {
-  if( throwExceptionOnSocket_ )
-    throw Socket::SOCKET_EXCEPTION;
+  if( returnErrorOnSocket_ )
+    return -1;
 
   socketsCreated_++;
   return socketFD_;
@@ -21,6 +22,9 @@ int MockSocket::socket()
 
 int MockSocket::bind( int socketFD, struct sockaddr* serverAddress, size_t serverAddressSize )
 {
+  if( returnErrorOnBind_ )
+    return -1;
+
   boundTo_ = socketFD;
   return 0;
 }

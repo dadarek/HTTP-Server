@@ -6,7 +6,12 @@ InboundConnectionListener::InboundConnectionListener(Socket* socket)
   : socket_( socket )
 { 
   int fd = socket_->socket();
-  socket_->bind( fd, 0, 0 );
+  if( fd < 0 )
+    throw Socket::SOCKET_EXCEPTION;
+  
+  int bindResult = socket_->bind( fd, 0, 0 );
+  if( bindResult < 0 )
+    throw Socket::BIND_EXCEPTION;
 }
 
 InboundConnectionListener::~InboundConnectionListener()

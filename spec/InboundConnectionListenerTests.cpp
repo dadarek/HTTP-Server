@@ -24,13 +24,19 @@ TEST_F( InboundConnectionListenerTester, CreatesASocket )
 
 TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorSocket ) 
 {
-  socket_->throwExceptionOnSocket_ = true;
+  socket_->returnErrorOnSocket_ = true;
   ASSERT_THROW( InboundConnectionListener listener( socket_ ), int );
 }
 
 TEST_F( InboundConnectionListenerTester, BindsToTheSocketFDItReceives ) 
 {
   EXPECT_TRUE( socket_->boundTo_ == socket_->socketFD_ );
+}
+
+TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorBind )  
+{
+  socket_->returnErrorOnBind_ = true;
+  ASSERT_THROW( InboundConnectionListener listener( socket_ ), int );
 }
 
 //TODO: Test error returns on:
