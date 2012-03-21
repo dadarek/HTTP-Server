@@ -15,6 +15,8 @@ InboundConnectionListener::InboundConnectionListener(Socket* socket)
     socket_->close( fd );
     throw Socket::BIND_EXCEPTION;
   }
+
+  socket_->listen( fd );
 }
 
 InboundConnectionListener::~InboundConnectionListener()

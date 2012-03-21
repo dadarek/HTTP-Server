@@ -63,6 +63,11 @@ TEST_F( InboundConnectionListenerTester, DeletesInjectedSocket )
   EXPECT_TRUE( destructorCalled );
 }
 
+TEST_F( InboundConnectionListenerTester, ListensToSocketFDItReceives )  
+{
+  EXPECT_EQ( socket_->socketFD_, socket_->listeningTo_ );
+}
+
 //TODO: Test error returns on:
 //      - accept( ... )
 
@@ -83,3 +88,4 @@ TEST_F( InboundConnectionListenerTester, DeletesInjectedSocket )
 //      implicitly call the base destructor?
 //
 //TODO: Use EXPECT_EQ
+//

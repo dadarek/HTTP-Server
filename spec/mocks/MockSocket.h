@@ -14,6 +14,7 @@ class MockSocket
     bool returnErrorOnBind_;
     bool* destructorCalled_;
     int socketClosed_;
+    int listeningTo_;
 
     MockSocket();
     virtual ~MockSocket();

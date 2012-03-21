@@ -4,10 +4,12 @@
 MockSocket::MockSocket()
   : socketsCreated_( 0 )
   , socketFD_( 888 )
+  , boundTo_( -1 )
   , returnErrorOnSocket_( false )
   , returnErrorOnBind_( false )
   , destructorCalled_( 0 )
   , socketClosed_( -1 )
+  , listeningTo_( -1 )
 { }
 
 MockSocket::~MockSocket()
@@ -36,6 +38,7 @@ int MockSocket::bind( int socketFD, struct sockaddr* serverAddress, size_t serve
 
 void MockSocket::listen( int socketFD )
 {
+  listeningTo_ = socketFD;
 }
 
 int MockSocket::accept( int socketFD, struct sockaddr* clientAddress, socklen_t* clientAddressSize )
