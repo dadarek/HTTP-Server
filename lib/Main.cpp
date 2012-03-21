@@ -9,6 +9,7 @@
 #include <netinet/in.h>
 
 #include "RawPortListener.h"
+#include "RawSocket.h"
 
 void error(const char *msg)
 {

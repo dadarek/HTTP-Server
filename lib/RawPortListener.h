@@ -1,3 +1,7 @@
+#ifndef RAW_PORT_LISTENER_H
+#define RAW_PORT_LISTENER_H
+
+#include "RawSocket.h"
 #include "PortListener.h"
 #include <netinet/in.h>
 
@@ -6,6 +10,8 @@ class RawPortListener
 {
   private:
     int portNumber_;
+    RawSocket socket_;
+
     struct sockaddr_in serverAddress;
 
     int getNewSocketFD();
@@ -21,4 +27,4 @@ class RawPortListener
     bool listen();
 };
 
-
+#endif

@@ -1,3 +1,6 @@
+#ifndef SERVER_H
+#define SERVER_H
+
 class RequestHandler;
 class PortListener;
 
@@ -13,3 +16,5 @@ class Server
 
     void start();
 };
+
+#endif
