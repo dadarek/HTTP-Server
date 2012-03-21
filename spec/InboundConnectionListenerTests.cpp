@@ -28,6 +28,19 @@ TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorSocket )
   ASSERT_THROW( InboundConnectionListener listener( socket_ ), int );
 }
 
+TEST_F( InboundConnectionListenerTester, ClosesFDOnBindException ) 
+{
+  socket_->returnErrorOnBind_ = true;
+  try
+  {
+    InboundConnectionListener listener( socket_ );
+  }
+  catch( int )
+  { }
+  
+  EXPECT_EQ( socket_->socketFD_, socket_->socketClosed_ );
+}
+
 TEST_F( InboundConnectionListenerTester, BindsToTheSocketFDItReceives ) 
 {
   EXPECT_TRUE( socket_->boundTo_ == socket_->socketFD_ );
@@ -57,8 +70,6 @@ TEST_F( InboundConnectionListenerTester, DeletesInjectedSocket )
 //      - bind()
 //      - accept()
 //
-//TODO: Test if socket gets deleted in destructor
-//
 //TODO: Test if socket was created but bind or accept
 //      threw error, that socket was closed.
 //
@@ -71,3 +82,4 @@ TEST_F( InboundConnectionListenerTester, DeletesInjectedSocket )
 //TODO: Do explicit destructors (virtual and non-virtual)
 //      implicitly call the base destructor?
 //
+//TODO: Use EXPECT_EQ

@@ -8,11 +8,12 @@ class MockSocket
 {
   public:
     int socketsCreated_;
-    const int socketFD_;
+    int socketFD_;
     int boundTo_;
     bool returnErrorOnSocket_;
     bool returnErrorOnBind_;
     bool* destructorCalled_;
+    int socketClosed_;
 
     MockSocket();
     virtual ~MockSocket();

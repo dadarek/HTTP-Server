@@ -1,6 +1,6 @@
 #include "InboundConnectionListener.h"
 #include "Socket.h"
-
+#include <iostream>
 
 InboundConnectionListener::InboundConnectionListener(Socket* socket)
   : socket_( socket )
@@ -11,7 +11,10 @@ InboundConnectionListener::InboundConnectionListener(Socket* socket)
   
   int bindResult = socket_->bind( fd, 0, 0 );
   if( bindResult < 0 )
+  {
+    socket_->close( fd );
     throw Socket::BIND_EXCEPTION;
+  }
 }
 
 InboundConnectionListener::~InboundConnectionListener()

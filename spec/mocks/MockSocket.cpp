@@ -3,10 +3,11 @@
 
 MockSocket::MockSocket()
   : socketsCreated_( 0 )
-  , socketFD_( 0 )
+  , socketFD_( 888 )
   , returnErrorOnSocket_( false )
   , returnErrorOnBind_( false )
   , destructorCalled_( 0 )
+  , socketClosed_( -1 )
 { }
 
 MockSocket::~MockSocket()
@@ -44,4 +45,5 @@ int MockSocket::accept( int socketFD, struct sockaddr* clientAddress, socklen_t*
 
 void MockSocket::close( int socketFD )
 {
+  socketClosed_ = socketFD;
 }
