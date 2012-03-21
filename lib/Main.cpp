@@ -8,6 +8,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+#include "RawPortListener.h"
+
 void error(const char *msg)
 {
     perror(msg);
@@ -15,6 +17,15 @@ void error(const char *msg)
 }
 
 int main(int, char**)
+{
+  RawPortListener listener( 9090 );
+  if( listener.listen() )
+    printf("Hi\n");
+  else
+    printf("Bye\n");
+}
+
+int main_(int, char**)
 {
      int portno = 8080;
      int sockfd, newsockfd;
