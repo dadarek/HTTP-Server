@@ -16,6 +16,7 @@ class MockSocket
     int socketClosed_;
     int listeningTo_;
     int boundToPort_;
+    int socketFDPassedIntoAccept_; 
 
     MockSocket();
     virtual ~MockSocket();

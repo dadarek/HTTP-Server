@@ -7,10 +7,13 @@ class InboundConnectionListener
 {
   private:
     Socket* socket_;
+    int fd_;
 
   public:
     InboundConnectionListener(Socket* socket, int portToListenOn );
     virtual ~InboundConnectionListener();
+
+    int nextConnection();
 };
 
 #endif

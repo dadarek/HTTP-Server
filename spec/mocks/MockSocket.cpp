@@ -10,6 +10,7 @@ MockSocket::MockSocket()
   , socketClosed_( -1 )
   , listeningTo_( -1 )
   , boundToPort_( -1 )
+  , socketFDPassedIntoAccept_( -1 )
 { }
 
 MockSocket::~MockSocket()
@@ -44,6 +45,7 @@ void MockSocket::listen( int socketFD )
 
 int MockSocket::accept( int socketFD )
 {
+  socketFDPassedIntoAccept_ = socketFD;
   return 0;
 }
 

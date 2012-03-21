@@ -76,13 +76,15 @@ TEST_F( InboundConnectionListenerTester, ListensToSocketFDItReceives )
   EXPECT_EQ( socket_->socketFD_, socket_->listeningTo_ );
 }
 
+TEST_F( InboundConnectionListenerTester, AcceptsConnectionsOnSocketFDItReceives )  
+{
+  listener_.nextConnection();
+  EXPECT_EQ( socket_->socketFD_, socket_->socketFDPassedIntoAccept_ );
+}
+
 //TODO: Test error returns on:
 //      - accept( ... )
 
-//TODO: Test proper parameters get sent to:
-//      - bind()
-//      - accept()
-//
 //TODO: Test if socket was created but bind or accept
 //      threw error, that socket was closed.
 //
