@@ -4,4 +4,4 @@
 *.a
 
 make/*
-!make/SomeFile
+!make/Makefile
