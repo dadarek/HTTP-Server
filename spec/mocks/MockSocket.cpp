@@ -1,5 +1,13 @@
 #include "MockSocket.h"
 
+MockSocket::MockSocket()
+  : socketsCreated_( 0 )
+  , socketFD_( 0 )
+{ }
+
+MockSocket::~MockSocket()
+{ }
+
 int MockSocket::socket()
 {
   socketsCreated_++;

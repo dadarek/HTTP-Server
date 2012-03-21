@@ -16,3 +16,11 @@ TEST( InboundConnectionListener, BindsToTheSocketFDItReceives ) {
   EXPECT_TRUE( socket->boundTo_ == socket->socketFD_ );
 }
 
+//TODO: Test error returns on:
+//      - socket()
+//      - bind( ... )
+//      - accept( ... )
+
+//TODO: Test proper parameters get sent to:
+//      - bind()
+//      - accept()

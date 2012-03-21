@@ -7,12 +7,12 @@ class MockSocket
   : public Socket
 {
   public:
-    int socketsCreated_ = 0;
-    const int socketFD_ = 888;
+    int socketsCreated_;
+    const int socketFD_;
     int boundTo_;
 
-    MockSocket() { }
-    virtual ~MockSocket() { }
+    MockSocket();
+    virtual ~MockSocket();
 
     int socket();
     int bind( int socketFD, struct sockaddr* serverAddress, size_t serverAddressSize );
