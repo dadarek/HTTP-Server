@@ -5,7 +5,7 @@
 class InboundConnectionListenerTester
   : public ::testing::Test
 {
-  private:
+  protected:
     MockSocket* socket_;
     InboundConnectionListener listener_;
 
@@ -19,23 +19,18 @@ class InboundConnectionListenerTester
 
 TEST_F( InboundConnectionListenerTester, CreatesASocket )
 {
-  MockSocket* socket = new MockSocket();
-  InboundConnectionListener listener( socket );
-  EXPECT_TRUE( socket->socketsCreated_ == 1 );
+  EXPECT_TRUE( socket_->socketsCreated_ == 1 );
 }
 
 TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorSocket ) 
 {
-  MockSocket* socket = new MockSocket();
-  socket->throwExceptionOnSocket_ = true;
-  ASSERT_THROW( InboundConnectionListener listener( socket ), int );
+  socket_->throwExceptionOnSocket_ = true;
+  ASSERT_THROW( InboundConnectionListener listener( socket_ ), int );
 }
 
 TEST_F( InboundConnectionListenerTester, BindsToTheSocketFDItReceives ) 
 {
-  MockSocket* socket = new MockSocket();
-  InboundConnectionListener listener( socket );
-  EXPECT_TRUE( socket->boundTo_ == socket->socketFD_ );
+  EXPECT_TRUE( socket_->boundTo_ == socket_->socketFD_ );
 }
 
 //TODO: Test error returns on:
