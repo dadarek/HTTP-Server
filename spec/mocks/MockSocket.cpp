@@ -1,5 +1,4 @@
 #include "MockSocket.h"
-#include <iostream>
 
 MockSocket::MockSocket()
   : socketsCreated_( 0 )
@@ -27,7 +26,7 @@ int MockSocket::socket()
   return socketFD_;
 }
 
-int MockSocket::bind( int socketFD, struct sockaddr* serverAddress, size_t serverAddressSize )
+int MockSocket::bind( int socketFD, int portNumber )
 {
   if( returnErrorOnBind_ )
     return -1;
@@ -41,7 +40,7 @@ void MockSocket::listen( int socketFD )
   listeningTo_ = socketFD;
 }
 
-int MockSocket::accept( int socketFD, struct sockaddr* clientAddress, socklen_t* clientAddressSize )
+int MockSocket::accept( int socketFD )
 {
   return 0;
 }

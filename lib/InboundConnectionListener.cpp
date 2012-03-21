@@ -9,7 +9,7 @@ InboundConnectionListener::InboundConnectionListener(Socket* socket)
   if( fd < 0 )
     throw Socket::SOCKET_EXCEPTION;
   
-  int bindResult = socket_->bind( fd, 0, 0 );
+  int bindResult = socket_->bind( fd, 0 );
   if( bindResult < 0 )
   {
     socket_->close( fd );
