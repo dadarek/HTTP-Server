@@ -19,7 +19,7 @@ class InboundConnectionListenerTester
 
 TEST_F( InboundConnectionListenerTester, CreatesASocket )
 {
-  EXPECT_TRUE( socket_->socketsCreated_ == 1 );
+  EXPECT_EQ( 1, socket_->socketsCreated_ );
 }
 
 TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorSocket ) 
@@ -43,7 +43,7 @@ TEST_F( InboundConnectionListenerTester, ClosesFDOnBindException )
 
 TEST_F( InboundConnectionListenerTester, BindsToTheSocketFDItReceives ) 
 {
-  EXPECT_TRUE( socket_->boundTo_ == socket_->socketFD_ );
+  EXPECT_EQ( socket_->socketFD_, socket_->boundTo_ );
 }
 
 TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorBind )  
