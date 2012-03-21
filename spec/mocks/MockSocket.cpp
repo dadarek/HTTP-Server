@@ -2,11 +2,13 @@
 
 int MockSocket::socket()
 {
-  return ++socketsCreated;
+  socketsCreated_++;
+  return socketFD_;
 }
 
 int MockSocket::bind( int socketFD, struct sockaddr* serverAddress, size_t serverAddressSize )
 {
+  boundTo_ = socketFD;
   return 0;
 }
 

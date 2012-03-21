@@ -7,7 +7,9 @@ class MockSocket
   : public Socket
 {
   public:
-    int socketsCreated = 0;
+    int socketsCreated_ = 0;
+    const int socketFD_ = 888;
+    int boundTo_;
 
     MockSocket() { }
     virtual ~MockSocket() { }
