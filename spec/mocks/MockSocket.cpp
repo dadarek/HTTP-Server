@@ -1,8 +1,10 @@
 #include "MockSocket.h"
+#include <iostream>
 
 MockSocket::MockSocket()
   : socketsCreated_( 0 )
   , socketFD_( 0 )
+  , throwExceptionOnSocket_( false )
 { }
 
 MockSocket::~MockSocket()
@@ -10,6 +12,9 @@ MockSocket::~MockSocket()
 
 int MockSocket::socket()
 {
+  if( throwExceptionOnSocket_ )
+    throw Socket::SOCKET_EXCEPTION;
+
   socketsCreated_++;
   return socketFD_;
 }

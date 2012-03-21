@@ -11,9 +11,9 @@ InboundConnectionListener::InboundConnectionListener(Socket* socket)
 
 InboundConnectionListener::~InboundConnectionListener()
 {
-  if( 0 != socket_ )
-  {
-    delete socket_;
-    socket_ = 0;
-  }
+//  if( 0 != socket_ )
+//  {
+//    delete socket_;
+//    socket_ = 0;
+//  }
 }  
