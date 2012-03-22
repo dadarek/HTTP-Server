@@ -15,7 +15,7 @@ class MockRequestHandler
     {
       return requestsHandled_;
     }
-    void handle()
+    void handle( int )
     {
       requestsHandled_++;
     }

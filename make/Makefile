@@ -51,8 +51,8 @@ run : all
 clean :
 	rm -f *.a *.o main *Test
 
-server : ServerTest
-	./ServerTest
+server : ServerTests
+	./ServerTests
 
 icl : InboundConnectionListenerTests
 	./InboundConnectionListenerTests
@@ -105,18 +105,15 @@ GTestTest_unittest : GTestTest.o GTestTest_unittest.o gtest_main.a
 Server.o : $(USER_DIR)/lib/Server.cpp $(USER_DIR)/lib/Server.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/lib/Server.cpp
 
-ServerTest.o : $(USER_DIR)/spec/ServerTest.cpp \
+ServerTests.o : $(USER_DIR)/spec/ServerTests.cpp \
 							$(USER_DIR)/lib/Server.h  $(GTEST_HEADERS) \
-              MockRequestHandler.o MockPortListener.o
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I${HEADERS_DIR} -c $(USER_DIR)/spec/ServerTest.cpp
+              MockRequestHandler.o 
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I${HEADERS_DIR} -c $(USER_DIR)/spec/ServerTests.cpp
 
 MockRequestHandler.o : ${USER_DIR}/spec/mocks/MockRequestHandler.cpp ${USER_DIR}/lib/RequestHandler.h
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${USER_DIR}/spec/mocks/MockRequestHandler.cpp
 
-MockPortListener.o : ${USER_DIR}/spec/mocks/MockPortListener.cpp ${USER_DIR}/lib/PortListener.h
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${USER_DIR}/spec/mocks/MockPortListener.cpp
-
-ServerTest : MockRequestHandler.o MockPortListener.o Server.o ServerTest.o gtest_main.a
+ServerTests : MockRequestHandler.o Server.o ServerTests.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
 InboundConnectionListener.o : ${LIB_DIR}/InboundConnectionListener.cpp \

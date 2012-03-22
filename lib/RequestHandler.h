@@ -4,7 +4,7 @@
 class RequestHandler
 {
   public:
-    virtual void handle() = 0;
+    virtual void handle( int connection ) = 0;
 };
 
 #endif
