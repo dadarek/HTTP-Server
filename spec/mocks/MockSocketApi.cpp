@@ -2,7 +2,8 @@
 #include "MockSocketApi.h"
 
 MockSocketApi::MockSocketApi( MockSocketApiReturnValues& returnValues, MockSocketApiInputValues& inputValues, MockSocketApiFlags& flags )
-  : returnValues_( returnValues )
+  : lastReadPosition_( 0 )
+  , returnValues_( returnValues )
   , inputValues_( inputValues )
   , flags_( flags )
 { }
@@ -50,6 +51,13 @@ void MockSocketApi::close( int socketFD )
 
 int MockSocketApi::read( int socketFD, char* buffer, int bufferSize )
 {
-  throw std::exception();
+  int result = returnValues_.readReturns[ lastReadPosition_ ];
+  const char* whatToCopy = returnValues_.readBuffer[ lastReadPosition_ ];
+  int howMuchToCopy = returnValues_.howMuchToCopy[ lastReadPosition_ ];
+
+  lastReadPosition_ ++;
+
+  memcpy(buffer, whatToCopy, howMuchToCopy );
+  return result;
 }
 

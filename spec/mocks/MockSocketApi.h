@@ -1,6 +1,7 @@
 #ifndef MOCK_SOCKET_API_H
 #define MOCK_SOCKET_API_H
 
+#include <iostream>
 #include "SocketApi.h"
 
 struct MockSocketApiReturnValues
@@ -8,6 +9,15 @@ struct MockSocketApiReturnValues
   int socket;
   int bind;
   int accept;
+  const char* readBuffer[10];
+  int readReturns[10];
+  int howMuchToCopy[10];
+
+  MockSocketApiReturnValues()
+    : socket( -1 )
+    , bind( -1 )
+    , accept( -1 )
+  { }
 
   MockSocketApiReturnValues( int socket, int bind, int accept )
     : socket( socket )
@@ -46,6 +56,9 @@ struct MockSocketApiFlags
 class MockSocketApi
   : public SocketApi
 {
+  private:
+    int lastReadPosition_;
+
   public:
     MockSocketApiReturnValues& returnValues_;
     MockSocketApiInputValues& inputValues_;

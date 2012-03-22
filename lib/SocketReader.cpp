@@ -11,6 +11,15 @@ SocketReader::~SocketReader()
 
 std::string SocketReader::readToEnd( int socketFD )
 {
-  throw std::exception();
+  std::string result;
+
+  char buffer[256];
+  memset( buffer, 0, 256 );
+
+  socketApi_->read( -1, buffer, 255 );
+
+  result += buffer;
+
+  return result;
 }
 
