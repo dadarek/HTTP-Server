@@ -44,7 +44,7 @@ int RawSocket::accept( int socketFD )
   struct sockaddr_in clientAddress;
   socklen_t clientAddressSize = sizeof(clientAddress);
   struct sockaddr* clientAddressReference = (struct sockaddr*) &clientAddress;
-  return ::accept( socketFD, clientAddressReference, clientAddressSize );
+  return ::accept( socketFD, clientAddressReference, &clientAddressSize );
 }
 
 void RawSocket::close( int socketFD )

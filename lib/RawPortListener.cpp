@@ -22,12 +22,7 @@ int RawPortListener::getNewSocketFD()
 
 void RawPortListener::bindToSocket( int socketFD, int portNumber )
 {
-  bzero((char *) &this->serverAddress, sizeof(this->serverAddress));
-  this->serverAddress.sin_family = AF_INET;
-  this->serverAddress.sin_addr.s_addr = INADDR_ANY;
-  this->serverAddress.sin_port = htons( portNumber );
-
-  int bindResult = this->socket_.bind( socketFD, (struct sockaddr *) &this->serverAddress, sizeof(this->serverAddress) ); 
+  int bindResult = this->socket_.bind( socketFD, portNumber ); 
   if( bindResult < 0 )
     perror("ERROR on bind");
 }
@@ -39,12 +34,7 @@ void RawPortListener::listenOnSocket( int socketFD )
 
 int RawPortListener::getSocketFDForNextIncomingConnection( int socketFD )
 {
-  struct sockaddr_in cli_addr;
-  socklen_t clilen = sizeof(cli_addr);
-  printf("Accepting on socket: %d\n", socketFD );
-  int incomingSocketFD = this->socket_.accept( socketFD, 
-              (struct sockaddr *) &cli_addr, 
-              &clilen);
+  int incomingSocketFD = this->socket_.accept( socketFD  );
   if( incomingSocketFD < 0 )
     perror("ERROR on accept");
 
