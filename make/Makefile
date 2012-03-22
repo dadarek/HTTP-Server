@@ -20,7 +20,7 @@ GTEST_DIR = ../gtest
 USER_DIR = ..
 
 # Flags passed to the preprocessor.
-CPPFLAGS += -I$(GTEST_DIR)/include
+CPPFLAGS += -I$(GTEST_DIR)/include -Wreorder
 
 # Flags passed to the C++ compiler.
 CXXFLAGS += -g -Wall -Wextra
