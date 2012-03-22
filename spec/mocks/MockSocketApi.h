@@ -8,6 +8,12 @@ struct MockSocketApiReturnValues
   int socket;
   int bind;
   int accept;
+
+  MockSocketApiReturnValues( int socket, int bind, int accept )
+    : socket( socket )
+    , bind( bind )
+    , accept( accept )
+  { }
 };
 
 struct MockSocketApiInputValues
@@ -17,6 +23,11 @@ struct MockSocketApiInputValues
   int bindFD;
   int bindPort;
   int accept;
+
+  MockSocketApiInputValues()
+  {
+    close = listen = bindFD = bindPort = accept = -1;
+  }
 };
 
 struct MockSocketApiFlags
@@ -25,6 +36,11 @@ struct MockSocketApiFlags
   bool bindShouldError;
   bool acceptShouldError;
   bool socketCalled;
+
+  MockSocketApiFlags()
+  {
+    socketShouldError = bindShouldError = acceptShouldError = socketCalled = false;
+  }
 };
 
 class MockSocketApi

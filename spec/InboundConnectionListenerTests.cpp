@@ -6,11 +6,11 @@ class InboundConnectionListenerTester
   : public ::testing::Test
 {
   protected:
-    const int PORT_TO_BIND_TO = 9080;
+    const int PORT_TO_BIND_TO;
 
-    struct MockSocketApiReturnValues returnValues_ = { 85, 0, 7777 };
-    struct MockSocketApiInputValues inputValues_ = { -1, -1, -1, -1, -1 };
-    struct MockSocketApiFlags flags_ = { false, false, false, false };
+    struct MockSocketApiReturnValues returnValues_;
+    struct MockSocketApiInputValues inputValues_;
+    struct MockSocketApiFlags flags_;
 
     MockSocketApi socketApi_;
 
@@ -26,7 +26,9 @@ class InboundConnectionListenerTester
 
   public:
     InboundConnectionListenerTester()
-      : socketApi_( returnValues_, inputValues_, flags_ )
+      : PORT_TO_BIND_TO( 8090 )
+      , returnValues_( 85, 0, 7777 )
+      , socketApi_( returnValues_, inputValues_, flags_ )
     { }
 };
 
@@ -134,6 +136,4 @@ TEST_F( InboundConnectionListenerTester, NextConnectionReturnsCorrectFD )
 //      implicitly call the base destructor?
 //
 //TODO: Give better names to test functions (i.e. ThrowsExceptionWhenBindReturnsError
-//
-//TODO: Get rid of ALL warnings
 //
