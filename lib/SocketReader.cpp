@@ -13,12 +13,17 @@ std::string SocketReader::readToEnd( int socketFD )
 {
   std::string result;
 
-  char buffer[256];
-  memset( buffer, 0, 256 );
+  int bytesRead;
+  do
+  {
+    char buffer[256];
+    memset( buffer, 0, 256 );
 
-  socketApi_->read( -1, buffer, 255 );
+    bytesRead = socketApi_->read( -1, buffer, 255 );
 
-  result += buffer;
+    result += buffer;
+  }
+  while( bytesRead == 255 );
 
   return result;
 }

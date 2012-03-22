@@ -40,6 +40,39 @@ TEST_F( SocketReaderTests, ReadsShortStream )
   std::string actual = setBufferAndReadToEnd( expected );
   ASSERT_EQ( expected, actual );
 }
+
+TEST_F( SocketReaderTests, ReadsStreamOfBufferLength )
+{ 
+  std::string expected(255, '.');
+  socketApi_.readBuffer_[0] = std::string(255, '.').c_str();
+
+  socketApi_.readReturns_[0] = 255;
+  socketApi_.readReturns_[1] = 0;
+
+  socketApi_.howMuchToCopy_[0] = 255;
+  socketApi_.howMuchToCopy_[1] = 0;
+
+  std::string actual = reader_.readToEnd( -1 );
+  ASSERT_EQ( expected, actual );
+}
+
+TEST_F( SocketReaderTests, ReadsStreamOfBufferLengthPlusOne )
+{ 
+  std::string expected(256, '.');
+
+  socketApi_.readBuffer_[0] = std::string(255, '.').c_str();
+  socketApi_.readBuffer_[1] = std::string(1, '.').c_str();
+
+  socketApi_.readReturns_[0] = 255;
+  socketApi_.readReturns_[1] = 2;
+
+  socketApi_.howMuchToCopy_[0] = 255;
+  socketApi_.howMuchToCopy_[1] = 2;
+
+  std::string actual = reader_.readToEnd( -1 );
+  ASSERT_EQ( expected, actual );
+}
+
 /*
 TEST( SocketReaderTests, ReadsALongStream)  
 {
