@@ -9,7 +9,7 @@ class InboundConnectionListener
     Socket* socket_;
     int fd_;
 
-    void deleteSocket();
+    void cleanup();
 
   public:
     InboundConnectionListener(Socket* socket, int portToListenOn );

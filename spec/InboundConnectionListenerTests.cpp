@@ -66,13 +66,22 @@ TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorBind )
   ASSERT_THROW( InboundConnectionListener listener( socket, 0 ), int );
 }
 
-TEST_F( InboundConnectionListenerTester, DeletesInjectedSocket )
+TEST_F( InboundConnectionListenerTester, DestructorDeletesInjectedSocket )
 {
   {
     MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
     InboundConnectionListener listener( socket, 0 );
   }
   EXPECT_TRUE( flags_.destructorCalled );
+}
+
+TEST_F( InboundConnectionListenerTester, DestructorClosesFD )  
+{
+  {
+    MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
+    InboundConnectionListener listener( socket, 0 );
+  }
+  EXPECT_EQ( returnValues_.socket, inputValues_.close );
 }
 
 TEST_F( InboundConnectionListenerTester, DeletesInjectedSocketOnSocketError )
@@ -151,3 +160,8 @@ TEST_F( InboundConnectionListenerTester, NextConnectionReturnsCorrectFD )
 //      It may make it easier to test and refactor tests.
 //
 //TODO: Create helper function for MockSocket
+//
+//TODO: There is a problem with sharing the structs among 2 instances
+//      of Listener (some tests create an extra instance).  Both 
+//      instances modify the struct values - that can get buggy.
+//
