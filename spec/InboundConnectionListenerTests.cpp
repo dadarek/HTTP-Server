@@ -86,6 +86,18 @@ TEST_F( InboundConnectionListenerTester, DeletesInjectedSocket )
   EXPECT_TRUE( destructorCalled );
 }
 
+TEST_F( InboundConnectionListenerTester, DeletesInjectedSocketOnSocketError )
+{
+  bool destructorCalled = false;
+  {
+    MockSocket* socket = new MockSocket( SOCKET_RETURN_VALUE, ACCEPT_RETURN_VALUE );
+    socket->returnErrorOnSocket_ = true;
+    socket->destructorCalled_ = &destructorCalled;
+    InboundConnectionListener listener( socket, 0 );
+  }
+  EXPECT_TRUE( destructorCalled );
+}
+
 TEST_F( InboundConnectionListenerTester, ListensToSocketFDItReceives )  
 {
   EXPECT_EQ( SOCKET_RETURN_VALUE, socket_->listeningTo_ );
