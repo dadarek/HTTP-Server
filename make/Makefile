@@ -27,7 +27,7 @@ CXXFLAGS += -g -Wall -Wextra
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-TESTS = server icl
+TESTS = server icl echo
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -52,6 +52,9 @@ server : ServerTests
 
 icl : InboundConnectionListenerTests
 	./InboundConnectionListenerTests
+
+echo : EchoRequestHandlerTests
+	./EchoRequestHandlerTests
 
 go : 
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread ${USER_DIR}/lib/*.cpp -o main
@@ -125,3 +128,13 @@ InboundConnectionListenerTests.o : ${SPECS_DIR}/InboundConnectionListenerTests.c
 InboundConnectionListenerTests : MockSocketAPI.o InboundConnectionListener.o InboundConnectionListenerTests.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
+
+EchoRequestHandler.o : ${LIB_DIR}/EchoRequestHandler.cpp \
+	${HEADERS_DIR}/EchoRequestHandler.h ${HEADERS_DIR}/SocketAPI.h
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${LIB_DIR}/EchoRequestHandler.cpp
+
+EchoRequestHandlerTests.o : ${SPECS_DIR}/EchoRequestHandlerTests.cpp MockSocketAPI.o
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${SPECS_DIR}/EchoRequestHandlerTests.cpp
+
+EchoRequestHandlerTests: MockSocketAPI.o EchoRequestHandler.o EchoRequestHandlerTests.o gtest_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
