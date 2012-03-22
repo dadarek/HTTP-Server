@@ -6,8 +6,6 @@ class InboundConnectionListenerTester
   : public ::testing::Test
 {
   protected:
-    const int SOCKET_RETURN_VALUE = 85;
-    const int ACCEPT_RETURN_VALUE = 7777;
     const int PORT_TO_LISTEN_ON = 9080;
 
     struct MockSocketReturnValues returnValues_ = { 85, 0, 7777 };
@@ -44,19 +42,6 @@ TEST_F( InboundConnectionListenerTester, ClosesFDOnBindException )
   try
   {
     InboundConnectionListener listener( socket, 0 );
-  }
-  catch( int )
-  { }
-  
-  EXPECT_EQ( returnValues_.socket, inputValues_.close );
-}
-
-TEST_F( InboundConnectionListenerTester, ClosesFDOnAcceptException ) 
-{
-  flags_.acceptShouldError = true;
-  try
-  {
-    listener_.nextConnection();
   }
   catch( int )
   { }
@@ -128,13 +113,13 @@ TEST_F( InboundConnectionListenerTester, ListensToSocketFDItReceives )
 TEST_F( InboundConnectionListenerTester, AcceptsConnectionsOnSocketFDItReceives )  
 {
   listener_.nextConnection();
-  EXPECT_EQ( SOCKET_RETURN_VALUE, inputValues_.accept );
+  EXPECT_EQ( returnValues_.socket, inputValues_.accept );
 }
 
 TEST_F( InboundConnectionListenerTester, PassesInCorrectSocketFDToAccept )  
 {
   listener_.nextConnection();
-  EXPECT_EQ( SOCKET_RETURN_VALUE, inputValues_.accept );
+  EXPECT_EQ( returnValues_.socket, inputValues_.accept );
 }
 
 TEST_F( InboundConnectionListenerTester, ThrowsExceptionWhenAcceptFails )  
@@ -143,10 +128,10 @@ TEST_F( InboundConnectionListenerTester, ThrowsExceptionWhenAcceptFails )
   ASSERT_THROW( listener_.nextConnection(), int );
 }
 
-TEST_F( InboundConnectionListenerTester, nextConnectionReturnsCorrectFD )  
+TEST_F( InboundConnectionListenerTester, NextConnectionReturnsCorrectFD )  
 {
   int actual = listener_.nextConnection(); 
-  ASSERT_EQ( ACCEPT_RETURN_VALUE, actual );
+  ASSERT_EQ( returnValues_.accept, actual );
 }
 
 //TODO: Merge common headers together
@@ -158,9 +143,7 @@ TEST_F( InboundConnectionListenerTester, nextConnectionReturnsCorrectFD )
 //TODO: Do explicit destructors (virtual and non-virtual)
 //      implicitly call the base destructor?
 //
-//TODO: Give better names (i.e. ThrowsExceptionWhenBindReturnsError
-//
-//TODO: make all names common (i.e. accpetReturnValue, SocketReturnValue 
+//TODO: Give better names to test functions (i.e. ThrowsExceptionWhenBindReturnsError
 //
 //TODO: Get rid of ALL warnings
 //
