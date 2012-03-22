@@ -11,6 +11,7 @@
 
 #include "RawPortListener.h"
 #include "RawSocket.h"
+#include "InboundConnectionListener.h"
 
 void error(const char *msg)
 {
@@ -20,12 +21,20 @@ void error(const char *msg)
 
 int a()
 {
-  RawPortListener listener( 8080 );
+  RawSocket socket;
+  InboundConnectionListener listener( &socket, 8083 );
 
-  if( listener.listen() )
-    printf("Yay!!!\n");
-  else
-    printf("Nay!!!\n");
+  for(;;)
+  {
+    int nextConnection = listener.nextConnection();
+    char buffer[256];
+    bzero(buffer,256);
+
+    read(nextConnection, buffer, 255);
+    printf("Message: %s\n\n", buffer );
+    write(nextConnection, "I got your stuffing...", 22);
+    socket.close(nextConnection);
+  }
 
   return 0;
 }

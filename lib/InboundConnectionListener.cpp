@@ -34,7 +34,9 @@ InboundConnectionListener::~InboundConnectionListener()
 
 int InboundConnectionListener::nextConnection()
 {
+  printf("About to listen ...\n");
   int result = socket_->accept( this->fd_ );
+  printf("Done listening: %d\n", result );
   if( result < 0 )
     throw Socket::ACCEPT_EXCEPTION;
 
