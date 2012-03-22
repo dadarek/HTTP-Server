@@ -7,9 +7,7 @@ MockSocket::MockSocket( MockSocketReturnValues& returnValues, MockSocketInputVal
 { }
 
 MockSocket::~MockSocket()
-{ 
-  flags_.destructorCalled = true;
-}
+{ } 
 
 int MockSocket::socket()
 {

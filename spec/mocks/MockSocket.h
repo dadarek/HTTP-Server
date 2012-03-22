@@ -24,7 +24,6 @@ struct MockSocketFlags
   bool socketShouldError;
   bool bindShouldError;
   bool acceptShouldError;
-  bool destructorCalled;
   bool socketCalled;
 };
 

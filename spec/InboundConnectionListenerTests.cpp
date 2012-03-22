@@ -10,7 +10,7 @@ class InboundConnectionListenerTester
 
     struct MockSocketReturnValues returnValues_ = { 85, 0, 7777 };
     struct MockSocketInputValues inputValues_ = { -1, -1, -1, -1, -1 };
-    struct MockSocketFlags flags_ = { false, false, false, false, false };
+    struct MockSocketFlags flags_ = { false, false, false, false };
 
     MockSocket* socket_;
     InboundConnectionListener listener_;
@@ -66,15 +66,6 @@ TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorBind )
   ASSERT_THROW( InboundConnectionListener listener( socket, 0 ), int );
 }
 
-TEST_F( InboundConnectionListenerTester, DestructorDeletesInjectedSocket )
-{
-  {
-    MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
-    InboundConnectionListener listener( socket, 0 );
-  }
-  EXPECT_TRUE( flags_.destructorCalled );
-}
-
 TEST_F( InboundConnectionListenerTester, DestructorClosesFD )  
 {
   {
@@ -82,36 +73,6 @@ TEST_F( InboundConnectionListenerTester, DestructorClosesFD )
     InboundConnectionListener listener( socket, 0 );
   }
   EXPECT_EQ( returnValues_.socket, inputValues_.close );
-}
-
-TEST_F( InboundConnectionListenerTester, DeletesInjectedSocketOnSocketError )
-{
-  {
-    MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
-    flags_.socketShouldError = true;
-    try
-    {
-      InboundConnectionListener listener( socket, 0 );
-    }
-    catch( int )
-    { }
-  }
-  EXPECT_TRUE( flags_.destructorCalled );
-}
-
-TEST_F( InboundConnectionListenerTester, DeletesInjectedSocketOnBindError )
-{
-  {
-    MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
-    flags_.bindShouldError = true;
-    try
-    {
-      InboundConnectionListener listener( socket, 0 );
-    }
-    catch( int )
-    { }
-  }
-  EXPECT_TRUE( flags_.destructorCalled );
 }
 
 TEST_F( InboundConnectionListenerTester, ListensToSocketFDItReceives )  

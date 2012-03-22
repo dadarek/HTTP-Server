@@ -8,15 +8,12 @@ InboundConnectionListener::InboundConnectionListener( Socket* socket, int portTo
 { 
   fd_ = socket_->socket();
   if( fd_ < 0 )
-  {
-    cleanup();
     throw Socket::SOCKET_EXCEPTION;
-  }
-  
+
   int bindResult = socket_->bind( fd_, portToListenOn );
   if( bindResult < 0 )
   {
-    cleanup();
+    closeSocket();
     throw Socket::BIND_EXCEPTION;
   }
 
@@ -25,32 +22,21 @@ InboundConnectionListener::InboundConnectionListener( Socket* socket, int portTo
 
 InboundConnectionListener::~InboundConnectionListener()
 {
-  cleanup();
+  closeSocket();
 }  
 
 int InboundConnectionListener::nextConnection()
 {
   int result = socket_->accept( this->fd_ );
   if( result < 0 )
-  {
     throw Socket::ACCEPT_EXCEPTION;
-  }
 
   return result;
 }
 
-void InboundConnectionListener::cleanup()
+void InboundConnectionListener::closeSocket()
 {
-  if( 0 != socket_ )
-  {
-    if( fd_ >= 0 )
-    {
-      socket_->close( fd_ );
-      fd_ = -1;
-    }
-
-    delete socket_;
-    socket_ = 0;
-  }
+  socket_->close( fd_ );
+  fd_ = -1;
 }
 
