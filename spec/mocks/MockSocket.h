@@ -12,6 +12,9 @@ struct MockSocketReturnValues
 struct MockSocketInputValues
 {
   int close;
+  int listen;
+  int bindFD;
+  int bindPort;
 };
 
 struct MockSocketFlags
@@ -27,13 +30,10 @@ class MockSocket
     MockSocketInputValues& inputValues_;
     MockSocketFlags& flags_;
     int socketsCreated_;
-    int boundTo_;
     bool returnErrorOnSocket_;
     bool returnErrorOnBind_;
     bool returnErrorOnAccept_;
     bool* destructorCalled_;
-    int listeningTo_;
-    int boundToPort_;
     int socketFDPassedIntoAccept_; 
 
     MockSocket( MockSocketReturnValues& returnValues, MockSocketInputValues& inputValues, MockSocketFlags& flags );

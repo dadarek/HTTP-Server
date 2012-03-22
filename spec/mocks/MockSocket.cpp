@@ -5,13 +5,10 @@ MockSocket::MockSocket( MockSocketReturnValues& returnValues, MockSocketInputVal
   , inputValues_( inputValues )
   , flags_( flags )
   , socketsCreated_( 0 )
-  , boundTo_( -1 )
   , returnErrorOnSocket_( false )
   , returnErrorOnBind_( false )
   , returnErrorOnAccept_( false )
   , destructorCalled_( 0 )
-  , listeningTo_( -1 )
-  , boundToPort_( -1 )
   , socketFDPassedIntoAccept_( -1 )
 { }
 
@@ -34,14 +31,14 @@ int MockSocket::bind( int socketFD, int portNumber )
   if( returnErrorOnBind_ )
     return -1;
 
-  boundTo_ = socketFD;
-  boundToPort_ = portNumber;
+  inputValues_.bindFD = socketFD;
+  inputValues_.bindPort = portNumber;
   return 0;
 }
 
 void MockSocket::listen( int socketFD )
 {
-  listeningTo_ = socketFD;
+  inputValues_.listen = socketFD;
 }
 
 int MockSocket::accept( int socketFD )

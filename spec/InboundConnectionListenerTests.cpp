@@ -11,7 +11,7 @@ class InboundConnectionListenerTester
     const int PORT_TO_LISTEN_ON = 9080;
 
     struct MockSocketReturnValues returnValues_ = { 85, 7777 };
-    struct MockSocketInputValues inputValues_ = { -1 };
+    struct MockSocketInputValues inputValues_ = { -1, -1, -1, -1 };
     struct MockSocketFlags flags_ = { false };
 
     MockSocket* socket_;
@@ -66,14 +66,13 @@ TEST_F( InboundConnectionListenerTester, ClosesFDOnAcceptException )
 
 TEST_F( InboundConnectionListenerTester, BindsToSocketFDItReceives ) 
 {
-  EXPECT_EQ( returnValues_.socket, socket_->boundTo_ );
+  EXPECT_EQ( returnValues_.socket, inputValues_.bindFD );
 }
 
 TEST_F( InboundConnectionListenerTester, BindsToPortSpecifiedInConstructor ) 
 {
-  EXPECT_EQ( PORT_TO_LISTEN_ON, socket_->boundToPort_ );
+  EXPECT_EQ( PORT_TO_LISTEN_ON, inputValues_.bindPort );
 }
-
 
 TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorBind )  
 {
@@ -123,7 +122,7 @@ TEST_F( InboundConnectionListenerTester, DeletesInjectedSocketOnBindError )
 
 TEST_F( InboundConnectionListenerTester, ListensToSocketFDItReceives )  
 {
-  EXPECT_EQ( returnValues_.socket, socket_->listeningTo_ );
+  EXPECT_EQ( returnValues_.socket, inputValues_.listen );
 }
 
 TEST_F( InboundConnectionListenerTester, AcceptsConnectionsOnSocketFDItReceives )  
