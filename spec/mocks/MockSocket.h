@@ -16,6 +16,7 @@ struct MockSocketInputValues
   int listen;
   int bindFD;
   int bindPort;
+  int accept;
 };
 
 struct MockSocketFlags
@@ -24,6 +25,7 @@ struct MockSocketFlags
   bool bindShouldError;
   bool acceptShouldError;
   bool destructorCalled;
+  bool socketCalled;
 };
 
 class MockSocket
@@ -33,8 +35,6 @@ class MockSocket
     MockSocketReturnValues& returnValues_;
     MockSocketInputValues& inputValues_;
     MockSocketFlags& flags_;
-    int socketsCreated_;
-    int socketFDPassedIntoAccept_; 
 
     MockSocket( MockSocketReturnValues& returnValues, MockSocketInputValues& inputValues, MockSocketFlags& flags );
     virtual ~MockSocket();

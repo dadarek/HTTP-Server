@@ -11,8 +11,8 @@ class InboundConnectionListenerTester
     const int PORT_TO_LISTEN_ON = 9080;
 
     struct MockSocketReturnValues returnValues_ = { 85, 0, 7777 };
-    struct MockSocketInputValues inputValues_ = { -1, -1, -1, -1 };
-    struct MockSocketFlags flags_ = { false, false, false, false };
+    struct MockSocketInputValues inputValues_ = { -1, -1, -1, -1, -1 };
+    struct MockSocketFlags flags_ = { false, false, false, false, false };
 
     MockSocket* socket_;
     InboundConnectionListener listener_;
@@ -27,7 +27,7 @@ class InboundConnectionListenerTester
 
 TEST_F( InboundConnectionListenerTester, CreatesASocket )
 {
-  EXPECT_EQ( 1, socket_->socketsCreated_ );
+  ASSERT_TRUE( flags_.socketCalled );
 }
 
 TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorSocket ) 
@@ -128,13 +128,13 @@ TEST_F( InboundConnectionListenerTester, ListensToSocketFDItReceives )
 TEST_F( InboundConnectionListenerTester, AcceptsConnectionsOnSocketFDItReceives )  
 {
   listener_.nextConnection();
-  EXPECT_EQ( SOCKET_RETURN_VALUE, socket_->socketFDPassedIntoAccept_ );
+  EXPECT_EQ( SOCKET_RETURN_VALUE, inputValues_.accept );
 }
 
 TEST_F( InboundConnectionListenerTester, PassesInCorrectSocketFDToAccept )  
 {
   listener_.nextConnection();
-  EXPECT_EQ( SOCKET_RETURN_VALUE, socket_->socketFDPassedIntoAccept_ );
+  EXPECT_EQ( SOCKET_RETURN_VALUE, inputValues_.accept );
 }
 
 TEST_F( InboundConnectionListenerTester, ThrowsExceptionWhenAcceptFails )  

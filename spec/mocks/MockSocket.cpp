@@ -4,8 +4,6 @@ MockSocket::MockSocket( MockSocketReturnValues& returnValues, MockSocketInputVal
   : returnValues_( returnValues )
   , inputValues_( inputValues )
   , flags_( flags )
-  , socketsCreated_( 0 )
-  , socketFDPassedIntoAccept_( -1 )
 { }
 
 MockSocket::~MockSocket()
@@ -18,7 +16,7 @@ int MockSocket::socket()
   if( flags_.socketShouldError )
     return -1;
 
-  socketsCreated_++;
+  flags_.socketCalled = true;
   return returnValues_.socket;
 }
 
@@ -42,7 +40,7 @@ int MockSocket::accept( int socketFD )
   if( flags_.acceptShouldError )
     return -1;
 
-  socketFDPassedIntoAccept_ = socketFD;
+  inputValues_.accept = socketFD;
   return returnValues_.accept;
 }
 
