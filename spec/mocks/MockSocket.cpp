@@ -1,7 +1,8 @@
 #include "MockSocket.h"
 
-MockSocket::MockSocket( MockSocketReturnValues& returnValues )
+MockSocket::MockSocket( MockSocketReturnValues& returnValues, MockSocketFlags& flags )
   : returnValues_( returnValues )
+  , flags_( flags )
   , socketsCreated_( 0 )
   , boundTo_( -1 )
   , returnErrorOnSocket_( false )
@@ -16,8 +17,7 @@ MockSocket::MockSocket( MockSocketReturnValues& returnValues )
 
 MockSocket::~MockSocket()
 { 
-  if( 0 != destructorCalled_ )
-    (*destructorCalled_) = true;
+  flags_.destructorCalled = true;
 }
 
 int MockSocket::socket()

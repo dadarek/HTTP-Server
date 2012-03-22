@@ -11,12 +11,13 @@ class InboundConnectionListenerTester
     const int PORT_TO_LISTEN_ON = 9080;
 
     struct MockSocketReturnValues returnValues_ = { 85, 7777 };
+    struct MockSocketFlags flags_ = { false };
     MockSocket* socket_;
     InboundConnectionListener listener_;
 
   public:
     InboundConnectionListenerTester()
-      : socket_( new MockSocket( returnValues_ ) )
+      : socket_( new MockSocket( returnValues_, flags_ ) )
       , listener_( socket_, PORT_TO_LISTEN_ON )
     { }
 };
@@ -29,8 +30,9 @@ TEST_F( InboundConnectionListenerTester, CreatesASocket )
 
 TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorSocket ) 
 {
-  socket_->returnErrorOnSocket_ = true;
-  ASSERT_THROW( InboundConnectionListener listener( socket_, 0 ), int );
+  MockSocket* socket = new MockSocket( returnValues_, flags_ );
+  socket->returnErrorOnSocket_ = true;
+  ASSERT_THROW( InboundConnectionListener listener( socket, 0 ), int );
 }
 
 TEST_F( InboundConnectionListenerTester, ClosesFDOnBindException ) 
@@ -78,25 +80,26 @@ TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorBind )
 
 TEST_F( InboundConnectionListenerTester, DeletesInjectedSocket )
 {
-  bool destructorCalled = false;
   {
-    MockSocket* socket = new MockSocket( returnValues_ );
-    socket->destructorCalled_ = &destructorCalled;
+    MockSocket* socket = new MockSocket( returnValues_, flags_ );
     InboundConnectionListener listener( socket, 0 );
   }
-  EXPECT_TRUE( destructorCalled );
+  EXPECT_TRUE( flags_.destructorCalled );
 }
 
 TEST_F( InboundConnectionListenerTester, DeletesInjectedSocketOnSocketError )
 {
-  bool destructorCalled = false;
   {
-    MockSocket* socket = new MockSocket( returnValues_ );
+    MockSocket* socket = new MockSocket( returnValues_, flags_ );
     socket->returnErrorOnSocket_ = true;
-    socket->destructorCalled_ = &destructorCalled;
-    InboundConnectionListener listener( socket, 0 );
+    try
+    {
+      InboundConnectionListener listener( socket, 0 );
+    }
+    catch( int )
+    { }
   }
-  EXPECT_TRUE( destructorCalled );
+  EXPECT_TRUE( flags_.destructorCalled );
 }
 
 TEST_F( InboundConnectionListenerTester, ListensToSocketFDItReceives )  
@@ -145,5 +148,6 @@ TEST_F( InboundConnectionListenerTester, nextConnectionReturnsCorrectFD )
 //
 //TODO: Get rid of ALL warnings
 //
-//TODO: Does inspector reference get deleted when MockSocket gets deleted?
+//TODO: Maybe don't do all this setup in the constructor?
+//      It may make it easier to test and refactor tests.
 //

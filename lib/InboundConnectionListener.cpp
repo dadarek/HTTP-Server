@@ -8,7 +8,14 @@ InboundConnectionListener::InboundConnectionListener( Socket* socket, int portTo
 { 
   fd_ = socket_->socket();
   if( fd_ < 0 )
+  {
+    if( 0 != socket_ )
+    {
+      delete socket_;
+      socket_ = 0;
+    }
     throw Socket::SOCKET_EXCEPTION;
+  }
   
   int bindResult = socket_->bind( fd_, portToListenOn );
   if( bindResult < 0 )
