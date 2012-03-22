@@ -1,11 +1,13 @@
 #include "MockSocket.h"
 
-MockSocket::MockSocket()
+MockSocket::MockSocket( int socketReturnValue, int acceptReturnValue )
   : socketsCreated_( 0 )
-  , socketFD_( 888 )
+  , socketReturnValue_( socketReturnValue )
+  , acceptReturnValue_( acceptReturnValue )
   , boundTo_( -1 )
   , returnErrorOnSocket_( false )
   , returnErrorOnBind_( false )
+  , returnErrorOnAccept_( false )
   , destructorCalled_( 0 )
   , socketClosed_( -1 )
   , listeningTo_( -1 )
@@ -25,7 +27,7 @@ int MockSocket::socket()
     return -1;
 
   socketsCreated_++;
-  return socketFD_;
+  return socketReturnValue_;
 }
 
 int MockSocket::bind( int socketFD, int portNumber )
@@ -45,8 +47,11 @@ void MockSocket::listen( int socketFD )
 
 int MockSocket::accept( int socketFD )
 {
+  if( returnErrorOnAccept_ )
+    return -1;
+
   socketFDPassedIntoAccept_ = socketFD;
-  return 0;
+  return acceptReturnValue_;
 }
 
 void MockSocket::close( int socketFD )

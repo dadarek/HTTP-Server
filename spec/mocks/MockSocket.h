@@ -8,17 +8,19 @@ class MockSocket
 {
   public:
     int socketsCreated_;
-    int socketFD_;
+    int socketReturnValue_;
+    int acceptReturnValue_;
     int boundTo_;
     bool returnErrorOnSocket_;
     bool returnErrorOnBind_;
+    bool returnErrorOnAccept_;
     bool* destructorCalled_;
     int socketClosed_;
     int listeningTo_;
     int boundToPort_;
     int socketFDPassedIntoAccept_; 
 
-    MockSocket();
+    MockSocket( int socketReturnValue, int acceptReturnValue );
     virtual ~MockSocket();
 
     int socket();

@@ -6,15 +6,17 @@ class InboundConnectionListenerTester
   : public ::testing::Test
 {
   protected:
-    int portToListenOn_;
+    const int SOCKET_RETURN_VALUE = 85;
+    const int ACCEPT_RETURN_VALUE = 7777;
+    const int PORT_TO_LISTEN_ON = 9080;
+
     MockSocket* socket_;
     InboundConnectionListener listener_;
 
   public:
     InboundConnectionListenerTester()
-      : portToListenOn_( 9080 )
-      , socket_( new MockSocket() )
-      , listener_( socket_, portToListenOn_ )
+      : socket_( new MockSocket( SOCKET_RETURN_VALUE, ACCEPT_RETURN_VALUE ) )
+      , listener_( socket_, PORT_TO_LISTEN_ON )
     { }
 };
 
@@ -40,17 +42,30 @@ TEST_F( InboundConnectionListenerTester, ClosesFDOnBindException )
   catch( int )
   { }
   
-  EXPECT_EQ( socket_->socketFD_, socket_->socketClosed_ );
+  EXPECT_EQ( SOCKET_RETURN_VALUE, socket_->socketClosed_ );
+}
+
+TEST_F( InboundConnectionListenerTester, ClosesFDOnAcceptException ) 
+{
+  socket_->returnErrorOnAccept_ = true;
+  try
+  {
+    listener_.nextConnection();
+  }
+  catch( int )
+  { }
+  
+  EXPECT_EQ( SOCKET_RETURN_VALUE, socket_->socketClosed_ );
 }
 
 TEST_F( InboundConnectionListenerTester, BindsToSocketFDItReceives ) 
 {
-  EXPECT_EQ( socket_->socketFD_, socket_->boundTo_ );
+  EXPECT_EQ( SOCKET_RETURN_VALUE, socket_->boundTo_ );
 }
 
 TEST_F( InboundConnectionListenerTester, BindsToPortSpecifiedInConstructor ) 
 {
-  EXPECT_EQ( portToListenOn_, socket_->boundToPort_ );
+  EXPECT_EQ( PORT_TO_LISTEN_ON, socket_->boundToPort_ );
 }
 
 
@@ -64,7 +79,7 @@ TEST_F( InboundConnectionListenerTester, DeletesInjectedSocket )
 {
   bool destructorCalled = false;
   {
-    MockSocket* socket = new MockSocket();
+    MockSocket* socket = new MockSocket( SOCKET_RETURN_VALUE, ACCEPT_RETURN_VALUE );
     socket->destructorCalled_ = &destructorCalled;
     InboundConnectionListener listener( socket, 0 );
   }
@@ -73,21 +88,33 @@ TEST_F( InboundConnectionListenerTester, DeletesInjectedSocket )
 
 TEST_F( InboundConnectionListenerTester, ListensToSocketFDItReceives )  
 {
-  EXPECT_EQ( socket_->socketFD_, socket_->listeningTo_ );
+  EXPECT_EQ( SOCKET_RETURN_VALUE, socket_->listeningTo_ );
 }
 
 TEST_F( InboundConnectionListenerTester, AcceptsConnectionsOnSocketFDItReceives )  
 {
   listener_.nextConnection();
-  EXPECT_EQ( socket_->socketFD_, socket_->socketFDPassedIntoAccept_ );
+  EXPECT_EQ( SOCKET_RETURN_VALUE, socket_->socketFDPassedIntoAccept_ );
 }
 
-//TODO: Test error returns on:
-//      - accept( ... )
+TEST_F( InboundConnectionListenerTester, PassesInCorrectSocketFDToAccept )  
+{
+  listener_.nextConnection();
+  EXPECT_EQ( SOCKET_RETURN_VALUE, socket_->socketFDPassedIntoAccept_ );
+}
 
-//TODO: Test if socket was created but bind or accept
-//      threw error, that socket was closed.
-//
+TEST_F( InboundConnectionListenerTester, ThrowsExceptionWhenAcceptFails )  
+{
+  socket_->returnErrorOnAccept_ = true;
+  ASSERT_THROW( listener_.nextConnection(), int );
+}
+
+TEST_F( InboundConnectionListenerTester, nextConnectionReturnsCorrectFD )  
+{
+  int actual = listener_.nextConnection(); 
+  ASSERT_EQ( ACCEPT_RETURN_VALUE, actual );
+}
+
 //TODO: Merge common headers together
 //
 //TODO: Create good exceptions Exceptions better names
@@ -97,5 +124,9 @@ TEST_F( InboundConnectionListenerTester, AcceptsConnectionsOnSocketFDItReceives 
 //TODO: Do explicit destructors (virtual and non-virtual)
 //      implicitly call the base destructor?
 //
-//TODO: Use EXPECT_EQ
+//TODO: Give better names (i.e. ThrowsExceptionWhenBindReturnsError
+//
+//TODO: Make sure socket is destroyed on Ctor exception
+//
+//TODO: make all names common (i.e. accpetReturnValue, SocketReturnValue 
 //

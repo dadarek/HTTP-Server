@@ -31,5 +31,12 @@ InboundConnectionListener::~InboundConnectionListener()
 
 int InboundConnectionListener::nextConnection()
 {
-  return socket_->accept( this->fd_ );
+  int result = socket_->accept( this->fd_ );
+  if( result < 0 )
+  {
+    socket_->close( fd_ );
+    throw Socket::ACCEPT_EXCEPTION;
+  }
+
+  return result;
 }
