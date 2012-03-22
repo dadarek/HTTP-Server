@@ -9,6 +9,8 @@ class InboundConnectionListener
     Socket* socket_;
     int fd_;
 
+    void deleteSocket();
+
   public:
     InboundConnectionListener(Socket* socket, int portToListenOn );
     virtual ~InboundConnectionListener();
