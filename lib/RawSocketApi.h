@@ -15,6 +15,8 @@ class RawSocketApi
     void listen( int socketFD );
     int accept( int socketFD );
     void close( int socketFD );
+
+    int read( int socketFD, char* buffer, int bufferSize );
 };
 
 #endif

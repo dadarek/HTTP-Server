@@ -52,3 +52,8 @@ void RawSocketApi::close( int socketFD )
   ::close( socketFD );
 }
 
+int RawSocketApi::read( int socketFD, char* buffer, int bufferSize )
+{
+  return ::read( socketFD, buffer, bufferSize );
+}
+

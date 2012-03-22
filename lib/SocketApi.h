@@ -1,6 +1,8 @@
 #ifndef SOCKET_API_H
 #define SOCKET_API_H
 
+#include <iostream>
+
 class SocketApi
 {
   public:
@@ -17,6 +19,8 @@ class SocketApi
     virtual void listen( int socketFD ) = 0;
     virtual int accept( int socketFD ) = 0;
     virtual void close( int socketFD ) = 0;
+
+    virtual int read( int socketFD, char* buffer, int bufferSize ) = 0;
 };
 
 #endif
