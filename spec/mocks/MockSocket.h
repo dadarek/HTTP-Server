@@ -6,6 +6,7 @@
 struct MockSocketReturnValues
 {
   int socket;
+  int bind;
   int accept;
 };
 
@@ -19,6 +20,9 @@ struct MockSocketInputValues
 
 struct MockSocketFlags
 {
+  bool socketShouldError;
+  bool bindShouldError;
+  bool acceptShouldError;
   bool destructorCalled;
 };
 
@@ -30,10 +34,6 @@ class MockSocket
     MockSocketInputValues& inputValues_;
     MockSocketFlags& flags_;
     int socketsCreated_;
-    bool returnErrorOnSocket_;
-    bool returnErrorOnBind_;
-    bool returnErrorOnAccept_;
-    bool* destructorCalled_;
     int socketFDPassedIntoAccept_; 
 
     MockSocket( MockSocketReturnValues& returnValues, MockSocketInputValues& inputValues, MockSocketFlags& flags );

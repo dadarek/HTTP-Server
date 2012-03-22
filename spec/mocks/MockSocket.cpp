@@ -5,10 +5,6 @@ MockSocket::MockSocket( MockSocketReturnValues& returnValues, MockSocketInputVal
   , inputValues_( inputValues )
   , flags_( flags )
   , socketsCreated_( 0 )
-  , returnErrorOnSocket_( false )
-  , returnErrorOnBind_( false )
-  , returnErrorOnAccept_( false )
-  , destructorCalled_( 0 )
   , socketFDPassedIntoAccept_( -1 )
 { }
 
@@ -19,7 +15,7 @@ MockSocket::~MockSocket()
 
 int MockSocket::socket()
 {
-  if( returnErrorOnSocket_ )
+  if( flags_.socketShouldError )
     return -1;
 
   socketsCreated_++;
@@ -28,12 +24,12 @@ int MockSocket::socket()
 
 int MockSocket::bind( int socketFD, int portNumber )
 {
-  if( returnErrorOnBind_ )
+  if( flags_.bindShouldError )
     return -1;
 
   inputValues_.bindFD = socketFD;
   inputValues_.bindPort = portNumber;
-  return 0;
+  return returnValues_.bind;
 }
 
 void MockSocket::listen( int socketFD )
@@ -43,7 +39,7 @@ void MockSocket::listen( int socketFD )
 
 int MockSocket::accept( int socketFD )
 {
-  if( returnErrorOnAccept_ )
+  if( flags_.acceptShouldError )
     return -1;
 
   socketFDPassedIntoAccept_ = socketFD;

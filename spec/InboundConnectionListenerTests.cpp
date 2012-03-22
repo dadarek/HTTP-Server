@@ -10,9 +10,9 @@ class InboundConnectionListenerTester
     const int ACCEPT_RETURN_VALUE = 7777;
     const int PORT_TO_LISTEN_ON = 9080;
 
-    struct MockSocketReturnValues returnValues_ = { 85, 7777 };
+    struct MockSocketReturnValues returnValues_ = { 85, 0, 7777 };
     struct MockSocketInputValues inputValues_ = { -1, -1, -1, -1 };
-    struct MockSocketFlags flags_ = { false };
+    struct MockSocketFlags flags_ = { false, false, false, false };
 
     MockSocket* socket_;
     InboundConnectionListener listener_;
@@ -33,14 +33,14 @@ TEST_F( InboundConnectionListenerTester, CreatesASocket )
 TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorSocket ) 
 {
   MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
-  socket->returnErrorOnSocket_ = true;
+  flags_.socketShouldError = true;
   ASSERT_THROW( InboundConnectionListener listener( socket, 0 ), int );
 }
 
 TEST_F( InboundConnectionListenerTester, ClosesFDOnBindException ) 
 {
   MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
-  socket->returnErrorOnBind_ = true;
+  flags_.bindShouldError = true;
   try
   {
     InboundConnectionListener listener( socket, 0 );
@@ -53,7 +53,7 @@ TEST_F( InboundConnectionListenerTester, ClosesFDOnBindException )
 
 TEST_F( InboundConnectionListenerTester, ClosesFDOnAcceptException ) 
 {
-  socket_->returnErrorOnAccept_ = true;
+  flags_.acceptShouldError = true;
   try
   {
     listener_.nextConnection();
@@ -77,7 +77,7 @@ TEST_F( InboundConnectionListenerTester, BindsToPortSpecifiedInConstructor )
 TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorBind )  
 {
   MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
-  socket->returnErrorOnBind_ = true;
+  flags_.bindShouldError = true;
   ASSERT_THROW( InboundConnectionListener listener( socket, 0 ), int );
 }
 
@@ -94,7 +94,7 @@ TEST_F( InboundConnectionListenerTester, DeletesInjectedSocketOnSocketError )
 {
   {
     MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
-    socket->returnErrorOnSocket_ = true;
+    flags_.socketShouldError = true;
     try
     {
       InboundConnectionListener listener( socket, 0 );
@@ -109,7 +109,7 @@ TEST_F( InboundConnectionListenerTester, DeletesInjectedSocketOnBindError )
 {
   {
     MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
-    socket->returnErrorOnBind_ = true;
+    flags_.bindShouldError = true;
     try
     {
       InboundConnectionListener listener( socket, 0 );
@@ -139,7 +139,7 @@ TEST_F( InboundConnectionListenerTester, PassesInCorrectSocketFDToAccept )
 
 TEST_F( InboundConnectionListenerTester, ThrowsExceptionWhenAcceptFails )  
 {
-  socket_->returnErrorOnAccept_ = true;
+  flags_.acceptShouldError = true;
   ASSERT_THROW( listener_.nextConnection(), int );
 }
 
