@@ -3,43 +3,48 @@
 #include "mocks/MockSocketReadApi.h"
 
 class SocketReaderTests
+  : public ::testing::Test
 {
+  protected:
+    MockSocketReadApi socketApi_;
+    SocketReader reader_;
+
   public:
-   static std::string readToEnd( std::string stringToTest )
+    SocketReaderTests() 
+      : reader_( &socketApi_ )
+    { }
+
+   std::string setBufferAndReadToEnd( std::string stringToTest )
    {
      int length = stringToTest.length() + 1;
      const char* buffer = stringToTest.c_str();
 
-     MockSocketReadApi socketApi;
-      
-     SocketReader reader( &socketApi );
+     socketApi_.readBuffer_[0] = buffer;
+     socketApi_.readReturns_[0] = length;
+     socketApi_.howMuchToCopy_[0] = length;
 
-     socketApi.readBuffer_[0] = buffer;
-     socketApi.readReturns_[0] = length;
-     socketApi.howMuchToCopy_[0] = length;
-
-     return reader.readToEnd( 5 );
+     return reader_.readToEnd( 5 );
    } 
 };
 
-TEST( SocketReaderTests, ReadsEmptyStream )  
+TEST_F( SocketReaderTests, ReadsEmptyStream )  
 {
   std::string expected = "";
-  std::string actual = SocketReaderTests::readToEnd( expected );
+  std::string actual = setBufferAndReadToEnd( expected );
   ASSERT_EQ( expected, actual );
 }
 
-TEST( SocketReaderTests, ReadsShortStream )  
+TEST_F( SocketReaderTests, ReadsShortStream )  
 {
   std::string expected = "Hello there ...";
-  std::string actual = SocketReaderTests::readToEnd( expected );
+  std::string actual = setBufferAndReadToEnd( expected );
   ASSERT_EQ( expected, actual );
 }
 /*
 TEST( SocketReaderTests, ReadsALongStream)  
 {
   std::string expected = std::string( 1000, '.' );
-  std::string actual = SocketReaderTests::readToEnd( expected );
+  std::string actual = SocketReaderTests::setBufferAndReadToEnd( expected );
   ASSERT_EQ( expected, actual );
 }
 */
