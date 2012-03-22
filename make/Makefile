@@ -113,15 +113,15 @@ ServerTests : MockRequestHandler.o Server.o ServerTests.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
 InboundConnectionListener.o : ${LIB_DIR}/InboundConnectionListener.cpp \
-	${HEADERS_DIR}/InboundConnectionListener.h ${HEADERS_DIR}/Socket.h
+	${HEADERS_DIR}/InboundConnectionListener.h ${HEADERS_DIR}/SocketAPI.h
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${LIB_DIR}/InboundConnectionListener.cpp
 
-MockSocket.o : ${MOCKS_DIR}/MockSocket.h ${MOCKS_DIR}/MockSocket.cpp ${HEADERS_DIR}/Socket.h
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${MOCKS_DIR}/MockSocket.cpp
+MockSocketAPI.o : ${MOCKS_DIR}/MockSocketAPI.h ${MOCKS_DIR}/MockSocketAPI.cpp ${HEADERS_DIR}/SocketAPI.h
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${MOCKS_DIR}/MockSocketAPI.cpp
 
-InboundConnectionListenerTests.o : ${SPECS_DIR}/InboundConnectionListenerTests.cpp MockSocket.o
+InboundConnectionListenerTests.o : ${SPECS_DIR}/InboundConnectionListenerTests.cpp MockSocketAPI.o
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${SPECS_DIR}/InboundConnectionListenerTests.cpp
 
-InboundConnectionListenerTests : MockSocket.o InboundConnectionListener.o InboundConnectionListenerTests.o gtest_main.a
+InboundConnectionListenerTests : MockSocketAPI.o InboundConnectionListener.o InboundConnectionListenerTests.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 

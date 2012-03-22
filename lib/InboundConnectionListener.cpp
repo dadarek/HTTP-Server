@@ -1,29 +1,29 @@
 #include "InboundConnectionListener.h"
-#include "Socket.h"
-#include <iostream>
+#include "SocketApi.h"
 
-InboundConnectionListener::InboundConnectionListener( Socket* socket, int portToBindTo )
-  : socket_( socket )
+InboundConnectionListener::InboundConnectionListener( SocketApi* socketApi, int portToBindTo )
+  : socketApi_( socketApi )
   , fd_( -1 )
 { 
   createSocket();
   bindToSocket( portToBindTo );
-  socket_->listen( fd_ );
+  socketApi_->listen( fd_ );
 }
+
 void InboundConnectionListener::createSocket()
 {
-  fd_ = socket_->socket();
+  fd_ = socketApi_->socket();
   if( fd_ < 0 )
-    throw Socket::SOCKET_EXCEPTION;
+    throw SocketApi::SOCKET_EXCEPTION;
 }
 
 void InboundConnectionListener::bindToSocket( int portToBindTo )
 {
-  int bindResult = socket_->bind( fd_, portToBindTo );
+  int bindResult = socketApi_->bind( fd_, portToBindTo );
   if( bindResult < 0 )
   {
     closeSocket();
-    throw Socket::BIND_EXCEPTION;
+    throw SocketApi::BIND_EXCEPTION;
   }
 }
 
@@ -34,18 +34,16 @@ InboundConnectionListener::~InboundConnectionListener()
 
 int InboundConnectionListener::nextConnection()
 {
-  printf("About to listen ...\n");
-  int result = socket_->accept( this->fd_ );
-  printf("Done listening: %d\n", result );
+  int result = socketApi_->accept( this->fd_ );
   if( result < 0 )
-    throw Socket::ACCEPT_EXCEPTION;
+    throw SocketApi::ACCEPT_EXCEPTION;
 
   return result;
 }
 
 void InboundConnectionListener::closeSocket()
 {
-  socket_->close( fd_ );
+  socketApi_->close( fd_ );
   fd_ = -1;
 }
 

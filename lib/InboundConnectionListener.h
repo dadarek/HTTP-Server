@@ -1,12 +1,12 @@
 #ifndef INBOUND_CONNECTION_LISTENER_H
 #define INBOUND_CONNECTION_LISTENER_H
 
-class Socket;
+class SocketApi;
 
 class InboundConnectionListener
 {
   private:
-    Socket* socket_;
+    SocketApi* socketApi_;
     int fd_;
 
     void createSocket();
@@ -14,7 +14,7 @@ class InboundConnectionListener
     void closeSocket();
 
   public:
-    InboundConnectionListener(Socket* socket, int portToBindTo );
+    InboundConnectionListener( SocketApi* socketApi, int portToBindTo );
     virtual ~InboundConnectionListener();
 
     int nextConnection();

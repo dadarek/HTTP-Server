@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "mocks/MockSocket.h"
+#include "mocks/MockSocketApi.h"
 #include "InboundConnectionListener.h"
 
 class InboundConnectionListenerTester
@@ -8,17 +8,17 @@ class InboundConnectionListenerTester
   protected:
     const int PORT_TO_BIND_TO = 9080;
 
-    struct MockSocketReturnValues returnValues_ = { 85, 0, 7777 };
-    struct MockSocketInputValues inputValues_ = { -1, -1, -1, -1, -1 };
-    struct MockSocketFlags flags_ = { false, false, false, false };
+    struct MockSocketApiReturnValues returnValues_ = { 85, 0, 7777 };
+    struct MockSocketApiInputValues inputValues_ = { -1, -1, -1, -1, -1 };
+    struct MockSocketApiFlags flags_ = { false, false, false, false };
 
-    MockSocket* socket_;
+    MockSocketApi* socketApi_;
     InboundConnectionListener listener_;
 
   public:
     InboundConnectionListenerTester()
-      : socket_( new MockSocket( returnValues_, inputValues_, flags_ ) )
-      , listener_( socket_, PORT_TO_BIND_TO )
+      : socketApi_( new MockSocketApi( returnValues_, inputValues_, flags_ ) )
+      , listener_( socketApi_, PORT_TO_BIND_TO )
     { }
 };
 
@@ -30,18 +30,18 @@ TEST_F( InboundConnectionListenerTester, CreatesASocket )
 
 TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorSocket ) 
 {
-  MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
+  MockSocketApi* socketApi = new MockSocketApi( returnValues_, inputValues_, flags_ );
   flags_.socketShouldError = true;
-  ASSERT_THROW( InboundConnectionListener listener( socket, 0 ), int );
+  ASSERT_THROW( InboundConnectionListener listener( socketApi , 0 ), int );
 }
 
 TEST_F( InboundConnectionListenerTester, ClosesFDOnBindException ) 
 {
-  MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
+  MockSocketApi* socketApi = new MockSocketApi( returnValues_, inputValues_, flags_ );
   flags_.bindShouldError = true;
   try
   {
-    InboundConnectionListener listener( socket, 0 );
+    InboundConnectionListener listener( socketApi , 0 );
   }
   catch( int )
   { }
@@ -61,16 +61,16 @@ TEST_F( InboundConnectionListenerTester, BindsToPortSpecifiedInConstructor )
 
 TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorBind )  
 {
-  MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
+  MockSocketApi* socketApi = new MockSocketApi( returnValues_, inputValues_, flags_ );
   flags_.bindShouldError = true;
-  ASSERT_THROW( InboundConnectionListener listener( socket, 0 ), int );
+  ASSERT_THROW( InboundConnectionListener listener( socketApi , 0 ), int );
 }
 
 TEST_F( InboundConnectionListenerTester, DestructorClosesFD )  
 {
   {
-    MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
-    InboundConnectionListener listener( socket, 0 );
+    MockSocketApi* socketApi = new MockSocketApi( returnValues_, inputValues_, flags_ );
+    InboundConnectionListener listener( socketApi , 0 );
   }
   EXPECT_EQ( returnValues_.socket, inputValues_.close );
 }
@@ -120,7 +120,7 @@ TEST_F( InboundConnectionListenerTester, NextConnectionReturnsCorrectFD )
 //TODO: Maybe don't do all this setup in the constructor?
 //      It may make it easier to test and refactor tests.
 //
-//TODO: Create helper function for MockSocket
+//TODO: Create helper function for MockSocketApi
 //
 //TODO: There is a problem with sharing the structs among 2 instances
 //      of Listener (some tests create an extra instance).  Both 

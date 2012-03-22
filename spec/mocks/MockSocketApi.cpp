@@ -1,15 +1,15 @@
-#include "MockSocket.h"
+#include "MockSocketApi.h"
 
-MockSocket::MockSocket( MockSocketReturnValues& returnValues, MockSocketInputValues& inputValues, MockSocketFlags& flags )
+MockSocketApi::MockSocketApi( MockSocketApiReturnValues& returnValues, MockSocketApiInputValues& inputValues, MockSocketApiFlags& flags )
   : returnValues_( returnValues )
   , inputValues_( inputValues )
   , flags_( flags )
 { }
 
-MockSocket::~MockSocket()
+MockSocketApi::~MockSocketApi()
 { } 
 
-int MockSocket::socket()
+int MockSocketApi::socket()
 {
   if( flags_.socketShouldError )
     return -1;
@@ -18,7 +18,7 @@ int MockSocket::socket()
   return returnValues_.socket;
 }
 
-int MockSocket::bind( int socketFD, int portNumber )
+int MockSocketApi::bind( int socketFD, int portNumber )
 {
   if( flags_.bindShouldError )
     return -1;
@@ -28,12 +28,12 @@ int MockSocket::bind( int socketFD, int portNumber )
   return returnValues_.bind;
 }
 
-void MockSocket::listen( int socketFD )
+void MockSocketApi::listen( int socketFD )
 {
   inputValues_.listen = socketFD;
 }
 
-int MockSocket::accept( int socketFD )
+int MockSocketApi::accept( int socketFD )
 {
   if( flags_.acceptShouldError )
     return -1;
@@ -42,7 +42,7 @@ int MockSocket::accept( int socketFD )
   return returnValues_.accept;
 }
 
-void MockSocket::close( int socketFD )
+void MockSocketApi::close( int socketFD )
 {
   inputValues_.close = socketFD;
 }

@@ -1,7 +1,7 @@
-#ifndef SOCKET_H
-#define SOCKET_H
+#ifndef SOCKET_API_H
+#define SOCKET_API_H
 
-class Socket
+class SocketApi
 {
   public:
     static const int SOCKET_EXCEPTION = 1;
@@ -9,8 +9,8 @@ class Socket
     static const int ACCEPT_EXCEPTION = 3;
 
   public:
-    Socket() { }
-    virtual ~Socket() { }
+    SocketApi() { }
+    virtual ~SocketApi() { }
 
     virtual int socket() = 0;
     virtual int bind( int socketFD, int portNumber ) = 0;

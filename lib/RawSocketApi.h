@@ -1,14 +1,14 @@
-#ifndef RAW_SOCKET_H
-#define RAW_SOCKET_H
+#ifndef RAW_SOCKET_API_H
+#define RAW_SOCKET_API_H
 
-#include "Socket.h"
+#include "SocketApi.h"
 
-class RawSocket
-  : public Socket
+class RawSocketApi
+  : public SocketApi
 {
   public:
-    RawSocket();
-    virtual ~RawSocket();
+    RawSocketApi();
+    virtual ~RawSocketApi();
 
     int socket();
     int bind( int socketFD, int portNumber );
