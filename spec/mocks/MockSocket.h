@@ -3,13 +3,18 @@
 
 #include "Socket.h"
 
+struct MockSocketReturnValues
+{
+  int socket;
+  int accept;
+};
+
 class MockSocket
   : public Socket
 {
   public:
+    MockSocketReturnValues& returnValues_;
     int socketsCreated_;
-    int socketReturnValue_;
-    int acceptReturnValue_;
     int boundTo_;
     bool returnErrorOnSocket_;
     bool returnErrorOnBind_;
@@ -20,7 +25,7 @@ class MockSocket
     int boundToPort_;
     int socketFDPassedIntoAccept_; 
 
-    MockSocket( int socketReturnValue, int acceptReturnValue );
+    MockSocket( MockSocketReturnValues& returnValues );
     virtual ~MockSocket();
 
     int socket();
