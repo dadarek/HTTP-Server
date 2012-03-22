@@ -9,9 +9,6 @@ struct MockSocketApiReturnValues
   int socket;
   int bind;
   int accept;
-  const char* readBuffer[10];
-  int readReturns[10];
-  int howMuchToCopy[10];
 
   MockSocketApiReturnValues()
     : socket( -1 )
@@ -56,9 +53,6 @@ struct MockSocketApiFlags
 class MockSocketApi
   : public SocketApi
 {
-  private:
-    int lastReadPosition_;
-
   public:
     MockSocketApiReturnValues& returnValues_;
     MockSocketApiInputValues& inputValues_;

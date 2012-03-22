@@ -143,13 +143,16 @@ EchoRequestHandlerTests: MockSocketAPI.o EchoRequestHandler.o EchoRequestHandler
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 	
 
+MockSocketReadAPI.o : ${MOCKS_DIR}/MockSocketReadAPI.h ${MOCKS_DIR}/MockSocketReadAPI.cpp ${HEADERS_DIR}/SocketAPI.h
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${MOCKS_DIR}/MockSocketReadAPI.cpp
+
 SocketReader.o : ${LIB_DIR}/SocketReader.cpp \
 	${HEADERS_DIR}/SocketReader.h ${HEADERS_DIR}/SocketAPI.h
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${LIB_DIR}/SocketReader.cpp
 
-SocketReaderTests.o : ${SPECS_DIR}/SocketReaderTests.cpp MockSocketAPI.o
+SocketReaderTests.o : ${SPECS_DIR}/SocketReaderTests.cpp MockSocketReadAPI.o
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${SPECS_DIR}/SocketReaderTests.cpp
 
-SocketReaderTests: MockSocketAPI.o SocketReader.o SocketReaderTests.o gtest_main.a
+SocketReaderTests: MockSocketReadAPI.o SocketReader.o SocketReaderTests.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 	

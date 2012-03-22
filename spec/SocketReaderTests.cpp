@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 #include "SocketReader.h"
-#include "mocks/MockSocketApi.h"
+#include "mocks/MockSocketReadApi.h"
 
 class SocketReaderTests
 {
@@ -10,17 +10,13 @@ class SocketReaderTests
      int length = stringToTest.length() + 1;
      const char* buffer = stringToTest.c_str();
 
-     MockSocketApiReturnValues returnValues_;
-     MockSocketApiInputValues inputValues_;
-     MockSocketApiFlags flags_;
-
-     MockSocketApi socketApi( returnValues_, inputValues_, flags_ );
+     MockSocketReadApi socketApi;
       
      SocketReader reader( &socketApi );
 
-     returnValues_.readBuffer[0] = buffer;
-     returnValues_.readReturns[0] = length;
-     returnValues_.howMuchToCopy[0] = length;
+     socketApi.readBuffer_[0] = buffer;
+     socketApi.readReturns_[0] = length;
+     socketApi.howMuchToCopy_[0] = length;
 
      return reader.readToEnd( 5 );
    } 
