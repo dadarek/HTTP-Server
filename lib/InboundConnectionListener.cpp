@@ -2,22 +2,29 @@
 #include "Socket.h"
 #include <iostream>
 
-InboundConnectionListener::InboundConnectionListener( Socket* socket, int portToListenOn )
+InboundConnectionListener::InboundConnectionListener( Socket* socket, int portToBindTo )
   : socket_( socket )
   , fd_( -1 )
 { 
+  createSocket();
+  bindToSocket( portToBindTo );
+  socket_->listen( fd_ );
+}
+void InboundConnectionListener::createSocket()
+{
   fd_ = socket_->socket();
   if( fd_ < 0 )
     throw Socket::SOCKET_EXCEPTION;
+}
 
-  int bindResult = socket_->bind( fd_, portToListenOn );
+void InboundConnectionListener::bindToSocket( int portToBindTo )
+{
+  int bindResult = socket_->bind( fd_, portToBindTo );
   if( bindResult < 0 )
   {
     closeSocket();
     throw Socket::BIND_EXCEPTION;
   }
-
-  socket_->listen( fd_ );
 }
 
 InboundConnectionListener::~InboundConnectionListener()

@@ -9,10 +9,12 @@ class InboundConnectionListener
     Socket* socket_;
     int fd_;
 
+    void createSocket();
+    void bindToSocket( int portToBindTo );
     void closeSocket();
 
   public:
-    InboundConnectionListener(Socket* socket, int portToListenOn );
+    InboundConnectionListener(Socket* socket, int portToBindTo );
     virtual ~InboundConnectionListener();
 
     int nextConnection();

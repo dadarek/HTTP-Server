@@ -6,7 +6,7 @@ class InboundConnectionListenerTester
   : public ::testing::Test
 {
   protected:
-    const int PORT_TO_LISTEN_ON = 9080;
+    const int PORT_TO_BIND_TO = 9080;
 
     struct MockSocketReturnValues returnValues_ = { 85, 0, 7777 };
     struct MockSocketInputValues inputValues_ = { -1, -1, -1, -1, -1 };
@@ -18,7 +18,7 @@ class InboundConnectionListenerTester
   public:
     InboundConnectionListenerTester()
       : socket_( new MockSocket( returnValues_, inputValues_, flags_ ) )
-      , listener_( socket_, PORT_TO_LISTEN_ON )
+      , listener_( socket_, PORT_TO_BIND_TO )
     { }
 };
 
@@ -56,7 +56,7 @@ TEST_F( InboundConnectionListenerTester, BindsToSocketFDItReceives )
 
 TEST_F( InboundConnectionListenerTester, BindsToPortSpecifiedInConstructor ) 
 {
-  EXPECT_EQ( PORT_TO_LISTEN_ON, inputValues_.bindPort );
+  EXPECT_EQ( PORT_TO_BIND_TO, inputValues_.bindPort );
 }
 
 TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorBind )  
