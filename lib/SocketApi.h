@@ -1,8 +1,6 @@
 #ifndef SOCKET_API_H
 #define SOCKET_API_H
 
-#include <iostream>
-
 class SocketApi
 {
   public:

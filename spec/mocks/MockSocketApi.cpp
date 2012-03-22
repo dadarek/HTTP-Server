@@ -1,3 +1,4 @@
+#include <iostream>
 #include "MockSocketApi.h"
 
 MockSocketApi::MockSocketApi( MockSocketApiReturnValues& returnValues, MockSocketApiInputValues& inputValues, MockSocketApiFlags& flags )

@@ -27,7 +27,7 @@ CXXFLAGS += -g -Wall -Wextra
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-TESTS = server icl echo
+TESTS = server icl echo reader
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -55,6 +55,9 @@ icl : InboundConnectionListenerTests
 
 echo : EchoRequestHandlerTests
 	./EchoRequestHandlerTests
+
+reader : SocketReaderTests
+	./SocketReaderTests
 
 go : 
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread ${USER_DIR}/lib/*.cpp -o main
@@ -138,3 +141,15 @@ EchoRequestHandlerTests.o : ${SPECS_DIR}/EchoRequestHandlerTests.cpp MockSocketA
 
 EchoRequestHandlerTests: MockSocketAPI.o EchoRequestHandler.o EchoRequestHandlerTests.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
+	
+
+SocketReader.o : ${LIB_DIR}/SocketReader.cpp \
+	${HEADERS_DIR}/SocketReader.h ${HEADERS_DIR}/SocketAPI.h
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${LIB_DIR}/SocketReader.cpp
+
+SocketReaderTests.o : ${SPECS_DIR}/SocketReaderTests.cpp MockSocketAPI.o
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${SPECS_DIR}/SocketReaderTests.cpp
+
+SocketReaderTests: MockSocketAPI.o SocketReader.o SocketReaderTests.o gtest_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
+	
