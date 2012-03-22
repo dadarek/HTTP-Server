@@ -1,7 +1,8 @@
 #include "MockSocket.h"
 
-MockSocket::MockSocket( MockSocketReturnValues& returnValues, MockSocketFlags& flags )
+MockSocket::MockSocket( MockSocketReturnValues& returnValues, MockSocketInputValues& inputValues, MockSocketFlags& flags )
   : returnValues_( returnValues )
+  , inputValues_( inputValues )
   , flags_( flags )
   , socketsCreated_( 0 )
   , boundTo_( -1 )
@@ -9,7 +10,6 @@ MockSocket::MockSocket( MockSocketReturnValues& returnValues, MockSocketFlags& f
   , returnErrorOnBind_( false )
   , returnErrorOnAccept_( false )
   , destructorCalled_( 0 )
-  , socketClosed_( -1 )
   , listeningTo_( -1 )
   , boundToPort_( -1 )
   , socketFDPassedIntoAccept_( -1 )
@@ -55,5 +55,5 @@ int MockSocket::accept( int socketFD )
 
 void MockSocket::close( int socketFD )
 {
-  socketClosed_ = socketFD;
+  inputValues_.close = socketFD;
 }

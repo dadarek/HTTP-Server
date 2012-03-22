@@ -11,13 +11,15 @@ class InboundConnectionListenerTester
     const int PORT_TO_LISTEN_ON = 9080;
 
     struct MockSocketReturnValues returnValues_ = { 85, 7777 };
+    struct MockSocketInputValues inputValues_ = { -1 };
     struct MockSocketFlags flags_ = { false };
+
     MockSocket* socket_;
     InboundConnectionListener listener_;
 
   public:
     InboundConnectionListenerTester()
-      : socket_( new MockSocket( returnValues_, flags_ ) )
+      : socket_( new MockSocket( returnValues_, inputValues_, flags_ ) )
       , listener_( socket_, PORT_TO_LISTEN_ON )
     { }
 };
@@ -30,22 +32,23 @@ TEST_F( InboundConnectionListenerTester, CreatesASocket )
 
 TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorSocket ) 
 {
-  MockSocket* socket = new MockSocket( returnValues_, flags_ );
+  MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
   socket->returnErrorOnSocket_ = true;
   ASSERT_THROW( InboundConnectionListener listener( socket, 0 ), int );
 }
 
 TEST_F( InboundConnectionListenerTester, ClosesFDOnBindException ) 
 {
-  socket_->returnErrorOnBind_ = true;
+  MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
+  socket->returnErrorOnBind_ = true;
   try
   {
-    InboundConnectionListener listener( socket_, 0 );
+    InboundConnectionListener listener( socket, 0 );
   }
   catch( int )
   { }
   
-  EXPECT_EQ( returnValues_.socket, socket_->socketClosed_ );
+  EXPECT_EQ( returnValues_.socket, inputValues_.close );
 }
 
 TEST_F( InboundConnectionListenerTester, ClosesFDOnAcceptException ) 
@@ -58,7 +61,7 @@ TEST_F( InboundConnectionListenerTester, ClosesFDOnAcceptException )
   catch( int )
   { }
   
-  EXPECT_EQ( returnValues_.socket, socket_->socketClosed_ );
+  EXPECT_EQ( returnValues_.socket, inputValues_.close );
 }
 
 TEST_F( InboundConnectionListenerTester, BindsToSocketFDItReceives ) 
@@ -74,14 +77,15 @@ TEST_F( InboundConnectionListenerTester, BindsToPortSpecifiedInConstructor )
 
 TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorBind )  
 {
-  socket_->returnErrorOnBind_ = true;
-  ASSERT_THROW( InboundConnectionListener listener( socket_, 0 ), int );
+  MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
+  socket->returnErrorOnBind_ = true;
+  ASSERT_THROW( InboundConnectionListener listener( socket, 0 ), int );
 }
 
 TEST_F( InboundConnectionListenerTester, DeletesInjectedSocket )
 {
   {
-    MockSocket* socket = new MockSocket( returnValues_, flags_ );
+    MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
     InboundConnectionListener listener( socket, 0 );
   }
   EXPECT_TRUE( flags_.destructorCalled );
@@ -90,8 +94,23 @@ TEST_F( InboundConnectionListenerTester, DeletesInjectedSocket )
 TEST_F( InboundConnectionListenerTester, DeletesInjectedSocketOnSocketError )
 {
   {
-    MockSocket* socket = new MockSocket( returnValues_, flags_ );
+    MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
     socket->returnErrorOnSocket_ = true;
+    try
+    {
+      InboundConnectionListener listener( socket, 0 );
+    }
+    catch( int )
+    { }
+  }
+  EXPECT_TRUE( flags_.destructorCalled );
+}
+
+TEST_F( InboundConnectionListenerTester, DeletesInjectedSocketOnBindError )
+{
+  {
+    MockSocket* socket = new MockSocket( returnValues_, inputValues_, flags_ );
+    socket->returnErrorOnBind_ = true;
     try
     {
       InboundConnectionListener listener( socket, 0 );
@@ -142,8 +161,6 @@ TEST_F( InboundConnectionListenerTester, nextConnectionReturnsCorrectFD )
 //
 //TODO: Give better names (i.e. ThrowsExceptionWhenBindReturnsError
 //
-//TODO: Make sure socket is destroyed on Ctor exception
-//
 //TODO: make all names common (i.e. accpetReturnValue, SocketReturnValue 
 //
 //TODO: Get rid of ALL warnings
@@ -151,3 +168,4 @@ TEST_F( InboundConnectionListenerTester, nextConnectionReturnsCorrectFD )
 //TODO: Maybe don't do all this setup in the constructor?
 //      It may make it easier to test and refactor tests.
 //
+//TODO: Create helper function for MockSocket

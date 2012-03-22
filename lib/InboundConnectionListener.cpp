@@ -9,11 +9,7 @@ InboundConnectionListener::InboundConnectionListener( Socket* socket, int portTo
   fd_ = socket_->socket();
   if( fd_ < 0 )
   {
-    if( 0 != socket_ )
-    {
-      delete socket_;
-      socket_ = 0;
-    }
+    delete socket_;
     throw Socket::SOCKET_EXCEPTION;
   }
   
@@ -21,6 +17,7 @@ InboundConnectionListener::InboundConnectionListener( Socket* socket, int portTo
   if( bindResult < 0 )
   {
     socket_->close( fd_ );
+    delete socket_;
     throw Socket::BIND_EXCEPTION;
   }
 

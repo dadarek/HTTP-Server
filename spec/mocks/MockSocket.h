@@ -9,6 +9,11 @@ struct MockSocketReturnValues
   int accept;
 };
 
+struct MockSocketInputValues
+{
+  int close;
+};
+
 struct MockSocketFlags
 {
   bool destructorCalled;
@@ -19,6 +24,7 @@ class MockSocket
 {
   public:
     MockSocketReturnValues& returnValues_;
+    MockSocketInputValues& inputValues_;
     MockSocketFlags& flags_;
     int socketsCreated_;
     int boundTo_;
@@ -26,12 +32,11 @@ class MockSocket
     bool returnErrorOnBind_;
     bool returnErrorOnAccept_;
     bool* destructorCalled_;
-    int socketClosed_;
     int listeningTo_;
     int boundToPort_;
     int socketFDPassedIntoAccept_; 
 
-    MockSocket( MockSocketReturnValues& returnValues, MockSocketFlags& flags );
+    MockSocket( MockSocketReturnValues& returnValues, MockSocketInputValues& inputValues, MockSocketFlags& flags );
     virtual ~MockSocket();
 
     int socket();
