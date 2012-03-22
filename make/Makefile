@@ -27,8 +27,7 @@ CXXFLAGS += -g -Wall -Wextra
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-#TESTS = GTestTest_unittest ServerTest
-TESTS = ServerTest
+TESTS = server icl
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -43,10 +42,7 @@ MOCKS_DIR = ${SPECS_DIR}/mocks
 
 # House-keeping build targets.
 
-all : server 
-
-run : all
-	./$(TESTS)
+all : ${TESTS}
 
 clean :
 	rm -f *.a *.o main *Test
