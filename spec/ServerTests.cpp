@@ -14,5 +14,7 @@ TEST( ServerTests, PassesPortRequestsToHandler )
   MockRequestHandler handler;  
   MockConnectionReceiver receiver;
 
+  Server server( receiver, handler );
+
 }
 

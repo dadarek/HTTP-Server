@@ -2,9 +2,9 @@
 #include "RequestHandler.h"
 #include "InboundConnectionListener.h"
 
-Server::Server( InboundConnectionListener* listener, RequestHandler* handler )
+Server::Server( ConnectionReceiver& receiver, RequestHandler& handler )
   : handler_( handler )
-  , listener_( listener )
+  , receiver_( receiver )
 { }
 
 void Server::start()

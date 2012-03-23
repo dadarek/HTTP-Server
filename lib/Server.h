@@ -2,16 +2,16 @@
 #define SERVER_H
 
 class RequestHandler;
-class InboundConnectionListener;
+class ConnectionReceiver;
 
 class Server
 {
   private:
-    RequestHandler* handler_;
-    InboundConnectionListener* listener_;
+    RequestHandler& handler_;
+    ConnectionReceiver& receiver_;
 
   public:
-    Server( InboundConnectionListener*, RequestHandler* );
+    Server( ConnectionReceiver&, RequestHandler& );
     virtual ~Server();
 
     void start();

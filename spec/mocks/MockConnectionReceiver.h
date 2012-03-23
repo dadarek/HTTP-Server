@@ -5,7 +5,7 @@
 #include "MockSocketApi.h"
 
 class MockConnectionReceiver
-  : ConnectionReceiver
+  : public ConnectionReceiver
 {
   public:
     MockConnectionReceiver();
