@@ -15,7 +15,7 @@ std::string SocketReader::readToEnd( int socketFD )
   std::string nextChunk;
   do
   {
-    nextChunk = getNextChunk();
+    nextChunk = getNextChunk( socketFD );
     result += nextChunk;
   }
   while( nextChunk != "" );
@@ -23,7 +23,7 @@ std::string SocketReader::readToEnd( int socketFD )
   return result;
 }
 
-std::string SocketReader::getNextChunk()
+std::string SocketReader::getNextChunk( int socketFD )
 {
   char buffer[ 256 ] ;
   size_t bufferSize = sizeof( buffer );
@@ -33,7 +33,7 @@ std::string SocketReader::getNextChunk()
   size_t charSize = sizeof( char );
   size_t bytesToRead = bufferSize - charSize;
   
-  int bytesRead = socketApi_->read( -1, buffer, bytesToRead );
+  int bytesRead = socketApi_->read( socketFD, buffer, bytesToRead );
   if( bytesRead < 0 )
     throw SocketReader::READ_EXCEPTION;
 

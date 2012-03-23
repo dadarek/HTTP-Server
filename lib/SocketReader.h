@@ -20,7 +20,7 @@ class SocketReader
     std::string readToEnd( int socketFD );
 
   private:
-    std::string getNextChunk();
+    std::string getNextChunk( int socketFD );
 };
 
 #endif

@@ -49,3 +49,14 @@ TEST_F( SocketReaderTests, ThrowsExceptionOnErrorRead )
   ASSERT_THROW( reader.readToEnd( -1 ), int );
 }
 
+TEST_F( SocketReaderTests, ReadsOnSocketItReceives )
+{
+  MockSocketReadApi socketApi;
+  socketApi.sourceBuffer_ = "";
+
+  SocketReader reader( &socketApi );
+
+  reader.readToEnd( 88 );
+  ASSERT_EQ( 88, socketApi.socketReadOn_ );
+}
+
