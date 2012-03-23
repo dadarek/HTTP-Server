@@ -1,7 +1,6 @@
 #ifndef MOCK_SOCKET_READ_API_H
 #define MOCK_SOCKET_READ_API_H
 
-#include <iostream>
 #include "SocketApi.h"
 
 class MockSocketReadApi

@@ -1,19 +1,14 @@
-#ifndef MOCK_SOCKET_READ_API_H
-#define MOCK_SOCKET_READ_API_H
+#ifndef MOCK_SOCKET_WRITE_API_H
+#define MOCK_SOCKET_WRITE_API_H
 
-#include <iostream>
 #include "SocketApi.h"
 
-class MockSocketReadApi
+class MockSocketWriteApi
   : public SocketApi
 {
   public:
-    const char* readBuffer_[ 10 ];
-    int readReturns[ 10 ];
-    int howMuchToCopy[ 10 ];
-
-    MockSocketReadApi();
-    ~MockSocketReadApi();
+    MockSocketWriteApi();
+    ~MockSocketWriteApi();
 
     int socket();
     int bind( int socketFD, int portNumber );

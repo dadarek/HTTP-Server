@@ -1,5 +1,7 @@
 #include "MockSocketReadApi.h"
 
+#include <iostream>
+
 MockSocketReadApi::MockSocketReadApi()
   : sourceBuffer_( 0 )
   , lastReadPosition_( 0 )

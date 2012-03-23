@@ -8,8 +8,6 @@ class SocketReaderTests
   protected:
     static const char* const STREAM_TERMINATOR;
 
-  private:
-  protected:
     std::string setAndGet( MockSocketReadApi& socketApi, const char* input )
     {
       SocketReader reader( &socketApi );
