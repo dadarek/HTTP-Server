@@ -19,7 +19,7 @@ CXXFLAGS += -g -Wall -Wextra
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-TESTS = server icl echo reader writer
+TESTS = server icl echo reader
 
 
 # Targets
@@ -39,9 +39,6 @@ echo : EchoRequestHandlerTests
 
 reader : SocketReaderTests
 	./SocketReaderTests
-
-writer: SocketWriterTests
-	./SocketWriterTests
 
 main : 
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread ${PROJECT_ROOT}/lib/*.cpp -o main
@@ -120,18 +117,4 @@ SocketReaderTests.o : ${SPECS_DIR}/SocketReaderTests.cpp MockSocketReadAPI.o
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${SPECS_DIR}/SocketReaderTests.cpp
 
 SocketReaderTests: MockSocketReadAPI.o SocketReader.o SocketReaderTests.o gtest_main.a
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
-	
-
-MockSocketWriteAPI.o : ${MOCKS_DIR}/MockSocketWriteAPI.h ${MOCKS_DIR}/MockSocketWriteAPI.cpp ${HEADERS_DIR}/SocketAPI.h
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${MOCKS_DIR}/MockSocketWriteAPI.cpp
-
-SocketWriter.o : ${LIB_DIR}/SocketWriter.cpp \
-	${HEADERS_DIR}/SocketWriter.h ${HEADERS_DIR}/SocketAPI.h
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${LIB_DIR}/SocketWriter.cpp
-
-SocketWriterTests.o : ${SPECS_DIR}/SocketWriterTests.cpp MockSocketWriteAPI.o
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${SPECS_DIR}/SocketWriterTests.cpp
-
-SocketWriterTests: MockSocketWriteAPI.o SocketWriter.o SocketWriterTests.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
