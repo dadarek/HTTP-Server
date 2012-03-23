@@ -7,13 +7,20 @@
 class MockConnectionReceiver
   : public ConnectionReceiver
 {
+  private:
+    static const int SIZE = 4;
+    int returnIndex_;
+
   public:
+    int returnValues_[ SIZE ];
+
     MockConnectionReceiver();
     ~MockConnectionReceiver();
 
     int nextConnection();
 };
 
+class TerminationException{ };
 
 #endif
 
