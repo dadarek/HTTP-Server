@@ -57,3 +57,8 @@ int RawSocketApi::read( int socketFD, char* buffer, int bufferSize )
   return ::read( socketFD, buffer, bufferSize );
 }
 
+int RawSocketApi::write( int socketFD, char* buffer, unsigned length )
+{
+  return ::write( socketFD, buffer, length );
+}
+

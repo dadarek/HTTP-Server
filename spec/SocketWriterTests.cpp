@@ -15,3 +15,8 @@ TEST_F( SocketWriterTests, Compiles )
 
 }
 
+// TODO: change int to unsigned in SocketApi::read
+//
+// TODO: Do you really need to re-declare inherited
+// pure virtual functions that you're overriding?
+//

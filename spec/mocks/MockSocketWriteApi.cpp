@@ -25,3 +25,6 @@ void MockSocketWriteApi::close( int )
 
 int MockSocketWriteApi::read( int socketFD, char* buffer, int bufferSize )
 { throw 0; }
+
+int MockSocketWriteApi::write( int socketFD, char* buffer, unsigned length )
+{ throw 0; }
