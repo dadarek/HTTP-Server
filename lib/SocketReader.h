@@ -1,10 +1,15 @@
 #ifndef SOCKET_READER_H
 #define SOCKET_READER_H
 
+#include <iostream>
+
 class SocketApi;
 
 class SocketReader
 {
+  public:
+    static const int READ_EXCEPTION = 1;
+
   private:
     SocketApi* socketApi_;
 

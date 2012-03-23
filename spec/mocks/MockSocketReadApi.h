@@ -10,6 +10,7 @@ class MockSocketReadApi
   public:
     const char* sourceBuffer_;
     int lastReadPosition_;
+    bool returnErrorOnRead_;
 
     MockSocketReadApi();
     ~MockSocketReadApi();

@@ -38,10 +38,14 @@ TEST_F( SocketReaderTests, ReadsCorrectValues )
   testWithNBytes( 1000 * 1000 );
 }
 
-//TODO: Throw exception when read returns -1
-//TODO: Throw exception when read returns -1
-//
-//TODO: make sure input socket is valid
-//
-//
+TEST_F( SocketReaderTests, ThrowsExceptionOnErrorRead )  
+{
+  MockSocketReadApi socketApi;
+  socketApi.returnErrorOnRead_ = true;
+  socketApi.sourceBuffer_ = "";
+
+  SocketReader reader( &socketApi );
+
+  ASSERT_THROW( reader.readToEnd( -1 ), int );
+}
 

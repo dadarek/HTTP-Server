@@ -1,7 +1,9 @@
 #include "MockSocketReadApi.h"
 
 MockSocketReadApi::MockSocketReadApi()
-  : lastReadPosition_( 0 )
+  : sourceBuffer_( 0 )
+  , lastReadPosition_( 0 )
+  , returnErrorOnRead_( false )
 { }
 
 MockSocketReadApi::~MockSocketReadApi()
@@ -24,6 +26,9 @@ void MockSocketReadApi::close( int )
 
 int MockSocketReadApi::read( int socketFD, char* buffer, int bufferSize )
 {
+  if( returnErrorOnRead_ )
+    return -1;
+
   const char* source = sourceBuffer_ + lastReadPosition_;
   
   int sourceSize = strlen( source );

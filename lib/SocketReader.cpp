@@ -1,4 +1,3 @@
-#include <iostream>
 #include "SocketApi.h"
 #include "SocketReader.h"
 
@@ -34,7 +33,9 @@ std::string SocketReader::getNextChunk()
   size_t charSize = sizeof( char );
   size_t bytesToRead = bufferSize - charSize;
   
-  socketApi_->read( -1, buffer, bytesToRead );
+  int bytesRead = socketApi_->read( -1, buffer, bytesToRead );
+  if( bytesRead < 0 )
+    throw SocketReader::READ_EXCEPTION;
 
   return std::string( buffer );
 }
