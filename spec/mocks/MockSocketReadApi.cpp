@@ -24,9 +24,15 @@ void MockSocketReadApi::close( int )
 
 int MockSocketReadApi::read( int socketFD, char* buffer, int bufferSize )
 {
-  int sourceSize = strlen( sourceBuffer_ );
-  int result = ( sourceSize < bufferSize ) ? bufferSize : sourceSize;
+  const char* source = sourceBuffer_ + lastReadPosition_;
+  
+  int sourceSize = strlen( source );
+  int result = ( sourceSize > bufferSize ) ? bufferSize : sourceSize;
 
-  memcpy( buffer, sourceBuffer_, result );
+  memcpy( buffer, source, result );
+
+  lastReadPosition_ += result;
+
+  return result;
 }
 

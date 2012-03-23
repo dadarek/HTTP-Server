@@ -30,6 +30,13 @@ TEST_F( SocketReaderTests, ReadsSocketWith1Byte )
   ASSERT_EQ( "x", actual );
 }
 
+TEST_F( SocketReaderTests, ReadsSocketWithManyBytes )  
+{
+  std::string expected = std::string( 1000 * 1000, '.' );
+  std::string actual = setAndGet( expected.c_str() );
+  ASSERT_EQ( expected, actual );
+}
+
 
 //TODO: Throw exception when read returns -1
 //TODO: Throw exception when read returns -1
