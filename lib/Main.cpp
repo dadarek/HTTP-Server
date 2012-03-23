@@ -18,14 +18,8 @@ int a()
 
     printf("Received connection: %d\n\n", nextConnection );
 
-    char buffer[1024];
-    memset( buffer, 0, 1024 );
-    read( nextConnection, buffer, 1023 );
-    
-   // std::string request = reader.readToEnd( nextConnection );
-
-    //printf("Message: %s\n\n", request.c_str() );
-    printf(" Message:\n%s", buffer );
+    std::string request = reader.readToEnd( nextConnection, "\r\n\r\n" );
+    printf("Request message: %s\n", request.c_str() );
 
     write(nextConnection, "I got your stuffing...", 22);
 
