@@ -1,0 +1,9 @@
+- Add strict compiler flags
+
+- Merge common headers together
+- Create good exceptions Exceptions better names
+- Do explicit destructors (virtual and non-virtual)
+      implicitly call the base destructor?
+
+- Give better names to test functions (i.e. ThrowsExceptionWhenBindReturnsError
+

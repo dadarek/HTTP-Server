@@ -126,14 +126,3 @@ TEST_F( SocketConnectionReceiverTester, NextConnectionReturnsCorrectFD )
   delete receiver;
 }
 
-//TODO: Merge common headers together
-//
-//TODO: Create good exceptions Exceptions better names
-//
-//TODO: Use -Wreorder in gcc
-//
-//TODO: Do explicit destructors (virtual and non-virtual)
-//      implicitly call the base destructor?
-//
-//TODO: Give better names to test functions (i.e. ThrowsExceptionWhenBindReturnsError
-//
