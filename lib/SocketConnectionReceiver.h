@@ -5,7 +5,7 @@
 
 class SocketApi;
 
-class InboundConnectionListener
+class SocketConnectionReceiver
   : public ConnectionReceiver
 {
   private:
@@ -17,8 +17,8 @@ class InboundConnectionListener
     void closeSocket();
 
   public:
-    InboundConnectionListener( SocketApi* socketApi, int portToBindTo );
-    virtual ~InboundConnectionListener();
+    SocketConnectionReceiver( SocketApi* socketApi, int portToBindTo );
+    virtual ~SocketConnectionReceiver();
 
     int nextConnection();
 };

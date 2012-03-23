@@ -50,8 +50,8 @@ clean :
 server : ServerTests
 	./ServerTests
 
-icl : ConnectionReceiverTests
-	./ConnectionReceiverTests
+icl : SocketConnectionReceiverTests
+	./SocketConnectionReceiverTests
 
 echo : EchoRequestHandlerTests
 	./EchoRequestHandlerTests
@@ -96,7 +96,7 @@ gtest_main.a : gtest-all.o gtest_main.o
 MockRequestHandler.o : ${MOCKS_DIR}/MockRequestHandler.cpp ${LIB_DIR}/RequestHandler.h
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${MOCKS_DIR}/MockRequestHandler.cpp
 
-MockConnectionReceiver.o : ${MOCKS_DIR}/MockConnectionReceiver.cpp ${LIB_DIR}/ConnectionReceiver.h
+MockConnectionReceiver.o : ${MOCKS_DIR}/MockConnectionReceiver.cpp ${LIB_DIR}/SocketConnectionReceiver.h
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${MOCKS_DIR}/MockConnectionReceiver.cpp
 
 Server.o : $(LIB_DIR)/Server.cpp $(LIB_DIR)/Server.h
@@ -108,17 +108,17 @@ ServerTests.o : $(SPECS_DIR)/ServerTests.cpp Server.o MockConnectionReceiver.o M
 ServerTests : MockRequestHandler.o MockConnectionReceiver.o Server.o ServerTests.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
-ConnectionReceiver.o : ${LIB_DIR}/ConnectionReceiver.cpp \
-	${HEADERS_DIR}/ConnectionReceiver.h ${HEADERS_DIR}/SocketAPI.h
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${LIB_DIR}/ConnectionReceiver.cpp
+SocketConnectionReceiver.o : ${LIB_DIR}/SocketConnectionReceiver.cpp \
+	${HEADERS_DIR}/SocketConnectionReceiver.h ${HEADERS_DIR}/SocketAPI.h
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${LIB_DIR}/SocketConnectionReceiver.cpp
 
 MockSocketAPI.o : ${MOCKS_DIR}/MockSocketAPI.h ${MOCKS_DIR}/MockSocketAPI.cpp ${HEADERS_DIR}/SocketAPI.h
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${MOCKS_DIR}/MockSocketAPI.cpp
 
-ConnectionReceiverTests.o : ${SPECS_DIR}/ConnectionReceiverTests.cpp MockSocketAPI.o
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${SPECS_DIR}/ConnectionReceiverTests.cpp
+SocketConnectionReceiverTests.o : ${SPECS_DIR}/SocketConnectionReceiverTests.cpp MockSocketAPI.o
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${SPECS_DIR}/SocketConnectionReceiverTests.cpp
 
-ConnectionReceiverTests : MockSocketAPI.o ConnectionReceiver.o ConnectionReceiverTests.o gtest_main.a
+SocketConnectionReceiverTests : MockSocketAPI.o SocketConnectionReceiver.o SocketConnectionReceiverTests.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
 

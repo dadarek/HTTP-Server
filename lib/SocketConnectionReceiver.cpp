@@ -1,7 +1,7 @@
-#include "InboundConnectionListener.h"
+#include "SocketConnectionReceiver.h"
 #include "SocketApi.h"
 
-InboundConnectionListener::InboundConnectionListener( SocketApi* socketApi, int portToBindTo )
+SocketConnectionReceiver::SocketConnectionReceiver( SocketApi* socketApi, int portToBindTo )
   : socketApi_( socketApi )
   , fd_( -1 )
 { 
@@ -10,14 +10,14 @@ InboundConnectionListener::InboundConnectionListener( SocketApi* socketApi, int 
   socketApi_->listen( fd_ );
 }
 
-void InboundConnectionListener::createSocket()
+void SocketConnectionReceiver::createSocket()
 {
   fd_ = socketApi_->socket();
   if( fd_ < 0 )
     throw SocketApi::SOCKET_EXCEPTION;
 }
 
-void InboundConnectionListener::bindToSocket( int portToBindTo )
+void SocketConnectionReceiver::bindToSocket( int portToBindTo )
 {
   int bindResult = socketApi_->bind( fd_, portToBindTo );
   if( bindResult < 0 )
@@ -27,12 +27,12 @@ void InboundConnectionListener::bindToSocket( int portToBindTo )
   }
 }
 
-InboundConnectionListener::~InboundConnectionListener()
+SocketConnectionReceiver::~SocketConnectionReceiver()
 {
   closeSocket();
 }  
 
-int InboundConnectionListener::nextConnection()
+int SocketConnectionReceiver::nextConnection()
 {
   int result = socketApi_->accept( this->fd_ );
   if( result < 0 )
@@ -41,7 +41,7 @@ int InboundConnectionListener::nextConnection()
   return result;
 }
 
-void InboundConnectionListener::closeSocket()
+void SocketConnectionReceiver::closeSocket()
 {
   socketApi_->close( fd_ );
   fd_ = -1;

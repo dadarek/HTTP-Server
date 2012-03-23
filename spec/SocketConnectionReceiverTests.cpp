@@ -1,8 +1,8 @@
 #include "gtest/gtest.h"
 #include "mocks/MockSocketApi.h"
-#include "InboundConnectionListener.h"
+#include "SocketConnectionReceiver.h"
 
-class InboundConnectionListenerTester
+class SocketConnectionReceiverTester
   : public ::testing::Test
 {
   protected:
@@ -14,9 +14,9 @@ class InboundConnectionListenerTester
 
     MockSocketApi socketApi_;
 
-    InboundConnectionListener* createListener()
+    SocketConnectionReceiver* createListener()
     {
-      return new InboundConnectionListener( &socketApi_, PORT_TO_BIND_TO ); 
+      return new SocketConnectionReceiver( &socketApi_, PORT_TO_BIND_TO ); 
     }
 
     void createAndDeleteListener()
@@ -25,7 +25,7 @@ class InboundConnectionListenerTester
     }
 
   public:
-    InboundConnectionListenerTester()
+    SocketConnectionReceiverTester()
       : PORT_TO_BIND_TO( 8090 )
       , returnValues_( 85, 0, 7777 )
       , socketApi_( returnValues_, inputValues_, flags_ )
@@ -33,19 +33,19 @@ class InboundConnectionListenerTester
 };
 
 
-TEST_F( InboundConnectionListenerTester, CreatesASocket )
+TEST_F( SocketConnectionReceiverTester, CreatesASocket )
 {
   createAndDeleteListener();
   ASSERT_TRUE( flags_.socketCalled );
 }
 
-TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorSocket ) 
+TEST_F( SocketConnectionReceiverTester, ThrowsExceptionOnErrorSocket ) 
 {
   flags_.socketShouldError = true;
   ASSERT_THROW( createAndDeleteListener(), int );
 }
 
-TEST_F( InboundConnectionListenerTester, ClosesFDOnBindException ) 
+TEST_F( SocketConnectionReceiverTester, ClosesFDOnBindException ) 
 {
   flags_.bindShouldError = true;
   try
@@ -58,25 +58,25 @@ TEST_F( InboundConnectionListenerTester, ClosesFDOnBindException )
   EXPECT_EQ( returnValues_.socket, inputValues_.close );
 }
 
-TEST_F( InboundConnectionListenerTester, BindsToSocketFDItReceives ) 
+TEST_F( SocketConnectionReceiverTester, BindsToSocketFDItReceives ) 
 {
   createAndDeleteListener();
   EXPECT_EQ( returnValues_.socket, inputValues_.bindFD );
 }
 
-TEST_F( InboundConnectionListenerTester, BindsToPortSpecifiedInConstructor ) 
+TEST_F( SocketConnectionReceiverTester, BindsToPortSpecifiedInConstructor ) 
 {
   createAndDeleteListener();
   EXPECT_EQ( PORT_TO_BIND_TO, inputValues_.bindPort );
 }
 
-TEST_F( InboundConnectionListenerTester, ThrowsExceptionOnErrorBind )  
+TEST_F( SocketConnectionReceiverTester, ThrowsExceptionOnErrorBind )  
 {
   flags_.bindShouldError = true;
   ASSERT_THROW( createAndDeleteListener(), int );
 }
 
-TEST_F( InboundConnectionListenerTester, DestructorClosesFD )  
+TEST_F( SocketConnectionReceiverTester, DestructorClosesFD )  
 {
   {
     createAndDeleteListener();
@@ -84,46 +84,46 @@ TEST_F( InboundConnectionListenerTester, DestructorClosesFD )
   EXPECT_EQ( returnValues_.socket, inputValues_.close );
 }
 
-TEST_F( InboundConnectionListenerTester, ListensToSocketFDItReceives )  
+TEST_F( SocketConnectionReceiverTester, ListensToSocketFDItReceives )  
 {
   createAndDeleteListener();
   EXPECT_EQ( returnValues_.socket, inputValues_.listen );
 }
 
-TEST_F( InboundConnectionListenerTester, AcceptsConnectionsOnSocketFDItReceives )  
+TEST_F( SocketConnectionReceiverTester, AcceptsConnectionsOnSocketFDItReceives )  
 {
-  InboundConnectionListener* listener = createListener();
-  listener->nextConnection();
+  SocketConnectionReceiver* receiver = createListener();
+  receiver->nextConnection();
 
   EXPECT_EQ( returnValues_.socket, inputValues_.accept );
-  delete listener;
+  delete receiver;
 }
 
-TEST_F( InboundConnectionListenerTester, PassesInCorrectSocketFDToAccept )  
+TEST_F( SocketConnectionReceiverTester, PassesInCorrectSocketFDToAccept )  
 {
-  InboundConnectionListener* listener = createListener();
-  listener->nextConnection();
+  SocketConnectionReceiver* receiver = createListener();
+  receiver->nextConnection();
 
   EXPECT_EQ( returnValues_.socket, inputValues_.accept );
-  delete listener;
+  delete receiver;
 }
 
-TEST_F( InboundConnectionListenerTester, ThrowsExceptionWhenAcceptFails )  
+TEST_F( SocketConnectionReceiverTester, ThrowsExceptionWhenAcceptFails )  
 {
-  InboundConnectionListener* listener = createListener();
+  SocketConnectionReceiver* receiver = createListener();
   flags_.acceptShouldError = true;
 
-  ASSERT_THROW( listener->nextConnection(), int );
-  delete listener;
+  ASSERT_THROW( receiver->nextConnection(), int );
+  delete receiver;
 }
 
-TEST_F( InboundConnectionListenerTester, NextConnectionReturnsCorrectFD )  
+TEST_F( SocketConnectionReceiverTester, NextConnectionReturnsCorrectFD )  
 {
-  InboundConnectionListener* listener = createListener();
-  int actual = listener->nextConnection(); 
+  SocketConnectionReceiver* receiver = createListener();
+  int actual = receiver->nextConnection(); 
 
   ASSERT_EQ( returnValues_.accept, actual );
-  delete listener;
+  delete receiver;
 }
 
 //TODO: Merge common headers together
