@@ -1,7 +1,7 @@
 #include "MockRequestHandler.h"
 
 MockRequestHandler::MockRequestHandler()
-  : connectionHandled_( -1 )
+  : index_( 0 )
 { }
 
 MockRequestHandler::~MockRequestHandler()
@@ -9,6 +9,6 @@ MockRequestHandler::~MockRequestHandler()
 
 void MockRequestHandler::handle( int connection )
 {
-  connectionHandled_ = connection;
+  connectionsHandled_[ index_++ ] = connection;
 }
 

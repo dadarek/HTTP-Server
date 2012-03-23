@@ -7,7 +7,8 @@ class MockRequestHandler
   :  public RequestHandler
 {
   public:
-    int connectionHandled_;
+    int index_;
+    int connectionsHandled_[ 4 ];
 
     MockRequestHandler();
     virtual ~MockRequestHandler();
