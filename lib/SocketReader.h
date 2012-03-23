@@ -13,6 +13,9 @@ class SocketReader
     virtual ~SocketReader();
 
     std::string readToEnd( int socketFD );
+
+  private:
+    std::string getNextChunk();
 };
 
 #endif

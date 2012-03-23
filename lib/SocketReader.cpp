@@ -13,23 +13,29 @@ std::string SocketReader::readToEnd( int socketFD )
 {
   std::string result;
 
-  int bytesRead;
+  std::string nextChunk;
+
   do
   {
-    char buffer[ 256 ] ;
-    size_t bufferSize = sizeof( buffer );
-
-    memset( buffer, 0, bufferSize );
-
-    size_t charSize = sizeof( char );
-    size_t bytesToRead = bufferSize - charSize;
-    
-    bytesRead = socketApi_->read( -1, buffer, bytesToRead );
-
-    result += buffer;
+    nextChunk = getNextChunk();
+    result += nextChunk;
   }
-  while( bytesRead > 0 );
+  while( nextChunk != "" );
 
   return result;
 }
 
+std::string SocketReader::getNextChunk()
+{
+  char buffer[ 256 ] ;
+  size_t bufferSize = sizeof( buffer );
+
+  memset( buffer, 0, bufferSize );
+
+  size_t charSize = sizeof( char );
+  size_t bytesToRead = bufferSize - charSize;
+  
+  socketApi_->read( -1, buffer, bytesToRead );
+
+  return std::string( buffer );
+}
