@@ -4,17 +4,17 @@
 
 #include "RawSocketApi.h"
 #include "SocketReader.h"
-#include "InboundConnectionListener.h"
+#include "SocketConnectionReceiver.h"
 
 int a()
 {
   RawSocketApi socketApi;
-  InboundConnectionListener listener( &socketApi, 8083 );
+  SocketConnectionReceiver receiver( &socketApi, 8083 );
   SocketReader reader( &socketApi );
 
   for(;;)
   {
-    int nextConnection = listener.nextConnection();
+    int nextConnection = receiver.nextConnection();
 
     printf("Received connection: %d\n\n", nextConnection );
 

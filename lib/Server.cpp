@@ -1,6 +1,6 @@
 #include "Server.h"
 #include "RequestHandler.h"
-#include "InboundConnectionListener.h"
+#include "ConnectionReceiver.h"
 
 Server::Server( ConnectionReceiver& receiver, RequestHandler& handler )
   : handler_( handler )
