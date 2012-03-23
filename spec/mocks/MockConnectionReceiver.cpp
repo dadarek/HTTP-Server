@@ -7,4 +7,7 @@ MockConnectionReceiver::~MockConnectionReceiver()
 { }
 
 int MockConnectionReceiver::nextConnection()
-{ throw 1; }
+{ 
+  return 1;
+}
+

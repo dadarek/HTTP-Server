@@ -16,5 +16,9 @@ TEST( ServerTests, PassesPortRequestsToHandler )
 
   Server server( receiver, handler );
 
+  server.start();
+
+  EXPECT_EQ( 1, handler.connectionHandled_ );
+
 }
 

@@ -7,6 +7,8 @@ class MockRequestHandler
   :  public RequestHandler
 {
   public:
+    int connectionHandled_;
+
     MockRequestHandler();
     virtual ~MockRequestHandler();
 

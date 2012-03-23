@@ -9,6 +9,8 @@ Server::Server( ConnectionReceiver& receiver, RequestHandler& handler )
 
 void Server::start()
 {
+  int connectionId = receiver_.nextConnection();
+  handler_.handle( connectionId );
 }
 
 Server::~Server()
