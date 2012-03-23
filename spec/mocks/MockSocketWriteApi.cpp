@@ -23,8 +23,10 @@ int MockSocketWriteApi::accept( int )
 void MockSocketWriteApi::close( int )
 { throw 0; }
 
-int MockSocketWriteApi::read( int socketFD, char* buffer, unsigned bufferSize )
+int MockSocketWriteApi::read( int, char*, unsigned)
 { throw 0; }
 
-int MockSocketWriteApi::write( int socketFD, char* buffer, unsigned length )
-{ throw 0; }
+int MockSocketWriteApi::write( int , char* , unsigned )
+{ 
+  throw 0;
+}

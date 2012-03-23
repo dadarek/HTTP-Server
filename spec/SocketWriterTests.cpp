@@ -20,3 +20,5 @@ TEST_F( SocketWriterTests, Compiles )
 // TODO: Do you really need to re-declare inherited
 // pure virtual functions that you're overriding?
 //
+// TODO: Add strict compiler flags.
+//

@@ -36,7 +36,7 @@ int MockSocketReadApi::read( int socketFD, char* buffer, unsigned bufferSize )
 
   const char* source = sourceBuffer_ + lastReadPosition_;
   
-  int sourceSize = strlen( source );
+  unsigned sourceSize = strlen( source );
   int result = ( sourceSize > bufferSize ) ? bufferSize : sourceSize;
 
   memcpy( buffer, source, result );
@@ -46,6 +46,6 @@ int MockSocketReadApi::read( int socketFD, char* buffer, unsigned bufferSize )
   return result;
 }
 
-int MockSocketReadApi::write( int socketFD, char* buffer, unsigned length )
-{ }
+int MockSocketReadApi::write( int, char*, unsigned )
+{ throw 0; }
 
