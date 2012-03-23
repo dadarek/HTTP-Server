@@ -17,7 +17,7 @@ class SocketReader
     SocketReader( SocketApi* socketApi_ );
     virtual ~SocketReader();
 
-    std::string readToEnd( int socketFD );
+    std::string readToEnd( int socketFD, const char* terminator );
 
   private:
     std::string getNextChunk( int socketFD );

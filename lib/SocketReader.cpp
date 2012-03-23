@@ -8,17 +8,22 @@ SocketReader::SocketReader( SocketApi* socketApi )
 SocketReader::~SocketReader()
 { }
 
-std::string SocketReader::readToEnd( int socketFD )
+std::string SocketReader::readToEnd( int socketFD, const char* terminator )
 {
   std::string result;
 
-  std::string nextChunk;
-  do
+  bool keepReading = true;
+  while( keepReading )
   {
-    nextChunk = getNextChunk( socketFD );
-    result += nextChunk;
+    result += getNextChunk( socketFD );
+
+    int terminatorIndex = result.find( terminator );
+    if( terminatorIndex >= 0 )
+    {
+      result = result.substr( 0, terminatorIndex );
+      keepReading = false;
+    }
   }
-  while( nextChunk != "" );
 
   return result;
 }

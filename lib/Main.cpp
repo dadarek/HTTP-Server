@@ -16,9 +16,16 @@ int a()
   {
     int nextConnection = listener.nextConnection();
 
-    std::string request = reader.readToEnd( nextConnection );
+    printf("Received connection: %d\n\n", nextConnection );
 
-    printf("Message: %s\n\n", request.c_str() );
+    char buffer[1024];
+    memset( buffer, 0, 1024 );
+    read( nextConnection, buffer, 1023 );
+    
+   // std::string request = reader.readToEnd( nextConnection );
+
+    //printf("Message: %s\n\n", request.c_str() );
+    printf(" Message:\n%s", buffer );
 
     write(nextConnection, "I got your stuffing...", 22);
 
