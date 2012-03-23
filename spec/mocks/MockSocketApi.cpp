@@ -48,7 +48,7 @@ void MockSocketApi::close( int socketFD )
   inputValues_.close = socketFD;
 }
 
-int MockSocketApi::read( int socketFD, char* buffer, int bufferSize )
+int MockSocketApi::read( int socketFD, char* buffer, unsigned bufferSize )
 { throw 0; }
 
 int MockSocketApi::write( int socketFD, char* buffer, unsigned length )

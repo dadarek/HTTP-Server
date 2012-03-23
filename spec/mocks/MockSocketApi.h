@@ -67,7 +67,7 @@ class MockSocketApi
     int accept( int socketFD );
     void close( int socketFD );
 
-    int read( int socketFD, char* buffer, int bufferSize );
+    int read( int socketFD, char* buffer, unsigned bufferSize );
     int write( int socketFD, char* buffer, unsigned length );
 };
 

@@ -18,7 +18,7 @@ class SocketApi
     virtual int accept( int socketFD ) = 0;
     virtual void close( int socketFD ) = 0;
 
-    virtual int read( int socketFD, char* buffer, int bufferSize ) = 0;
+    virtual int read( int socketFD, char* buffer, unsigned bufferSize ) = 0;
     virtual int write( int socketFD, char* buffer, unsigned length ) = 0;
 };
 

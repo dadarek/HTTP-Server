@@ -27,7 +27,7 @@ int MockSocketReadApi::accept( int )
 void MockSocketReadApi::close( int )
 { throw 0; }
 
-int MockSocketReadApi::read( int socketFD, char* buffer, int bufferSize )
+int MockSocketReadApi::read( int socketFD, char* buffer, unsigned bufferSize )
 {
   if( returnErrorOnRead_ )
     return -1;
