@@ -8,10 +8,7 @@ class MockSocketReadApi
   : public SocketApi
 {
   public:
-    const char* readBuffer_[ 10 ];
-    int readReturns_[ 10 ];
-    int howMuchToCopy_[ 10 ];
-
+    const char* sourceBuffer_;
     int lastReadPosition_;
 
     MockSocketReadApi();

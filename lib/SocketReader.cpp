@@ -11,20 +11,10 @@ SocketReader::~SocketReader()
 
 std::string SocketReader::readToEnd( int socketFD )
 {
-  std::string result;
+  char buffer[10];
+  memset( buffer, 0, 10 );
 
-  int bytesRead;
-  do
-  {
-    char buffer[256];
-    memset( buffer, 0, 256 );
-
-    bytesRead = socketApi_->read( -1, buffer, 255 );
-
-    result += buffer;
-  }
-  while( bytesRead == 255 );
-
-  return result;
+  socketApi_->read( -1, buffer, 9 );
+  return std::string( buffer );
 }
 
