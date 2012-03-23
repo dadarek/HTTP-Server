@@ -9,9 +9,9 @@ class SocketReaderTests
     static const char* const STREAM_TERMINATOR;
 
   private:
-    std::string setAndGet( const char* input )
+  protected:
+    std::string setAndGet( MockSocketReadApi& socketApi, const char* input )
     {
-      MockSocketReadApi socketApi;
       SocketReader reader( &socketApi );
 
       socketApi.sourceBuffer_ = input;
@@ -19,8 +19,12 @@ class SocketReaderTests
 
       return result;
     }
+    std::string setAndGet( const char* input )
+    {
+      MockSocketReadApi socketApi;
+      return setAndGet( socketApi, input );
+    }
 
-  protected:
     void testWithNBytes( int numberOfBytes )
     {
       std::string expected = std::string( numberOfBytes, '.' );
@@ -51,11 +55,7 @@ TEST_F( SocketReaderTests, ThrowsExceptionOnErrorRead )
 {
   MockSocketReadApi socketApi;
   socketApi.returnErrorOnRead_ = true;
-  socketApi.sourceBuffer_ = "";
-
-  SocketReader reader( &socketApi );
-
-  ASSERT_THROW( reader.readToEnd( -1, '\0'), int );
+  ASSERT_THROW( setAndGet( socketApi, "" ), int );
 }
 
 TEST_F( SocketReaderTests, ReadsOnSocketItReceives )
