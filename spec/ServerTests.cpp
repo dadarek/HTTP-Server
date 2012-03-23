@@ -9,20 +9,6 @@ class ServerTests
 
 };
 
-TEST( ServerTests, PassesPortRequestsToHandler ) 
-{
-  MockRequestHandler handler;  
-  MockConnectionReceiver receiver;
-
-  receiver.returnValues_[ 0 ] = 1;
-
-  Server server( receiver, handler );
-
-  server.start();
-
-  EXPECT_EQ( 1, handler.connectionsHandled_[ 0 ] );
-}
-
 TEST( ServerTests, ListensIndefinitely )
 {
   MockRequestHandler handler;  
@@ -35,9 +21,11 @@ TEST( ServerTests, ListensIndefinitely )
 
   Server server( receiver, handler );
 
-  server.start();
+  EXPECT_THROW( server.start(), TerminationException );
 
   EXPECT_EQ( 3, handler.connectionsHandled_[ 0 ] );
-
+  EXPECT_EQ( 8, handler.connectionsHandled_[ 1 ] );
+  EXPECT_EQ( 158, handler.connectionsHandled_[ 2 ] );
+  EXPECT_EQ( 1025, handler.connectionsHandled_[ 3 ] );
 }
 
