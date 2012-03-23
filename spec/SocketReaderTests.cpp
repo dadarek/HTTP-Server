@@ -5,7 +5,7 @@
 class SocketReaderTests
   : public ::testing::Test
 {
-  protected:
+  private:
     std::string setAndGet( const char* input )
     {
       MockSocketReadApi socketApi;
@@ -16,27 +16,27 @@ class SocketReaderTests
 
       return result;
     }
+
+  protected:
+    void testWithNBytes( int numberOfBytes )
+    {
+      std::string expected = std::string( numberOfBytes, '.' );
+      std::string actual = setAndGet( expected.c_str() );
+      ASSERT_EQ( expected, actual );
+    }
 };
 
-TEST_F( SocketReaderTests, ReadsEmptySocket )  
+TEST_F( SocketReaderTests, ReadsCorrectValues )  
 {
-  std::string actual = setAndGet( "" );
-  ASSERT_EQ( "", actual );
+  testWithNBytes( 0 );
+  testWithNBytes( 1 );
+  testWithNBytes( 2 );
+  testWithNBytes( 3 );
+  testWithNBytes( 255 );
+  testWithNBytes( 256 );
+  testWithNBytes( 257 );
+  testWithNBytes( 1000 * 1000 );
 }
-
-TEST_F( SocketReaderTests, ReadsSocketWith1Byte )  
-{
-  std::string actual = setAndGet( "x" );
-  ASSERT_EQ( "x", actual );
-}
-
-TEST_F( SocketReaderTests, ReadsSocketWithManyBytes )  
-{
-  std::string expected = std::string( 1000 * 1000, '.' );
-  std::string actual = setAndGet( expected.c_str() );
-  ASSERT_EQ( expected, actual );
-}
-
 
 //TODO: Throw exception when read returns -1
 //TODO: Throw exception when read returns -1

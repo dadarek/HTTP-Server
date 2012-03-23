@@ -14,7 +14,6 @@ std::string SocketReader::readToEnd( int socketFD )
   std::string result;
 
   std::string nextChunk;
-
   do
   {
     nextChunk = getNextChunk();
