@@ -1,23 +1,13 @@
-#include "RequestHandler.h"
+#include "MockRequestHandler.h"
 
-class MockRequestHandler
-  : public RequestHandler
+MockRequestHandler::MockRequestHandler()
+{ }
+
+MockRequestHandler::~MockRequestHandler()
+{ } 
+
+void MockRequestHandler::handle( int connection )
 {
-  private:
-    int requestsHandled_;
-
-  public:
-    MockRequestHandler()
-      : requestsHandled_( 0 )
-    { }
-
-    int requestsHandled()
-    {
-      return requestsHandled_;
-    }
-    void handle( int )
-    {
-      requestsHandled_++;
-    }
-};
+  throw 0;
+}
 

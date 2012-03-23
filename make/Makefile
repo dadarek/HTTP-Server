@@ -45,7 +45,7 @@ MOCKS_DIR = ${SPECS_DIR}/mocks
 all : ${TESTS}
 
 clean :
-	rm -f *.a *.o main *Test
+	rm -f *.a *.o main *Tests
 
 server : ServerTests
 	./ServerTests
@@ -93,27 +93,17 @@ gtest_main.a : gtest-all.o gtest_main.o
 # gtest_main.a, depending on whether it defines its own main()
 # function.
 
-GTestTest.o : $(USER_DIR)/lib/GTestTest.cpp $(USER_DIR)/lib/GTestTest.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/lib/GTestTest.cpp
+MockRequestHandler.o : ${MOCKS_DIR}/MockRequestHandler.cpp ${LIB_DIR}/RequestHandler.h
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${MOCKS_DIR}/MockRequestHandler.cpp
 
-GTestTest_unittest.o : $(USER_DIR)/spec/GTestTest_unittest.cpp \
-                   $(USER_DIR)/lib/GTestTest.h  $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I${HEADERS_DIR} -c $(USER_DIR)/spec/GTestTest_unittest.cpp
+MockInboundConnectionListener.o : ${MOCKS_DIR}/MockInboundConnectionListener.cpp ${LIB_DIR}/InboundConnectionListener.h
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${MOCKS_DIR}/MockInboundConnectionListener.cpp
 
-GTestTest_unittest : GTestTest.o GTestTest_unittest.o gtest_main.a
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
+Server.o : $(LIB_DIR)/Server.cpp $(LIB_DIR)/Server.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(LIB_DIR)/Server.cpp
 
-
-Server.o : $(USER_DIR)/lib/Server.cpp $(USER_DIR)/lib/Server.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/lib/Server.cpp
-
-ServerTests.o : $(USER_DIR)/spec/ServerTests.cpp \
-							$(USER_DIR)/lib/Server.h  $(GTEST_HEADERS) \
-              MockRequestHandler.o 
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I${HEADERS_DIR} -c $(USER_DIR)/spec/ServerTests.cpp
-
-MockRequestHandler.o : ${USER_DIR}/spec/mocks/MockRequestHandler.cpp ${USER_DIR}/lib/RequestHandler.h
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${USER_DIR}/spec/mocks/MockRequestHandler.cpp
+ServerTests.o : $(SPECS_DIR)/ServerTests.cpp Server.o MockInboundConnectionListener.o MockRequestHandler.o	
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I${HEADERS_DIR} -c $(SPECS_DIR)/ServerTests.cpp
 
 ServerTests : MockRequestHandler.o Server.o ServerTests.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
