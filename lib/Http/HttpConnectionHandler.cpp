@@ -8,5 +8,5 @@ HttpConnectionHandler::~HttpConnectionHandler()
 {
 }  
 
-void HttpConnectionHandler::handle( int connection )
+void HttpConnectionHandler::handle( int )
 { }
