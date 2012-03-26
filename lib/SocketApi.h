@@ -9,9 +9,6 @@ class SocketApi
     static const int ACCEPT_EXCEPTION = 3;
 
   public:
-    SocketApi() { }
-    virtual ~SocketApi() { }
-
     virtual int socket() = 0;
     virtual int bind( int socketFD, int portNumber ) = 0;
     virtual void listen( int socketFD ) = 0;
