@@ -11,6 +11,7 @@ struct MockFileInspector
   bool openReturnValue;
   bool sizeChecked;
   size_t sizeReturnValue;
+  size_t inputValueForRead;
 
   MockFileInspector()
     : closed( false )
@@ -19,6 +20,7 @@ struct MockFileInspector
     , openReturnValue( true )
     , sizeChecked( false )
     , sizeReturnValue( -1 )
+    , inputValueForRead( 0 )
   { }
 };
 

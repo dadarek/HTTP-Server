@@ -25,10 +25,9 @@ void MockFile::moveTo( size_t position )
 {
   throw 0;
 }
-
 void MockFile::read( char* buffer, size_t size )
 {
-  throw 0;
+  inspector_.inputValueForRead = size;
 }
 
 void MockFile::close()

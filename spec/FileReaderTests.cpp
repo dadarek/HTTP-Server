@@ -53,6 +53,14 @@ TEST_F( FileReaderTests, checksTheFileSize )
   EXPECT_EQ( true, factory_.inspector_.sizeChecked );
 }
 
+TEST_F( FileReaderTests, callsReadWithFullFileSize )
+{
+  factory_.inspector_.sizeReturnValue = (size_t) 100;
+  readToEnd( "" );
+
+  EXPECT_EQ( 100, (int) factory_.inspector_.inputValueForRead );
+}
+
 TEST_F( FileReaderTests, throwsIfFileDoesNotExist )
 {
   factory_.inspector_.openReturnValue = false;
@@ -61,4 +69,5 @@ TEST_F( FileReaderTests, throwsIfFileDoesNotExist )
 
 //TODO: Check open flags
 //TODO: Make sure it reads file in full
+//TODO: Delete MoveTo from File if it's not used
 //TODO: Make sure all interfaces have a virtual dtor
