@@ -19,5 +19,19 @@ TEST( HttpRequestParserTests, ParsesHeaders )
   delete request;
 }
 
+TEST( HttpRequestParserTests, ParsesHeaders2 )
+{
+  std::string requestString( "GET /AnotherUrl.html HTTP/1.1\r\nOtherHeaers");
+  HttpRequestParser parser;
+  HttpRequest* request = parser.parse( requestString );
+
+  ASSERT_EQ( "/AnotherUrl.html", request->url() );
+
+  delete request;
+}
+
 // TODO: Throw parse exceptions
+//
+// TODO: Handle encodings? maybe?
+//    At least handle spaces ...
 //
