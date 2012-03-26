@@ -5,29 +5,28 @@
 class HttpRequestParserTests
   : public testing::Test
 {
+  protected:
+    void parseAndAssert( std::string headers, std::string expectedUrl )
+    {
+      HttpRequestParser parser;
+      HttpRequest* request = parser.parse( headers );
 
+      ASSERT_EQ( expectedUrl, request->url() );
+
+      delete request;
+    }
 };
 
-TEST( HttpRequestParserTests, ParsesHeaders )
+TEST_F( HttpRequestParserTests, ParsesHeaders )
 {
-  std::string requestString( "GET /someUrl.ext HTTP/1.1\r\nSomeOtherHeaders\r\nMoreHeaders" );
-  HttpRequestParser parser;
-  HttpRequest* request = parser.parse( requestString );
-
-  ASSERT_EQ( "/someUrl.ext", request->url() );
-
-  delete request;
+  std::string headers( "GET /someUrl.ext HTTP/1.1\r\nSomeOtherHeaders\r\nMoreHeaders" );
+  parseAndAssert( headers, "/someUrl.ext" );
 }
 
-TEST( HttpRequestParserTests, ParsesHeaders2 )
+TEST_F( HttpRequestParserTests, ParsesHeaders2 )
 {
-  std::string requestString( "GET /AnotherUrl.html HTTP/1.1\r\nOtherHeaers");
-  HttpRequestParser parser;
-  HttpRequest* request = parser.parse( requestString );
-
-  ASSERT_EQ( "/AnotherUrl.html", request->url() );
-
-  delete request;
+  std::string headers( "GET /AnotherUrl.html HTTP/1.1\r\nOtherHeaers");
+  parseAndAssert( headers, "/AnotherUrl.html" );
 }
 
 // TODO: Throw parse exceptions
