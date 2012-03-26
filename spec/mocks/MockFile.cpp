@@ -11,7 +11,8 @@ MockFile::~MockFile()
 
 bool MockFile::isOpen()
 {
-  throw 0;
+  inspector_.checkedIfOpen = true;
+  return inspector_.openReturnValue;
 }
 
 size_t MockFile::size()

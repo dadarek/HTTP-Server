@@ -7,10 +7,14 @@ struct MockFileInspector
 {
   bool closed;
   bool destroyed;
+  bool checkedIfOpen;
+  bool openReturnValue;
 
   MockFileInspector()
     : closed( false )
     , destroyed ( false )
+    , checkedIfOpen( false )
+    , openReturnValue( true )
   { }
 };
 

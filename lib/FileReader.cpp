@@ -15,12 +15,13 @@ std::string FileReader::readToEnd( const std::string path )
 {
   File* file = factory_.open( path.c_str(), (std::ios_base::openmode) 0 );
   file->close();
+  
+  if( !file->isOpen() )
+    throw FILE_NOT_FOUND_EXCEPTION;
 
   fileApi_.open( path.c_str() );
   fileApi_.close();
   
-  if( ! fileApi_.is_open() )
-    throw FILE_NOT_FOUND_EXCEPTION;
 
   while( fileApi_.good() ) { }
 

@@ -34,21 +34,19 @@ TEST_F( FileReaderTests, closesFile )
 {
   std::string path( "SomePath" );
   readToEnd( "" );
-
   EXPECT_EQ( true, factory_.inspector_.closed );
 }
 
-TEST_F( FileReaderTests, checksIfOpenAndGood )  
+TEST_F( FileReaderTests, checksIfFileOpened )
 {
   readToEnd( "" );
-  EXPECT_EQ( true, fileApi_.isOpenCalled_ );
-  EXPECT_EQ( true, fileApi_.isGoodCalled_ );
+  EXPECT_EQ( true, factory_.inspector_.checkedIfOpen );
 }
 
 
 TEST_F( FileReaderTests, throwsIfFileDoesNotExist )
 {
-  fileApi_.isOpenReturnValue_ = false;
+  factory_.inspector_.openReturnValue = false;
   EXPECT_THROW( readToEnd( "SomePath"), int );
 }
 
