@@ -1,8 +1,10 @@
 #include "MockFileApi.h"
 
 MockFileApi::MockFileApi()
-  : opened_( false )
-  , closed_( false )
+  : openCalled_( false )
+  , closeCalled_( false )
+  , isOpenCalled_( false )
+  , isGoodCalled_( false )
 { }
 
 MockFileApi::~MockFileApi()
@@ -11,16 +13,22 @@ MockFileApi::~MockFileApi()
 void MockFileApi::open( const char* path )
 { 
   path_ = std::string( path );
-  opened_ = true;
+  openCalled_ = true;
 }
 
 bool MockFileApi::is_open()
-{ throw 0; }
+{
+  isOpenCalled_ = true;
+  return false;
+}
 
 bool MockFileApi::good()
-{ throw 0; }
+{
+  isGoodCalled_ = true;
+  return false;
+}
 
 void MockFileApi::close()
 {
-  closed_ = true;
+  closeCalled_ = true;
 }

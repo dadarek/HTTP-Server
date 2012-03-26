@@ -8,8 +8,11 @@ class MockFileApi
   : public FileApi
 {
   public:
-    bool opened_;
-    bool closed_;
+    bool openCalled_;
+    bool closeCalled_;
+    bool isOpenCalled_;
+    bool isGoodCalled_;
+
     std::string path_;
 
     MockFileApi();

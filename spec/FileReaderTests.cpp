@@ -24,7 +24,7 @@ TEST_F( FileReaderTests, opensRequestedFile )
   std::string path( "SomePath" );
   readToEnd( path );
 
-  EXPECT_EQ( true, fileApi_.opened_ );
+  EXPECT_EQ( true, fileApi_.openCalled_ );
   EXPECT_EQ( path, fileApi_.path_ );
 }
 
@@ -33,6 +33,22 @@ TEST_F( FileReaderTests, closesFile )
   std::string path( "SomePath" );
   readToEnd( "" );
 
-  EXPECT_EQ( true, fileApi_.closed_ );
+  EXPECT_EQ( true, fileApi_.closeCalled_ );
 }
 
+TEST_F( FileReaderTests, checksIfOpenAndGood )  
+{
+  readToEnd( "" );
+  EXPECT_EQ( true, fileApi_.isOpenCalled_ );
+  EXPECT_EQ( true, fileApi_.isGoodCalled_ );
+}
+
+/*
+TEST_F( FileReaderTests, throwsIfFileDoesNotExist )
+
+/*
+TEST_F( FileReaderTests, throwsIfFileDoesNotExist )
+{
+  EXPECT_THROW( readToEnd( "InvalidPath"), int );
+}
+*/

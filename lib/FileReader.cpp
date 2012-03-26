@@ -12,6 +12,9 @@ std::string FileReader::readToEnd( const std::string path )
 {
   fileApi_.open( path.c_str() );
   fileApi_.close();
+  fileApi_.is_open();
+  fileApi_.good();
+
   return "";
 }
 
