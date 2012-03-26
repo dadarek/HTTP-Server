@@ -6,12 +6,33 @@ class FileReaderTests
   : public ::testing::Test
 {
   protected:
+    MockFileApi fileApi_;
+    FileReader reader_;
 
+    FileReaderTests()
+      : reader_( fileApi_ )
+    { }
+
+    std::string readToEnd( std::string path )
+    {
+      return reader_.readToEnd( path );
+    }
 };
 
-TEST_F( FileReaderTests, Compiles )  
+TEST_F( FileReaderTests, opensRequestedFile )  
 {
-  MockFileApi fileApi;
-  FileReader fileReader( fileApi );
+  std::string path( "SomePath" );
+  readToEnd( path );
+
+  EXPECT_EQ( true, fileApi_.opened_ );
+  EXPECT_EQ( path, fileApi_.path_ );
+}
+
+TEST_F( FileReaderTests, closesFile )  
+{
+  std::string path( "SomePath" );
+  readToEnd( "" );
+
+  EXPECT_EQ( true, fileApi_.closed_ );
 }
 
