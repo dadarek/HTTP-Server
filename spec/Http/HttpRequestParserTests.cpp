@@ -37,12 +37,20 @@ TEST_F( HttpRequestParserTests, ParsesHeaders2 )
 
 TEST_F( HttpRequestParserTests, ThrowsException )
 {
-  std::string headers( "Some invalid headers" );
-  EXPECT_THROW( parse( headers ), int );
+  EXPECT_THROW( parse( "Some Invalid Header" ), int );
+  EXPECT_THROW( parse( "GET IncompleteHeader" ), int );
+  EXPECT_THROW( parse( "GET BuggyHeaderHTTP/1.1\r\nOtherHeaders: Well Formatted\r\n" ), int );
 }
 
-// TODO: Throw parse exceptions
-//
-// TODO: Handle encodings? maybe?
-//    At least handle spaces ...
-//
+TEST_F( HttpRequestParserTests, HandlesSpaces )
+{
+  std::string headers( "GET /Some Url with spaces.html HTTP/1.1\r\nOther Headers" );
+  parseAndAssert( headers, "/Some Url with spaces.html" );
+}
+
+TEST_F( HttpRequestParserTests, HandlesEncodings )
+{
+  std::string headers( "GET /Look%20Space HTTP/1.1\r\nOther Headers" );
+  parseAndAssert( headers, "/Look%20Space" );
+}
+
