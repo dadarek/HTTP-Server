@@ -34,8 +34,8 @@ server : ServerTests
 icl : SocketConnectionReceiverTests
 	./SocketConnectionReceiverTests
 
-echo : EchoRequestHandlerTests
-	./EchoRequestHandlerTests
+echo : HttpConnectionHandlerTests
+	./HttpConnectionHandlerTests
 
 reader : SocketReaderTests
 	./SocketReaderTests
@@ -95,14 +95,14 @@ SocketConnectionReceiverTests : MockSocketAPI.o SocketConnectionReceiver.o Socke
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
 
-EchoRequestHandler.o : ${LIB_DIR}/EchoRequestHandler.cpp \
-	${HEADERS_DIR}/EchoRequestHandler.h ${HEADERS_DIR}/SocketAPI.h
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${LIB_DIR}/EchoRequestHandler.cpp
+HttpConnectionHandler.o : ${LIB_DIR}/HttpConnectionHandler.cpp ${HEADERS_DIR}/HttpConnectionHandler.h 
+	
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${LIB_DIR}/HttpConnectionHandler.cpp
 
-EchoRequestHandlerTests.o : ${SPECS_DIR}/EchoRequestHandlerTests.cpp MockSocketAPI.o
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${SPECS_DIR}/EchoRequestHandlerTests.cpp
+HttpConnectionHandlerTests.o : ${SPECS_DIR}/HttpConnectionHandlerTests.cpp 
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${SPECS_DIR}/HttpConnectionHandlerTests.cpp
 
-EchoRequestHandlerTests: MockSocketAPI.o EchoRequestHandler.o EchoRequestHandlerTests.o gtest_main.a
+HttpConnectionHandlerTests: HttpConnectionHandler.o HttpConnectionHandlerTests.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 	
 

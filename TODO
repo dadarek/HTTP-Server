@@ -7,3 +7,5 @@
 
 - Give better names to test functions (i.e. ThrowsExceptionWhenBindReturnsError
 
+- Separate out SocketApi into SocketIOApi and SocketConnectionAPI?  Maybe?
+
