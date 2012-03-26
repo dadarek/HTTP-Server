@@ -29,6 +29,14 @@ TEST_F( HttpRequestParserTests, ParsesHeaders2 )
   parseAndAssert( headers, "/AnotherUrl.html" );
 }
 
+TEST_F( HttpRequestParserTests, ThrowsException )
+{
+  std::string headers( "Some invalid headers" );
+  HttpRequestParser parser;
+
+  EXPECT_THROW( parser.parse( headers ), int );
+}
+
 // TODO: Throw parse exceptions
 //
 // TODO: Handle encodings? maybe?
