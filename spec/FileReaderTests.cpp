@@ -35,12 +35,17 @@ TEST_F( FileReaderTests, closesFile )
   EXPECT_EQ( true, factory_.inspector_.closed );
 }
 
+TEST_F( FileReaderTests, destroysFile )  
+{
+  readToEnd( "" );
+  EXPECT_EQ( true, factory_.inspector_.destroyed );
+}
+
 TEST_F( FileReaderTests, checksIfFileOpened )
 {
   readToEnd( "" );
   EXPECT_EQ( true, factory_.inspector_.checkedIfOpen );
 }
-
 
 TEST_F( FileReaderTests, throwsIfFileDoesNotExist )
 {
@@ -51,3 +56,4 @@ TEST_F( FileReaderTests, throwsIfFileDoesNotExist )
 //TODO: Check if file was deleted
 //TODO: Check open flags
 //TODO: Make sure it reads file in full
+//TODO: Make sure all interfaces have a virtual dtor
