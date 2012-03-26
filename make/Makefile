@@ -136,8 +136,8 @@ HttpRequestTests: HttpRequest.o HttpRequestTests.o gtest_main.a
 HttpRequestParser.o : ${LIB_DIR}/Http/HttpRequestParser.cpp	${HEADERS_DIR}/Http/HttpRequestParser.h HttpRequest.o
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${LIB_DIR}/Http/HttpRequestParser.cpp
 
-HttpRequestParserTests.o : ${SPECS_DIR}/Http/HttpRequestParserTests.cpp HttpRequestParser.o
+HttpRequestParserTests.o : ${SPECS_DIR}/Http/HttpRequestParserTests.cpp HttpRequestParser.o HttpRequest.o
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${SPECS_DIR}/Http/HttpRequestParserTests.cpp
 
-HttpRequestParserTests: HttpRequestParser.o HttpRequestParserTests.o gtest_main.a
+HttpRequestParserTests: HttpRequestParser.o HttpRequestParserTests.o HttpRequest.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
