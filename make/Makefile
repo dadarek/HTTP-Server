@@ -19,7 +19,7 @@ CXXFLAGS += -g -Wall -Wextra
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-TESTS = server icl echo reader
+TESTS = server icl httpHandler reader
 
 
 # Targets
@@ -34,7 +34,7 @@ server : ServerTests
 icl : SocketConnectionReceiverTests
 	./SocketConnectionReceiverTests
 
-echo : HttpConnectionHandlerTests
+httpHandler : HttpConnectionHandlerTests
 	./HttpConnectionHandlerTests
 
 reader : SocketReaderTests
@@ -95,12 +95,11 @@ SocketConnectionReceiverTests : MockSocketAPI.o SocketConnectionReceiver.o Socke
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
 
-HttpConnectionHandler.o : ${LIB_DIR}/HttpConnectionHandler.cpp ${HEADERS_DIR}/HttpConnectionHandler.h 
-	
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${LIB_DIR}/HttpConnectionHandler.cpp
+HttpConnectionHandler.o : ${LIB_DIR}/Http/HttpConnectionHandler.cpp ${HEADERS_DIR}/Http/HttpConnectionHandler.h 
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${LIB_DIR}/Http/HttpConnectionHandler.cpp
 
-HttpConnectionHandlerTests.o : ${SPECS_DIR}/HttpConnectionHandlerTests.cpp 
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${SPECS_DIR}/HttpConnectionHandlerTests.cpp
+HttpConnectionHandlerTests.o : ${SPECS_DIR}/Http/HttpConnectionHandlerTests.cpp 
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${SPECS_DIR}/Http/HttpConnectionHandlerTests.cpp
 
 HttpConnectionHandlerTests: HttpConnectionHandler.o HttpConnectionHandlerTests.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
