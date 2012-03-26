@@ -7,6 +7,9 @@ class FileApi;
 
 class FileReader
 {
+  public:
+    static const int FILE_NOT_FOUND_EXCEPTION = 1;
+
   private:
     FileApi& fileApi_;
 

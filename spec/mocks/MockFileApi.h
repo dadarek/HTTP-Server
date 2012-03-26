@@ -13,6 +13,9 @@ class MockFileApi
     bool isOpenCalled_;
     bool isGoodCalled_;
 
+    bool isOpenReturnValue_;
+    int timesGoodShouldReturnTrue_;
+
     std::string path_;
 
     MockFileApi();

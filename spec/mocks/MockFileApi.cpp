@@ -5,6 +5,8 @@ MockFileApi::MockFileApi()
   , closeCalled_( false )
   , isOpenCalled_( false )
   , isGoodCalled_( false )
+  , isOpenReturnValue_( true )
+  , timesGoodShouldReturnTrue_( 0 )
 { }
 
 MockFileApi::~MockFileApi()
@@ -19,13 +21,13 @@ void MockFileApi::open( const char* path )
 bool MockFileApi::is_open()
 {
   isOpenCalled_ = true;
-  return false;
+  return isOpenReturnValue_;
 }
 
 bool MockFileApi::good()
 {
   isGoodCalled_ = true;
-  return false;
+  return 0 < timesGoodShouldReturnTrue_--;
 }
 
 void MockFileApi::close()

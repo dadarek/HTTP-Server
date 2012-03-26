@@ -43,12 +43,17 @@ TEST_F( FileReaderTests, checksIfOpenAndGood )
   EXPECT_EQ( true, fileApi_.isGoodCalled_ );
 }
 
-/*
-TEST_F( FileReaderTests, throwsIfFileDoesNotExist )
 
-/*
 TEST_F( FileReaderTests, throwsIfFileDoesNotExist )
 {
-  EXPECT_THROW( readToEnd( "InvalidPath"), int );
+  fileApi_.isOpenReturnValue_ = false;
+  EXPECT_THROW( readToEnd( "SomePath"), int );
 }
-*/
+
+TEST_F( FileReaderTests, ReadsUntilGoodReturnsFalse )
+{
+  fileApi_.timesGoodShouldReturnTrue_ = 5;
+  readToEnd( "Some Path" );
+
+  ASSERT_EQ( -1, fileApi_.timesGoodShouldReturnTrue_ );
+}
