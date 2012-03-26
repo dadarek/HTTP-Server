@@ -2,8 +2,13 @@
 GTEST_DIR = ../gtest
 
 PROJECT_ROOT = ..
+
 HEADERS_DIR = ${PROJECT_ROOT}/lib
+HTTP_HEADERS_DIR = ${HEADERS_DIR}/Http
+
 LIB_DIR = ${PROJECT_ROOT}/lib
+HTTP_LIB_DIR = ${LIB_DIR}/Http
+
 SPECS_DIR = ${PROJECT_ROOT}/spec
 MOCKS_DIR = ${SPECS_DIR}/mocks
 
@@ -47,7 +52,7 @@ request: HttpRequestTests
 	./HttpRequestTests
 
 main : 
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread ${PROJECT_ROOT}/lib/*.cpp -o main
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread -I${HEADERS_DIR} -I${HTTP_HEADERS_DIR} ${LIB_DIR}/*.cpp ${HTTP_LIB_DIR}/*.cpp -o main
 	rm -r main.dSYM
 	./main
 
@@ -101,11 +106,11 @@ SocketConnectionReceiverTests : MockSocketAPI.o SocketConnectionReceiver.o Socke
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
 
-HttpConnectionHandler.o : ${LIB_DIR}/Http/HttpConnectionHandler.cpp ${HEADERS_DIR}/Http/HttpConnectionHandler.h 
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${LIB_DIR}/Http/HttpConnectionHandler.cpp
+HttpConnectionHandler.o : ${HTTP_LIB_DIR}/HttpConnectionHandler.cpp ${HTTP_HEADERS_DIR}/HttpConnectionHandler.h 
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${HTTP_LIB_DIR}/HttpConnectionHandler.cpp
 
 HttpConnectionHandlerTests.o : ${SPECS_DIR}/Http/HttpConnectionHandlerTests.cpp 
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${SPECS_DIR}/Http/HttpConnectionHandlerTests.cpp
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -I ${HTTP_HEADERS_DIR} -c ${SPECS_DIR}/Http/HttpConnectionHandlerTests.cpp
 
 HttpConnectionHandlerTests: HttpConnectionHandler.o HttpConnectionHandlerTests.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
@@ -124,7 +129,7 @@ SocketReaderTests.o : ${SPECS_DIR}/SocketReaderTests.cpp MockSocketReadAPI.o
 SocketReaderTests: MockSocketReadAPI.o SocketReader.o SocketReaderTests.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
-HttpRequest.o : ${LIB_DIR}/Http/HttpRequest.cpp ${HEADERS_DIR}/Http/HttpRequest.h
+HttpRequest.o : ${HTTP_LIB_DIR}/HttpRequest.cpp ${HTTP_HEADERS_DIR}/HttpRequest.h
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${LIB_DIR}/Http/HttpRequest.cpp
 
 HttpRequestTests.o : ${SPECS_DIR}/Http/HttpRequestTests.cpp HttpRequest.o
@@ -133,8 +138,8 @@ HttpRequestTests.o : ${SPECS_DIR}/Http/HttpRequestTests.cpp HttpRequest.o
 HttpRequestTests: HttpRequest.o HttpRequestTests.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
-HttpRequestParser.o : ${LIB_DIR}/Http/HttpRequestParser.cpp	${HEADERS_DIR}/Http/HttpRequestParser.h HttpRequest.o
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${LIB_DIR}/Http/HttpRequestParser.cpp
+HttpRequestParser.o : ${HTTP_LIB_DIR}/HttpRequestParser.cpp	${HTTP_HEADERS_DIR}/HttpRequestParser.h HttpRequest.o
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${HTTP_LIB_DIR}/HttpRequestParser.cpp
 
 HttpRequestParserTests.o : ${SPECS_DIR}/Http/HttpRequestParserTests.cpp HttpRequestParser.o HttpRequest.o
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${SPECS_DIR}/Http/HttpRequestParserTests.cpp

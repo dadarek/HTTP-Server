@@ -1,5 +1,4 @@
 #include "HttpConnectionHandler.h"
-#include "SocketApi.h"
 
 HttpConnectionHandler::HttpConnectionHandler( )
 { 

@@ -5,6 +5,8 @@
 #include "RawSocketApi.h"
 #include "SocketReader.h"
 #include "SocketConnectionReceiver.h"
+#include "Http/HttpRequestParser.h"
+#include "Http/HttpRequest.h"
 
 int a()
 {
@@ -18,8 +20,15 @@ int a()
 
     printf("Received connection: %d\n\n", nextConnection );
 
-    std::string request = reader.readToEnd( nextConnection, "\r\n\r\n" );
-    printf("Request message: %s\n", request.c_str() );
+    std::string requestHeaders = reader.readToEnd( nextConnection, "\r\n\r\n" );
+    HttpRequestParser parser;
+    HttpRequest* request = parser.parse( requestHeaders );
+    std::string url = request->url();
+    delete request;
+
+
+    printf("Url: %s\n", url.c_str() );
+    printf("ALL HEADERS\n--------\n%s\n", requestHeaders.c_str() );
 
     write(nextConnection, "I got your stuffing...", 22);
 
