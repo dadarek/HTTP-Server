@@ -3,6 +3,7 @@
 
 #include "FileFactory.h"
 #include "MockFile.h"
+#include "iostream"
 
 class File;
 
@@ -12,6 +13,7 @@ class MockFileFactory
   public:
     bool openCalled_;
     std::string path_;
+    std::ios_base::openmode openmode_;
 
     MockFileInspector inspector_;
 

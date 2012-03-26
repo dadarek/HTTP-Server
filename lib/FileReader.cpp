@@ -11,7 +11,10 @@ FileReader::~FileReader()
 
 std::string FileReader::readToEnd( const std::string path )
 {
-  File* file = factory_.open( path.c_str(), (std::ios_base::openmode) 0 );
+  std::ios_base::openmode openMode =
+     std::ios::in | std::ios::ate | std::ios::binary;
+
+  File* file = factory_.open( path.c_str(), openMode );
   file->close();
   
   if( !file->isOpen() )

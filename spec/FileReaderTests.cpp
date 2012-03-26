@@ -74,7 +74,35 @@ TEST_F( FileReaderTests, returnsCharactersWrittenToItsBuffer )
   EXPECT_EQ( "Hello", readToEnd( "x" ) );
 }
 
+TEST_F( FileReaderTests, opensFileForReading )
+{
+  readToEnd( "" );
+  std::ios_base::openmode expected = std::ios::in;
+  std::ios_base::openmode actual = std::ios::in & factory_.openmode_;
+
+  EXPECT_EQ( expected, actual );
+}
+
+TEST_F( FileReaderTests, opensFileAtEnd )
+{
+  readToEnd( "" );
+  std::ios_base::openmode expected = std::ios::ate;
+  std::ios_base::openmode actual = std::ios::ate & factory_.openmode_;
+
+  EXPECT_EQ( expected, actual );
+}
+
+TEST_F( FileReaderTests, opensFileAsBinary )
+{
+  readToEnd( "" );
+  std::ios_base::openmode expected = std::ios::binary;
+  std::ios_base::openmode actual = std::ios::binary & factory_.openmode_;
+
+  EXPECT_EQ( expected, actual );
+}
+
 //TODO: Check open flags
 //TODO: Delete MoveTo from File if it's not used
 //TODO: Make sure all interfaces have a virtual dtor
 //TODO: FileReader should probably return char[] instead of string
+//TODO: Pull inspector out of factory.
