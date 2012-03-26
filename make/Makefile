@@ -19,7 +19,7 @@ CXXFLAGS += -g -Wall -Wextra
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-TESTS = server icl httpHandler reader
+TESTS = server icl httpHandler reader parser
 
 
 # Targets
@@ -39,6 +39,9 @@ httpHandler : HttpConnectionHandlerTests
 
 reader : SocketReaderTests
 	./SocketReaderTests
+
+parser: HttpRequestParserTests
+	./HttpRequestParserTests
 
 main : 
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread ${PROJECT_ROOT}/lib/*.cpp -o main
@@ -116,4 +119,14 @@ SocketReaderTests.o : ${SPECS_DIR}/SocketReaderTests.cpp MockSocketReadAPI.o
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${SPECS_DIR}/SocketReaderTests.cpp
 
 SocketReaderTests: MockSocketReadAPI.o SocketReader.o SocketReaderTests.o gtest_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
+
+
+HttpRequestParser.o : ${LIB_DIR}/Http/HttpRequestParser.cpp	${HEADERS_DIR}/Http/HttpRequestParser.h
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${LIB_DIR}/Http/HttpRequestParser.cpp
+
+HttpRequestParserTests.o : ${SPECS_DIR}/Http/HttpRequestParserTests.cpp HttpRequestParser.o
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -I${HEADERS_DIR} -c ${SPECS_DIR}/Http/HttpRequestParserTests.cpp
+
+HttpRequestParserTests: HttpRequestParser.o HttpRequestParserTests.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
