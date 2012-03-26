@@ -3,11 +3,24 @@
 
 #include "File.h"
 
+struct MockFileInspector
+{
+  bool closed;
+  bool destroyed;
+
+  MockFileInspector()
+    : closed( false )
+    , destroyed ( false )
+  { }
+};
+
 class MockFile
   : public File
 {
   public:
-    MockFile();
+    MockFileInspector& inspector_;
+
+    MockFile( MockFileInspector& inspector );
     virtual ~MockFile();
 
     bool isOpen();

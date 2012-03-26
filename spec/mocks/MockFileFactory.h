@@ -2,13 +2,19 @@
 #define MOCK_FILE_FACTORY_H
 
 #include "FileFactory.h"
+#include "MockFile.h"
 
 class File;
 
 class MockFileFactory
-  : FileFactory
+  : public FileFactory
 {
   public:
+    bool openCalled_;
+    std::string path_;
+
+    MockFileInspector inspector_;
+
     MockFileFactory();
     virtual ~MockFileFactory();
 

@@ -1,10 +1,13 @@
 #include "MockFile.h"
 
-MockFile::MockFile()
+MockFile::MockFile( MockFileInspector& inspector )
+  : inspector_( inspector )
 { }
 
 MockFile::~MockFile()
-{ }
+{ 
+  inspector_.destroyed = true;
+}
 
 bool MockFile::isOpen()
 {
@@ -28,6 +31,6 @@ void MockFile::read( char* buffer, size_t size )
 
 void MockFile::close()
 {
-  throw 0;
+  inspector_.closed = true;
 }
 

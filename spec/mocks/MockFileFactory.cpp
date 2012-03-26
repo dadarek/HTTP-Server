@@ -7,8 +7,10 @@ MockFileFactory::MockFileFactory()
 MockFileFactory::~MockFileFactory()
 { }
 
-File* MockFileFactory::open( const char*, std::ios_base::openmode )
+File* MockFileFactory::open( const char* path, std::ios_base::openmode )
 {
-  return new MockFile();
+  openCalled_ = true;
+  path_ = std::string( path );
+  return new MockFile( inspector_ );
 }
 
