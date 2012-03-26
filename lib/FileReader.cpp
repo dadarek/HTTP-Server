@@ -18,10 +18,14 @@ std::string FileReader::readToEnd( const std::string path )
     throw FILE_NOT_FOUND_EXCEPTION;
 
   size_t fileSize = file->size();
-  file->read( 0, fileSize );
+  char* buffer = new char[ fileSize ];
+  file->read( buffer, fileSize );
+
+  std::string result( buffer );
+  delete[] buffer;
 
   delete file;
 
-  return "";
+  return result;
 }
 

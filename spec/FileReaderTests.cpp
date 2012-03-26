@@ -67,7 +67,14 @@ TEST_F( FileReaderTests, throwsIfFileDoesNotExist )
   EXPECT_THROW( readToEnd( "SomePath"), int );
 }
 
+TEST_F( FileReaderTests, returnsCharactersWrittenToItsBuffer )
+{
+  factory_.inspector_.sizeReturnValue = (size_t) 6;
+  strcpy( factory_.inspector_.buffer, "Hello" );
+  EXPECT_EQ( "Hello", readToEnd( "x" ) );
+}
+
 //TODO: Check open flags
-//TODO: Make sure it reads file in full
 //TODO: Delete MoveTo from File if it's not used
 //TODO: Make sure all interfaces have a virtual dtor
+//TODO: FileReader should probably return char[] instead of string

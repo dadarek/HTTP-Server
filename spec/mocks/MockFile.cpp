@@ -1,5 +1,7 @@
 #include "MockFile.h"
 
+#include <iostream>
+
 MockFile::MockFile( MockFileInspector& inspector )
   : inspector_( inspector )
 { }
@@ -28,6 +30,7 @@ void MockFile::moveTo( size_t position )
 void MockFile::read( char* buffer, size_t size )
 {
   inspector_.inputValueForRead = size;
+  strcpy( buffer, inspector_.buffer );
 }
 
 void MockFile::close()

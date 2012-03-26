@@ -12,6 +12,7 @@ struct MockFileInspector
   bool sizeChecked;
   size_t sizeReturnValue;
   size_t inputValueForRead;
+  char buffer[100];
 
   MockFileInspector()
     : closed( false )
@@ -19,9 +20,11 @@ struct MockFileInspector
     , checkedIfOpen( false )
     , openReturnValue( true )
     , sizeChecked( false )
-    , sizeReturnValue( -1 )
+    , sizeReturnValue( 0 )
     , inputValueForRead( 0 )
-  { }
+  { 
+    buffer[0] = '\0';
+  }
 };
 
 class MockFile
