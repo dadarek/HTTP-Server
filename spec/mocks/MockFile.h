@@ -9,12 +9,16 @@ struct MockFileInspector
   bool destroyed;
   bool checkedIfOpen;
   bool openReturnValue;
+  bool sizeChecked;
+  size_t sizeReturnValue;
 
   MockFileInspector()
     : closed( false )
     , destroyed ( false )
     , checkedIfOpen( false )
     , openReturnValue( true )
+    , sizeChecked( false )
+    , sizeReturnValue( -1 )
   { }
 };
 

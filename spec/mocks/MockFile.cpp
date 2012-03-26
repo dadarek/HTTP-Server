@@ -17,7 +17,8 @@ bool MockFile::isOpen()
 
 size_t MockFile::size()
 {
-  throw 0;
+  inspector_.sizeChecked = true;
+  return inspector_.sizeReturnValue;
 }
 
 void MockFile::moveTo( size_t position )

@@ -17,7 +17,7 @@ std::string FileReader::readToEnd( const std::string path )
   if( !file->isOpen() )
     throw FILE_NOT_FOUND_EXCEPTION;
 
-  printf("about to delete\n");
+  file->size();
 
   delete file;
 
