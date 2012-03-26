@@ -6,14 +6,20 @@ class HttpRequestParserTests
   : public testing::Test
 {
   protected:
-    void parseAndAssert( std::string headers, std::string expectedUrl )
+    std::string parse( std::string headers )
     {
       HttpRequestParser parser;
+      
       HttpRequest* request = parser.parse( headers );
-
-      ASSERT_EQ( expectedUrl, request->url() );
-
+      std::string url = request->url();
       delete request;
+      
+      return url;
+    }
+
+    void parseAndAssert( std::string headers, std::string expectedUrl )
+    {
+      ASSERT_EQ( expectedUrl, parse( headers ) );
     }
 };
 
@@ -32,9 +38,7 @@ TEST_F( HttpRequestParserTests, ParsesHeaders2 )
 TEST_F( HttpRequestParserTests, ThrowsException )
 {
   std::string headers( "Some invalid headers" );
-  HttpRequestParser parser;
-
-  EXPECT_THROW( parser.parse( headers ), int );
+  EXPECT_THROW( parse( headers ), int );
 }
 
 // TODO: Throw parse exceptions
