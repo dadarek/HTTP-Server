@@ -17,6 +17,13 @@ class FileReaderTests
     {
       return reader_.readToEnd( path );
     }
+
+    void ensureFileOpensAs( std::ios_base::openmode mode )
+    {
+      readToEnd( "" );
+      std::ios_base::openmode actual = mode & factory_.openmode_;
+      EXPECT_EQ( mode, actual );
+    }
 };
 
 TEST_F( FileReaderTests, opensRequestedFile )  
@@ -76,29 +83,17 @@ TEST_F( FileReaderTests, returnsCharactersWrittenToItsBuffer )
 
 TEST_F( FileReaderTests, opensFileForReading )
 {
-  readToEnd( "" );
-  std::ios_base::openmode expected = std::ios::in;
-  std::ios_base::openmode actual = std::ios::in & factory_.openmode_;
-
-  EXPECT_EQ( expected, actual );
+  ensureFileOpensAs( std::ios::in );
 }
 
 TEST_F( FileReaderTests, opensFileAtEnd )
 {
-  readToEnd( "" );
-  std::ios_base::openmode expected = std::ios::ate;
-  std::ios_base::openmode actual = std::ios::ate & factory_.openmode_;
-
-  EXPECT_EQ( expected, actual );
+  ensureFileOpensAs( std::ios::ate );
 }
 
 TEST_F( FileReaderTests, opensFileAsBinary )
 {
-  readToEnd( "" );
-  std::ios_base::openmode expected = std::ios::binary;
-  std::ios_base::openmode actual = std::ios::binary & factory_.openmode_;
-
-  EXPECT_EQ( expected, actual );
+  ensureFileOpensAs( std::ios::binary );
 }
 
 //TODO: Check open flags
