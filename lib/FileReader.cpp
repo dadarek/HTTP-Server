@@ -1,11 +1,9 @@
 #include "FileReader.h"
-#include "FileApi.h"
 #include "File.h"
 #include "FileFactory.h"
 
-FileReader::FileReader( FileApi& fileApi, FileFactory& factory )
-  : fileApi_( fileApi )
-  , factory_( factory )
+FileReader::FileReader( FileFactory& factory )
+  : factory_( factory )
 { }
 
 FileReader::~FileReader()
@@ -18,12 +16,6 @@ std::string FileReader::readToEnd( const std::string path )
   
   if( !file->isOpen() )
     throw FILE_NOT_FOUND_EXCEPTION;
-
-  fileApi_.open( path.c_str() );
-  fileApi_.close();
-  
-
-  while( fileApi_.good() ) { }
 
   return "";
 }

@@ -1,18 +1,16 @@
 #include "gtest/gtest.h"
 #include "FileReader.h"
-#include "mocks/MockFileApi.h"
 #include "mocks/MockFileFactory.h"
 
 class FileReaderTests
   : public ::testing::Test
 {
   protected:
-    MockFileApi fileApi_;
     MockFileFactory factory_;
     FileReader reader_;
 
     FileReaderTests()
-      : reader_( fileApi_, factory_ )
+      : reader_( factory_ )
     { }
 
     std::string readToEnd( std::string path )
@@ -50,13 +48,6 @@ TEST_F( FileReaderTests, throwsIfFileDoesNotExist )
   EXPECT_THROW( readToEnd( "SomePath"), int );
 }
 
-TEST_F( FileReaderTests, ReadsUntilGoodReturnsFalse )
-{
-  fileApi_.timesGoodShouldReturnTrue_ = 5;
-  readToEnd( "Some Path" );
-
-  ASSERT_EQ( -1, fileApi_.timesGoodShouldReturnTrue_ );
-}
-
 //TODO: Check if file was deleted
 //TODO: Check open flags
+//TODO: Make sure it reads file in full
