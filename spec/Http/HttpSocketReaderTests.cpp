@@ -1,8 +1,8 @@
 #include "gtest/gtest.h"
-#include "SocketReader.h"
-#include "mocks/MockSocketReadApi.h"
+#include "HttpSocketReader.h"
+#include "MockSocketReadApi.h"
 
-class SocketReaderTests
+class HttpSocketReaderTests
   : public ::testing::Test
 {
   protected:
@@ -10,7 +10,7 @@ class SocketReaderTests
 
     std::string setAndGet( MockSocketReadApi& socketApi, const char* input )
     {
-      SocketReader reader( socketApi );
+      HttpSocketReader reader( socketApi );
 
       socketApi.sourceBuffer_ = input;
       std::string result = reader.readToEnd( -1, STREAM_TERMINATOR );
@@ -33,9 +33,9 @@ class SocketReaderTests
     }
 };
 
-const char* const SocketReaderTests::STREAM_TERMINATOR = "\n\n";
+const char* const HttpSocketReaderTests::STREAM_TERMINATOR = "\n\n";
 
-TEST_F( SocketReaderTests, ReadsCorrectValues )  
+TEST_F( HttpSocketReaderTests, ReadsCorrectValues )  
 {
   testWithNBytes( 0 );
   testWithNBytes( 1 );
@@ -49,19 +49,19 @@ TEST_F( SocketReaderTests, ReadsCorrectValues )
   testWithNBytes( 1000 * 1000 );
 }
 
-TEST_F( SocketReaderTests, ThrowsExceptionOnErrorRead )  
+TEST_F( HttpSocketReaderTests, ThrowsExceptionOnErrorRead )  
 {
   MockSocketReadApi socketApi;
   socketApi.returnErrorOnRead_ = true;
   ASSERT_THROW( setAndGet( socketApi, "" ), int );
 }
 
-TEST_F( SocketReaderTests, ReadsOnSocketItReceives )
+TEST_F( HttpSocketReaderTests, ReadsOnSocketItReceives )
 {
   MockSocketReadApi socketApi;
   socketApi.sourceBuffer_ = " end";
 
-  SocketReader reader( socketApi );
+  HttpSocketReader reader( socketApi );
 
   reader.readToEnd( 88, "end" );
   ASSERT_EQ( 88, socketApi.socketReadOn_ );

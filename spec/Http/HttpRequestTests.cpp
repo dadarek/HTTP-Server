@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "Http/HttpRequest.h"
+#include "HttpRequest.h"
 
 TEST( HttpRequestTests, KeepsItsAssignedValue )
 {

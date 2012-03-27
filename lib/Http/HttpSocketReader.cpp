@@ -1,14 +1,14 @@
 #include "SocketApi.h"
-#include "SocketReader.h"
+#include "HttpSocketReader.h"
 
-SocketReader::SocketReader( SocketApi& socketApi )
+HttpSocketReader::HttpSocketReader( SocketApi& socketApi )
   : socketApi_( socketApi )
 { }
 
-SocketReader::~SocketReader()
+HttpSocketReader::~HttpSocketReader()
 { }
 
-std::string SocketReader::readToEnd( int socketFD, const char* terminator )
+std::string HttpSocketReader::readToEnd( int socketFD, const char* terminator )
 {
   std::string result;
 
@@ -28,7 +28,7 @@ std::string SocketReader::readToEnd( int socketFD, const char* terminator )
   return result;
 }
 
-std::string SocketReader::getNextChunk( int socketFD )
+std::string HttpSocketReader::getNextChunk( int socketFD )
 {
   char buffer[ 256 ] ;
   size_t bufferSize = sizeof( buffer );
@@ -40,7 +40,7 @@ std::string SocketReader::getNextChunk( int socketFD )
   
   int bytesRead = socketApi_.read( socketFD, buffer, bytesToRead );
   if( bytesRead < 0 )
-    throw SocketReader::READ_EXCEPTION;
+    throw HttpSocketReader::READ_EXCEPTION;
 
   return std::string( buffer );
 }

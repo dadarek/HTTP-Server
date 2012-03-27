@@ -1,26 +1,16 @@
 #ifndef SOCKET_READER_H
 #define SOCKET_READER_H
 
-#include <iostream>
+#include <string>
 
 class SocketApi;
 
 class SocketReader
 {
   public:
-    static const int READ_EXCEPTION = 1;
+    virtual ~SocketReader() { }
 
-  private:
-    SocketApi& socketApi_;
-
-  public:
-    SocketReader( SocketApi& socketApi_ );
-    virtual ~SocketReader();
-
-    std::string readToEnd( int socketFD, const char* terminator );
-
-  private:
-    std::string getNextChunk( int socketFD );
+    virtual std::string readToEnd( int socketFD, const char* terminator ) = 0;
 };
 
 #endif

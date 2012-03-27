@@ -3,17 +3,17 @@
 #include <unistd.h>
 
 #include "RawSocketApi.h"
-#include "SocketReader.h"
+#include "HttpSocketReader.h"
 #include "SocketConnectionReceiver.h"
-#include "Http/HttpRequestParser.h"
-#include "Http/HttpRequest.h"
+#include "HttpRequestParser.h"
+#include "HttpRequest.h"
 
 int a()
 {
 
   RawSocketApi socketApi;
   SocketConnectionReceiver receiver( socketApi, 8083 );
-  SocketReader reader( socketApi );
+  HttpSocketReader reader( socketApi );
 
   for(;;)
   {
