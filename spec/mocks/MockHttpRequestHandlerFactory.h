@@ -7,6 +7,9 @@ class MockHttpRequestHandlerFactory
   : public HttpRequestHandlerFactory
 {
   public:
+    HttpRequest* requestReceived_;
+    HttpRequestHandler* createHandlerReturnValue_;
+
     MockHttpRequestHandlerFactory();
     virtual ~MockHttpRequestHandlerFactory();
 

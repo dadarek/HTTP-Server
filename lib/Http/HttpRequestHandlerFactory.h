@@ -9,7 +9,7 @@ class HttpRequestHandlerFactory
   public:
     virtual ~HttpRequestHandlerFactory() { }
 
-    HttpRequestHandler* createHandler( HttpRequest& request );
+    virtual HttpRequestHandler* createHandler( HttpRequest& request ) = 0;
 };
 
 #endif

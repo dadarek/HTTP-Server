@@ -17,5 +17,6 @@ HttpConnectionHandler::~HttpConnectionHandler()
 void HttpConnectionHandler::handle( int socketFD )
 { 
   std::string requestString = socketReader_.readToEnd( socketFD );
-  parser_.parse( requestString );
+  HttpRequest* request =  parser_.parse( requestString );
+  factory_.createHandler( *request );
 }

@@ -40,3 +40,13 @@ TEST_F( HttpConnectionHandlerTester, forwardsSocketDataToParser )
   ASSERT_STREQ( "Hi there", parser_.stringToParse_.c_str() );
 }
 
+TEST_F( HttpConnectionHandlerTester, forwardsParserDataToFactory )
+{
+  HttpRequest* actual = (HttpRequest*) 125;
+  parser_.parseReturnValue_ = actual;
+  handler_.handle( 8 );
+  ASSERT_EQ( actual, factory_.requestReceived_ );
+}
+
+
+// make sure it deletes the request and response
