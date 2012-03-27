@@ -12,13 +12,14 @@ class HttpSocketReader
     static const int READ_EXCEPTION = 1;
 
   private:
+    static const char* const STREAM_TERMINATOR;
     SocketApi& socketApi_;
 
   public:
     HttpSocketReader( SocketApi& socketApi_ );
     virtual ~HttpSocketReader();
 
-    std::string readToEnd( int socketFD, const char* terminator );
+    std::string readToEnd( int socketFD );
 
   private:
     std::string getNextChunk( int socketFD );

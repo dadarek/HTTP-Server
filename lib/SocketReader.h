@@ -3,14 +3,12 @@
 
 #include <string>
 
-class SocketApi;
-
 class SocketReader
 {
   public:
     virtual ~SocketReader() { }
 
-    virtual std::string readToEnd( int socketFD, const char* terminator ) = 0;
+    virtual std::string readToEnd( int socketFD ) = 0;
 };
 
 #endif

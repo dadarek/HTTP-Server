@@ -21,7 +21,7 @@ int a()
 
     printf("Received connection: %d\n\n", nextConnection );
 
-    std::string requestHeaders = reader.readToEnd( nextConnection, "\r\n\r\n" );
+    std::string requestHeaders = reader.readToEnd( nextConnection );
     HttpRequestParser parser;
     HttpRequest* request = parser.parse( requestHeaders );
     std::string url = request->url();

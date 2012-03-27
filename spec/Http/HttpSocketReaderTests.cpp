@@ -13,7 +13,7 @@ class HttpSocketReaderTests
       HttpSocketReader reader( socketApi );
 
       socketApi.sourceBuffer_ = input;
-      std::string result = reader.readToEnd( -1, STREAM_TERMINATOR );
+      std::string result = reader.readToEnd( -1 );
 
       return result;
     }
@@ -33,7 +33,7 @@ class HttpSocketReaderTests
     }
 };
 
-const char* const HttpSocketReaderTests::STREAM_TERMINATOR = "\n\n";
+const char* const HttpSocketReaderTests::STREAM_TERMINATOR = "\r\n\r\n";
 
 TEST_F( HttpSocketReaderTests, ReadsCorrectValues )  
 {
@@ -59,11 +59,11 @@ TEST_F( HttpSocketReaderTests, ThrowsExceptionOnErrorRead )
 TEST_F( HttpSocketReaderTests, ReadsOnSocketItReceives )
 {
   MockSocketReadApi socketApi;
-  socketApi.sourceBuffer_ = " end";
+  socketApi.sourceBuffer_ = STREAM_TERMINATOR;
 
   HttpSocketReader reader( socketApi );
 
-  reader.readToEnd( 88, "end" );
+  reader.readToEnd( 88 );
   ASSERT_EQ( 88, socketApi.socketReadOn_ );
 }
 

@@ -1,6 +1,8 @@
 #include "SocketApi.h"
 #include "HttpSocketReader.h"
 
+const char* const HttpSocketReader::STREAM_TERMINATOR = "\r\n\r\n";
+
 HttpSocketReader::HttpSocketReader( SocketApi& socketApi )
   : socketApi_( socketApi )
 { }
@@ -8,7 +10,7 @@ HttpSocketReader::HttpSocketReader( SocketApi& socketApi )
 HttpSocketReader::~HttpSocketReader()
 { }
 
-std::string HttpSocketReader::readToEnd( int socketFD, const char* terminator )
+std::string HttpSocketReader::readToEnd( int socketFD )
 {
   std::string result;
 
@@ -17,7 +19,7 @@ std::string HttpSocketReader::readToEnd( int socketFD, const char* terminator )
   {
     result += getNextChunk( socketFD );
 
-    int terminatorIndex = result.find( terminator );
+    int terminatorIndex = result.find( STREAM_TERMINATOR );
     if( terminatorIndex >= 0 )
     {
       result = result.substr( 0, terminatorIndex );
