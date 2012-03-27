@@ -4,6 +4,8 @@
 class ConnectionReceiver
 {
   public:
+    virtual ~ConnectionReceiver() { }
+
     virtual int nextConnection() = 0;
 };
 

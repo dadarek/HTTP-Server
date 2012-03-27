@@ -4,6 +4,8 @@
 class RequestHandler
 {
   public:
+    virtual ~RequestHandler() { }
+
     virtual void handle( int connection ) = 0;
 };
 

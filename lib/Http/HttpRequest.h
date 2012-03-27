@@ -10,7 +10,7 @@ class HttpRequest
 
   public:
     HttpRequest( std::string url );
-    ~HttpRequest();
+    virtual ~HttpRequest();
 
     std::string url();
 

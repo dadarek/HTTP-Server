@@ -10,6 +10,8 @@ class FileNotFoundException
     FileNotFoundException()
       : std::runtime_error( "File not found." )
     { }
+
+    virtual ~FileNotFoundException() throw() { }
 };
 
 #endif

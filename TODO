@@ -8,7 +8,7 @@
 
 - Separate out SocketApi into SocketIOApi and SocketConnectionAPI?  Maybe?
 
-- Make sure all interfaces have a virtual dtor
 - FileReader should probably return char[] instead of string
 - Change makefile so that main depends on everything
 - Can I get rid of redundant test cases? (check if read, etc)
+- Use byref instead of pointers

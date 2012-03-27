@@ -10,6 +10,7 @@ class InvalidHttpRequestHeadersException
     InvalidHttpRequestHeadersException()
       : std::runtime_error("Invalid HTTP Request headers.")
     { }
+    virtual ~InvalidHttpRequestHeadersException() throw() { }
 };
 
 #endif

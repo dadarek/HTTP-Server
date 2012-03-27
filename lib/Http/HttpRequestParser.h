@@ -9,7 +9,7 @@ class HttpRequestParser
 {
   public:
     HttpRequestParser();
-    ~HttpRequestParser();
+    virtual ~HttpRequestParser();
 
     HttpRequest* parse( std::string );
 };

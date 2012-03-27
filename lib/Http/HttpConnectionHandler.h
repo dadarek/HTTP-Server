@@ -12,7 +12,7 @@ class HttpConnectionHandler
 
   public:
     HttpConnectionHandler( );
-    ~HttpConnectionHandler();
+    virtual ~HttpConnectionHandler();
 
     void handle( int connection );
 };
