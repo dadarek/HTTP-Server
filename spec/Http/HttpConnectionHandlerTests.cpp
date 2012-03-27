@@ -65,3 +65,4 @@ TEST_F( HttpConnectionHandlerTester, forwardsRequestToHandlerFromFactory )
 // make sure it deletes the request and response
 // make sure it deletes response after writing
 // make sure it deletes the HttpHandler
+// HttpConnectionHandler takes a SocketReader AND a SocketAPI? I don't like that ...
