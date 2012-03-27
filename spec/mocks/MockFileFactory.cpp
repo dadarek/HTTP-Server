@@ -1,8 +1,9 @@
 #include "MockFileFactory.h"
 #include "MockFile.h"
 
-MockFileFactory::MockFileFactory()
-  : openmode_( std::ios::in ^ std::ios::in )
+MockFileFactory::MockFileFactory( MockFileInspector& inspector )
+  : inspector_( inspector )
+  , openmode_( std::ios::in ^ std::ios::in )
 { }
 
 MockFileFactory::~MockFileFactory()

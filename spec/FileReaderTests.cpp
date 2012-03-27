@@ -7,11 +7,14 @@ class FileReaderTests
   : public ::testing::Test
 {
   protected:
+    MockFileInspector inspector_;
     MockFileFactory factory_;
     FileReader reader_;
 
     FileReaderTests()
-      : reader_( factory_ )
+      : inspector_()
+      , factory_( inspector_ )
+      , reader_( factory_ )
     { }
 
     std::string readToEnd( std::string path )
@@ -40,57 +43,57 @@ TEST_F( FileReaderTests, closesFile )
 {
   std::string path( "SomePath" );
   readToEnd( "" );
-  EXPECT_EQ( true, factory_.inspector_.closed );
+  EXPECT_EQ( true, inspector_.closed );
 }
 
 TEST_F( FileReaderTests, destroysFile )  
 {
   readToEnd( "" );
-  EXPECT_EQ( true, factory_.inspector_.destroyed );
+  EXPECT_EQ( true, inspector_.destroyed );
 }
 
 TEST_F( FileReaderTests, checksIfFileOpened )
 {
   readToEnd( "" );
-  EXPECT_EQ( true, factory_.inspector_.checkedIfOpen );
+  EXPECT_EQ( true, inspector_.checkedIfOpen );
 }
 
 TEST_F( FileReaderTests, checksTheFileSize )
 {
   readToEnd( "" );
-  EXPECT_EQ( true, factory_.inspector_.sizeChecked );
+  EXPECT_EQ( true, inspector_.sizeChecked );
 }
 
 TEST_F( FileReaderTests, callsReadWithFullFileSize )
 {
-  factory_.inspector_.sizeReturnValue = (size_t) 100;
+  inspector_.sizeReturnValue = (size_t) 100;
   readToEnd( "" );
 
-  EXPECT_EQ( 100, (int) factory_.inspector_.inputValueForRead );
+  EXPECT_EQ( 100, (int) inspector_.inputValueForRead );
 }
 
 TEST_F( FileReaderTests, throwsIfFileDoesNotExist )
 {
-  factory_.inspector_.openReturnValue = false;
+  inspector_.openReturnValue = false;
   EXPECT_THROW( readToEnd( "SomePath"), FileNotFoundException );
 }
 
 TEST_F( FileReaderTests, deletesFileBeforeThrowing )
 {
-  factory_.inspector_.openReturnValue = false;
+  inspector_.openReturnValue = false;
   try
   {
     readToEnd("");
   }
   catch( FileNotFoundException )
   { }
-  ASSERT_EQ( true, factory_.inspector_.destroyed );
+  ASSERT_EQ( true, inspector_.destroyed );
 }
 
 TEST_F( FileReaderTests, returnsCharactersWrittenToItsBuffer )
 {
-  factory_.inspector_.sizeReturnValue = (size_t) 6;
-  strcpy( factory_.inspector_.buffer, "Hello" );
+  inspector_.sizeReturnValue = (size_t) 6;
+  strcpy( inspector_.buffer, "Hello" );
   EXPECT_EQ( "Hello", readToEnd( "x" ) );
 }
 
@@ -109,9 +112,3 @@ TEST_F( FileReaderTests, opensFileAsBinary )
   ensureFileOpensAs( std::ios::binary );
 }
 
-//TODO: Make sure all interfaces have a virtual dtor
-//TODO: FileReader should probably return char[] instead of string
-//TODO: Pull inspector out of factory.
-//TODO: Use exceptions instead of ints
-//TODO: Change makefile so that main depends on everything
-//TODO: Can I get rid of redundant test cases? (check if read, etc)
