@@ -74,6 +74,18 @@ TEST_F( FileReaderTests, throwsIfFileDoesNotExist )
   EXPECT_THROW( readToEnd( "SomePath"), int );
 }
 
+TEST_F( FileReaderTests, deletesFileBeforeThrowing )
+{
+  factory_.inspector_.openReturnValue = false;
+  try
+  {
+    readToEnd("");
+  }
+  catch( int )
+  { }
+  ASSERT_EQ( true, factory_.inspector_.destroyed );
+}
+
 TEST_F( FileReaderTests, returnsCharactersWrittenToItsBuffer )
 {
   factory_.inspector_.sizeReturnValue = (size_t) 6;

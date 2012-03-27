@@ -16,7 +16,10 @@ std::string FileReader::readToEnd( const std::string path )
 
   File* file = factory_.open( path.c_str(), openMode );
   if( !file->isOpen() )
+  {
+    delete file;
     throw FILE_NOT_FOUND_EXCEPTION;
+  }
 
   size_t fileSize = file->size();
   char* buffer = new char[ fileSize ];
