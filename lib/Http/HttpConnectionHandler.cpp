@@ -12,5 +12,7 @@ HttpConnectionHandler::~HttpConnectionHandler()
 {
 }  
 
-void HttpConnectionHandler::handle( int )
-{ }
+void HttpConnectionHandler::handle( int socketFD )
+{ 
+  socketReader_.readToEnd( socketFD );
+}

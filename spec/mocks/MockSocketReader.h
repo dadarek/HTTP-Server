@@ -7,6 +7,10 @@ class MockSocketReader
   : public SocketReader
 {
   public:
+    bool readToEnd_;
+    int socketFDRead_;
+    std::string readToEndReturnValue_;
+
     MockSocketReader();
     virtual ~MockSocketReader();
 
