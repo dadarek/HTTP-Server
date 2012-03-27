@@ -8,8 +8,6 @@ class HttpRequest;
 class HttpRequestParser
 {
   public:
-    const static int INVALID_HEADERS_EXCEPTION = 1;
-
     HttpRequestParser();
     ~HttpRequestParser();
 

@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
-#include "Http/HttpRequestParser.h"
-#include "Http/HttpRequest.h"
+#include "HttpRequestParser.h"
+#include "HttpRequest.h"
+#include "InvalidHttpRequestHeadersException.h"
 
 class HttpRequestParserTests
   : public testing::Test
@@ -37,9 +38,9 @@ TEST_F( HttpRequestParserTests, ParsesHeaders2 )
 
 TEST_F( HttpRequestParserTests, ThrowsException )
 {
-  EXPECT_THROW( parse( "Some Invalid Header" ), int );
-  EXPECT_THROW( parse( "GET IncompleteHeader" ), int );
-  EXPECT_THROW( parse( "GET BuggyHeaderHTTP/1.1\r\nOtherHeaders: Well Formatted\r\n" ), int );
+  EXPECT_THROW( parse( "Some Invalid Header" ), InvalidHttpRequestHeadersException );
+  EXPECT_THROW( parse( "GET IncompleteHeader" ), InvalidHttpRequestHeadersException );
+  EXPECT_THROW( parse( "GET BuggyHeaderHTTP/1.1\r\nOtherHeaders: Well Formatted\r\n" ), InvalidHttpRequestHeadersException );
 }
 
 TEST_F( HttpRequestParserTests, HandlesSpaces )

@@ -1,5 +1,6 @@
 #include "HttpRequestParser.h"
 #include "HttpRequest.h"
+#include "InvalidHttpRequestHeadersException.h"
 
 HttpRequestParser::HttpRequestParser()
 { }
@@ -13,7 +14,7 @@ HttpRequest* HttpRequestParser::parse( std::string headers )
   int urlEndIndex = headers.find(" HTTP/1.1\r\n");
 
   if ( urlStartIndex < 1 || urlEndIndex < urlStartIndex )
-    throw INVALID_HEADERS_EXCEPTION;
+    throw InvalidHttpRequestHeadersException();
 
   int urlLength = urlEndIndex - urlStartIndex;
 
