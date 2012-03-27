@@ -1,7 +1,7 @@
 #include "SocketApi.h"
 #include "SocketReader.h"
 
-SocketReader::SocketReader( SocketApi* socketApi )
+SocketReader::SocketReader( SocketApi& socketApi )
   : socketApi_( socketApi )
 { }
 
@@ -38,7 +38,7 @@ std::string SocketReader::getNextChunk( int socketFD )
   size_t charSize = sizeof( char );
   size_t bytesToRead = bufferSize - charSize;
   
-  int bytesRead = socketApi_->read( socketFD, buffer, bytesToRead );
+  int bytesRead = socketApi_.read( socketFD, buffer, bytesToRead );
   if( bytesRead < 0 )
     throw SocketReader::READ_EXCEPTION;
 

@@ -11,10 +11,10 @@ class SocketReader
     static const int READ_EXCEPTION = 1;
 
   private:
-    SocketApi* socketApi_;
+    SocketApi& socketApi_;
 
   public:
-    SocketReader( SocketApi* socketApi_ );
+    SocketReader( SocketApi& socketApi_ );
     virtual ~SocketReader();
 
     std::string readToEnd( int socketFD, const char* terminator );

@@ -9,7 +9,7 @@ class SocketConnectionReceiver
   : public ConnectionReceiver
 {
   private:
-    SocketApi* socketApi_;
+    SocketApi& socketApi_;
     int fd_;
 
     void createSocket();
@@ -17,7 +17,7 @@ class SocketConnectionReceiver
     void closeSocket();
 
   public:
-    SocketConnectionReceiver( SocketApi* socketApi, int portToBindTo );
+    SocketConnectionReceiver( SocketApi& socketApi, int portToBindTo );
     virtual ~SocketConnectionReceiver();
 
     int nextConnection();

@@ -12,8 +12,8 @@ int a()
 {
 
   RawSocketApi socketApi;
-  SocketConnectionReceiver receiver( &socketApi, 8083 );
-  SocketReader reader( &socketApi );
+  SocketConnectionReceiver receiver( socketApi, 8083 );
+  SocketReader reader( socketApi );
 
   for(;;)
   {

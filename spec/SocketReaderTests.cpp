@@ -10,7 +10,7 @@ class SocketReaderTests
 
     std::string setAndGet( MockSocketReadApi& socketApi, const char* input )
     {
-      SocketReader reader( &socketApi );
+      SocketReader reader( socketApi );
 
       socketApi.sourceBuffer_ = input;
       std::string result = reader.readToEnd( -1, STREAM_TERMINATOR );
@@ -61,7 +61,7 @@ TEST_F( SocketReaderTests, ReadsOnSocketItReceives )
   MockSocketReadApi socketApi;
   socketApi.sourceBuffer_ = " end";
 
-  SocketReader reader( &socketApi );
+  SocketReader reader( socketApi );
 
   reader.readToEnd( 88, "end" );
   ASSERT_EQ( 88, socketApi.socketReadOn_ );

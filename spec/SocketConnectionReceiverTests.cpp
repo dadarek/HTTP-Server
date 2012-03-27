@@ -16,7 +16,7 @@ class SocketConnectionReceiverTester
 
     SocketConnectionReceiver* createListener()
     {
-      return new SocketConnectionReceiver( &socketApi_, PORT_TO_BIND_TO ); 
+      return new SocketConnectionReceiver( socketApi_, PORT_TO_BIND_TO ); 
     }
 
     void createAndDeleteListener()
