@@ -101,3 +101,6 @@ TEST_F( FileReaderTests, opensFileAsBinary )
 //TODO: FileReader should probably return char[] instead of string
 //TODO: Pull inspector out of factory.
 //TODO: make sure readtoend doesn't leak the buffer
+//TODO: Use exceptions instead of ints
+//TODO: Change makefile so that main depends on everything
+//
