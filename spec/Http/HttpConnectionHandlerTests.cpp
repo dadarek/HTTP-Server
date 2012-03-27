@@ -3,6 +3,8 @@
 #include "MockSocketReader.h"
 #include "MockHttpRequestParser.h"
 #include "MockHttpRequestHandlerFactory.h"
+#include "HttpRequest.h"
+#include "HttpResponse.h"
 
 class HttpConnectionHandlerTester
   : public ::testing::Test
@@ -42,11 +44,12 @@ TEST_F( HttpConnectionHandlerTester, forwardsSocketDataToParser )
 
 TEST_F( HttpConnectionHandlerTester, forwardsParserDataToFactory )
 {
-  HttpRequest* actual = (HttpRequest*) 125;
-  parser_.parseReturnValue_ = actual;
+  HttpRequest actual( "Some request") ;
+  parser_.parseReturnValue_ = &actual;
   handler_.handle( 8 );
-  ASSERT_EQ( actual, factory_.requestReceived_ );
+  ASSERT_EQ( &actual, factory_.requestReceived_ );
 }
 
 
 // make sure it deletes the request and response
+// make sure it deletes response after writing
