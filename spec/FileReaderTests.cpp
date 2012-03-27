@@ -103,4 +103,4 @@ TEST_F( FileReaderTests, opensFileAsBinary )
 //TODO: make sure readtoend doesn't leak the buffer
 //TODO: Use exceptions instead of ints
 //TODO: Change makefile so that main depends on everything
-//
+//TODO: Can I get rid of redundant test cases? (check if read, etc)

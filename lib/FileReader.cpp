@@ -20,6 +20,9 @@ std::string FileReader::readToEnd( const std::string path )
 
   size_t fileSize = file->size();
   char* buffer = new char[ fileSize ];
+
+  file->moveTo( 0 );
+
   file->read( buffer, fileSize );
 
   std::string result( buffer );

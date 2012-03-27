@@ -30,13 +30,14 @@ size_t MockFile::size()
   return inspector_.sizeReturnValue;
 }
 
-void MockFile::moveTo( size_t )
+void MockFile::moveTo( size_t position )
 {
   throwIfDestroyed("Can't move a destroyed file.");
   throwIfClosed("Can't move a closed file.");
   throwIfDidNotCheckOpen("Can't move if you didn't check open.");
 
-  throw 0;
+  inspector_.movedToBeginning = position == (size_t) 0;
+
 }
 void MockFile::read( char* buffer, size_t size )
 {
@@ -44,6 +45,7 @@ void MockFile::read( char* buffer, size_t size )
   throwIfClosed("Can't read a closed file.");
   throwIfDidNotCheckOpen("Can't read if you didn't check open.");
   throwIfDidNotCheckSize("Can't read if you didn't check size.");
+  throwIfDidNotMoveToBeginning("Can't read if you don't move to beginning.");
 
   inspector_.inputValueForRead = size;
   strcpy( buffer, inspector_.buffer );
@@ -52,7 +54,6 @@ void MockFile::read( char* buffer, size_t size )
 void MockFile::close()
 {
   throwIfDestroyed("Can't destroy a destroyed file.");
-
   inspector_.closed = true;
 }
 
@@ -77,5 +78,11 @@ void MockFile::throwIfDidNotCheckOpen( const char* message )
 void MockFile::throwIfDidNotCheckSize( const char* message )
 {
   if( !inspector_.sizeChecked )
+    throw MockFileException( message );
+}
+
+void MockFile::throwIfDidNotMoveToBeginning( const char* message )
+{
+  if( !inspector_.movedToBeginning )
     throw MockFileException( message );
 }
