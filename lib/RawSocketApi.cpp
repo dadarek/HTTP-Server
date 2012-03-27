@@ -24,21 +24,6 @@ int RawSocketApi::bind( int socketFD, struct sockaddr* serverAddress, size_t ser
   return ::bind( socketFD, serverAddress, serverAddressSize ); 
 }
 
-int RawSocketApi::bind( int socketFD, int portNumber )
-{
-  struct sockaddr_in serverAddress;
-  bzero((char *) &serverAddress, sizeof(serverAddress));
-  serverAddress.sin_family = AF_INET;
-  serverAddress.sin_addr.s_addr = INADDR_ANY;
-  serverAddress.sin_port = htons( portNumber );
-
-  struct sockaddr* serverAddressReference = (struct sockaddr*) &serverAddress;
-
-  size_t serverAddressSize = sizeof( serverAddress );
-
-  return ::bind( socketFD, serverAddressReference, serverAddressSize ); 
-}
-
 void RawSocketApi::listen( int socketFD )
 {
   ::listen( socketFD, 5 );

@@ -31,15 +31,6 @@ int MockSocketApi::bind( int socketFD, struct sockaddr* address, size_t )
   return returnValues_.bind;
 }
 
-int MockSocketApi::bind( int socketFD, int portNumber )
-{
-  if( flags_.bindShouldError )
-    return -1;
-
-  inputValues_.bindFD = socketFD;
-  return returnValues_.bind;
-}
-
 void MockSocketApi::listen( int socketFD )
 {
   inputValues_.listen = socketFD;

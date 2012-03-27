@@ -139,4 +139,6 @@ TEST_F( SocketConnectionReceiverTester, PassesInCorrectParametersToBind )
 
 // Delete line by line in SocketConnectionReceiver and see if tests break
 // Get rid of address stuff from RawSocketApi
-// Get rid of extra bind function
+// Does not crash when you comment out INADDR_ANY
+// Does not crash when you comment out bzero
+// Check the sizevalue input into bind
