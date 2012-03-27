@@ -11,15 +11,7 @@ FileReader::~FileReader()
 
 std::string FileReader::readToEnd( const std::string path )
 {
-  std::ios_base::openmode openMode =
-     std::ios::in | std::ios::ate | std::ios::binary;
-
-  File* file = factory_.open( path.c_str(), openMode );
-  if( !file->isOpen() )
-  {
-    delete file;
-    throw FILE_NOT_FOUND_EXCEPTION;
-  }
+  File* file = open( path );
 
   size_t fileSize = file->size();
   char* buffer = new char[ fileSize ];
@@ -37,3 +29,16 @@ std::string FileReader::readToEnd( const std::string path )
   return result;
 }
 
+File* FileReader::open( const std::string path )
+{
+  std::ios_base::openmode mode =
+    std::ios::in | std::ios::ate | std::ios::binary;
+
+  File* file = factory_.open( path.c_str(), mode );
+  if( !file->isOpen() )
+  {
+    delete file;
+    throw FILE_NOT_FOUND_EXCEPTION;
+  }
+  return file;
+}

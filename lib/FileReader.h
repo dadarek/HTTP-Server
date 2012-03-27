@@ -4,6 +4,7 @@
 #include <string>
 
 class FileFactory;
+class File;
 
 class FileReader
 {
@@ -18,6 +19,9 @@ class FileReader
     virtual ~FileReader();
 
     std::string readToEnd( std::string path );
+
+  private:
+    File* open( const std::string path );
 };
 
 #endif
