@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 #include "HttpConnectionHandler.h"
 #include "MockSocketReader.h"
+#include "MockHttpRequestParser.h"
 #include "MockHttpRequestHandlerFactory.h"
 
 class HttpConnectionHandlerTester
@@ -8,13 +9,15 @@ class HttpConnectionHandlerTester
 {
   public:
       MockSocketReader socketReader_;
+      MockHttpRequestParser parser_;
       MockHttpRequestHandlerFactory factory_;
       HttpConnectionHandler handler_;
 
     HttpConnectionHandlerTester()
       : socketReader_()
+      , parser_()
       , factory_()
-      , handler_( socketReader_, factory_ )
+      , handler_( socketReader_, parser_, factory_ )
     { }
 };
 

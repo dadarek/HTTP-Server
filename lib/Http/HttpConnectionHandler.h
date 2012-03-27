@@ -4,6 +4,7 @@
 #include "RequestHandler.h"
 
 class SocketReader;
+class HttpRequestParser;
 class HttpRequestHandlerFactory;
 
 class HttpConnectionHandler
@@ -11,10 +12,11 @@ class HttpConnectionHandler
 {
   private:
     SocketReader& socketReader_;
+    HttpRequestParser& parser_;
     HttpRequestHandlerFactory& factory_;
 
   public:
-    HttpConnectionHandler( SocketReader& socketReader, HttpRequestHandlerFactory& factory );
+    HttpConnectionHandler( SocketReader& socketReader, HttpRequestParser& parser, HttpRequestHandlerFactory& factory );
     virtual ~HttpConnectionHandler();
 
     void handle( int connection );

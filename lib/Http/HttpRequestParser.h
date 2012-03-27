@@ -1,17 +1,16 @@
 #ifndef HTTP_REQUEST_PARSER_H
 #define HTTP_REQUEST_PARSER_H
 
-#include <iostream>
+#include <string>
 
 class HttpRequest;
 
 class HttpRequestParser
 {
   public:
-    HttpRequestParser();
-    virtual ~HttpRequestParser();
+    virtual ~HttpRequestParser() { }
 
-    HttpRequest* parse( std::string );
+    virtual HttpRequest* parse( std::string ) = 0;
 };
 
 #endif

@@ -5,7 +5,7 @@
 #include "RawSocketApi.h"
 #include "HttpSocketReader.h"
 #include "SocketConnectionReceiver.h"
-#include "HttpRequestParser.h"
+#include "HttpRequestParserImpl.h"
 #include "HttpRequest.h"
 
 int a()
@@ -22,7 +22,7 @@ int a()
     printf("Received connection: %d\n\n", nextConnection );
 
     std::string requestHeaders = reader.readToEnd( nextConnection );
-    HttpRequestParser parser;
+    HttpRequestParserImpl parser;
     HttpRequest* request = parser.parse( requestHeaders );
     std::string url = request->url();
     delete request;

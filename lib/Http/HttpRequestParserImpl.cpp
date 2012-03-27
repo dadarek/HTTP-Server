@@ -1,14 +1,14 @@
-#include "HttpRequestParser.h"
+#include "HttpRequestParserImpl.h"
 #include "HttpRequest.h"
 #include "InvalidHttpRequestHeadersException.h"
 
-HttpRequestParser::HttpRequestParser()
+HttpRequestParserImpl::HttpRequestParserImpl()
 { }
 
-HttpRequestParser::~HttpRequestParser()
+HttpRequestParserImpl::~HttpRequestParserImpl()
 { }
 
-HttpRequest* HttpRequestParser::parse( std::string headers )
+HttpRequest* HttpRequestParserImpl::parse( std::string headers )
 { 
   int urlStartIndex = headers.find(" ") + 1;
   int urlEndIndex = headers.find(" HTTP/1.1\r\n");

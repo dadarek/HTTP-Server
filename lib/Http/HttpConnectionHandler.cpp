@@ -1,9 +1,11 @@
 #include "HttpConnectionHandler.h"
 #include "SocketReader.h"
+#include "HttpRequestParser.h"
 #include "HttpRequestHandlerFactory.h"
 
-HttpConnectionHandler::HttpConnectionHandler( SocketReader& socketReader, HttpRequestHandlerFactory& factory )
+HttpConnectionHandler::HttpConnectionHandler( SocketReader& socketReader, HttpRequestParser& parser, HttpRequestHandlerFactory& factory )
   : socketReader_( socketReader )
+  , parser_( parser )
   , factory_( factory )
 { 
 }
