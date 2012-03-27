@@ -2,6 +2,16 @@
 #define MOCK_FILE_H
 
 #include "File.h"
+#include <stdexcept>
+
+class MockFileException
+  : public std::runtime_error
+{
+  public:
+    MockFileException( const char* message )
+      : std::runtime_error( message )
+    { }
+};
 
 struct MockFileInspector
 {
@@ -41,6 +51,10 @@ class MockFile
     void moveTo( size_t position );
     void read( char* buffer, size_t size );
     void close();
+
+  private:
+    void throwIfDestroyed( const char* message );
+    void throwIfClosed( const char* message );
 };
 
 #endif

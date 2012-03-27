@@ -15,7 +15,6 @@ std::string FileReader::readToEnd( const std::string path )
      std::ios::in | std::ios::ate | std::ios::binary;
 
   File* file = factory_.open( path.c_str(), openMode );
-  file->close();
   
   if( !file->isOpen() )
     throw FILE_NOT_FOUND_EXCEPTION;
@@ -27,6 +26,7 @@ std::string FileReader::readToEnd( const std::string path )
   std::string result( buffer );
   delete[] buffer;
 
+  file->close();
   delete file;
 
   return result;
