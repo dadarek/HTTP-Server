@@ -15,7 +15,6 @@ std::string FileReader::readToEnd( const std::string path )
      std::ios::in | std::ios::ate | std::ios::binary;
 
   File* file = factory_.open( path.c_str(), openMode );
-  
   if( !file->isOpen() )
     throw FILE_NOT_FOUND_EXCEPTION;
 

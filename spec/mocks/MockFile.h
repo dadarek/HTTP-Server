@@ -55,6 +55,7 @@ class MockFile
   private:
     void throwIfDestroyed( const char* message );
     void throwIfClosed( const char* message );
+    void throwIfDidNotCheckOpen( const char* message );
 };
 
 #endif
