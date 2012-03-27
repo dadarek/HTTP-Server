@@ -2,8 +2,7 @@
 
 HttpRequest::HttpRequest( std::string url )
   : url_( url )
-{
-}
+{ }
 
 HttpRequest::~HttpRequest()
 { }

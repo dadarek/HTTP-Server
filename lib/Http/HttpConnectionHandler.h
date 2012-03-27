@@ -3,15 +3,18 @@
 
 #include "RequestHandler.h"
 
-class SocketApi;
+class SocketReader;
+class HttpRequestHandlerFactory;
 
 class HttpConnectionHandler
   : public RequestHandler
 {
   private:
+    SocketReader& socketReader_;
+    HttpRequestHandlerFactory& factory_;
 
   public:
-    HttpConnectionHandler( );
+    HttpConnectionHandler( SocketReader& socketReader, HttpRequestHandlerFactory& factory );
     virtual ~HttpConnectionHandler();
 
     void handle( int connection );

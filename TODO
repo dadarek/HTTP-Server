@@ -15,4 +15,5 @@
 - Look at SocketReader::READ_EXCEPTION
 - Look at SocketApi::SOCKET_EXCEPTION, BIND_EXCEPTION, ACCEPT_EXCEPTION
 
+- Make sure SOMEBODY closes the client socket - probably server after delegatin to connection handler (write tests for this).
 

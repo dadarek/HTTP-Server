@@ -1,5 +1,7 @@
 #include "gtest/gtest.h"
 #include "HttpConnectionHandler.h"
+#include "MockSocketReader.h"
+#include "MockHttpRequestHandlerFactory.h"
 
 class HttpConnectionHandlerTester
   : public ::testing::Test
@@ -11,7 +13,9 @@ class HttpConnectionHandlerTester
 
 TEST_F( HttpConnectionHandlerTester, Compiles )
 {
-  HttpConnectionHandler handler( ); 
-}
+  MockSocketReader socketReader;
+  MockHttpRequestHandlerFactory factory;
 
+  HttpConnectionHandler handler( socketReader, factory ); 
+}
 
