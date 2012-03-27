@@ -5,9 +5,11 @@ PROJECT_ROOT = ..
 
 HEADERS_DIR = ${PROJECT_ROOT}/lib
 HTTP_HEADERS_DIR = ${HEADERS_DIR}/Http
+FILE_IO_HEADERS_DIR = ${HEADERS_DIR}/FileIO
 
 LIB_DIR = ${PROJECT_ROOT}/lib
 HTTP_LIB_DIR = ${LIB_DIR}/Http
+FILE_IO_LIB_DIR = ${LIB_DIR}/FileIO
 
 SPECS_DIR = ${PROJECT_ROOT}/spec
 HTTP_SPECS_DIR = ${SPECS_DIR}/Http
@@ -31,7 +33,7 @@ clean :
 	rm -f *.a *.o main *ests
 
 main : 
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread -I${HEADERS_DIR} -I${HTTP_HEADERS_DIR} ${LIB_DIR}/*.cpp ${HTTP_LIB_DIR}/*.cpp -o main
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread -I${HEADERS_DIR} -I${HTTP_HEADERS_DIR} -I${FILE_IO_HEADERS_DIR} ${LIB_DIR}/*.cpp ${HTTP_LIB_DIR}/*.cpp ${FILE_IO_LIB_DIR}/*.cpp -o main
 	rm -r main.dSYM
 	./main
 
@@ -54,8 +56,8 @@ gtest_main.a : gtest-all.o gtest_main.o
 	$(AR) $(ARFLAGS) $@ $^
 
 
-HEADER_LOCATIONS = -I${HEADERS_DIR} -I${HTTP_HEADERS_DIR} -I${MOCKS_DIR}
-FILES_TO_COMPILE =  ${LIB_DIR}/*.cpp ${HTTP_LIB_DIR}/*.cpp ${MOCKS_DIR}/*.cpp ${SPECS_DIR}/*.cpp ${HTTP_SPECS_DIR}/*.cpp
+HEADER_LOCATIONS = -I${HEADERS_DIR} -I${HTTP_HEADERS_DIR} -I${MOCKS_DIR} -I${FILE_IO_HEADERS_DIR}
+FILES_TO_COMPILE =  ${LIB_DIR}/*.cpp ${HTTP_LIB_DIR}/*.cpp ${FILE_IO_LIB_DIR}/*.cpp ${MOCKS_DIR}/*.cpp ${SPECS_DIR}/*.cpp ${HTTP_SPECS_DIR}/*.cpp
 
 all-objects : 
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_LOCATIONS} -c ${FILES_TO_COMPILE}
