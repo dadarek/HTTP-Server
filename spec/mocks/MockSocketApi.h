@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "SocketApi.h"
+#include <netinet/in.h>
 
 struct MockSocketApiReturnValues
 {
@@ -28,12 +29,15 @@ struct MockSocketApiInputValues
   int close;
   int listen;
   int bindFD;
-  int bindPort;
+  struct sockaddr bindAddress;
+  size_t bindSize;
   int accept;
 
   MockSocketApiInputValues()
   {
-    close = listen = bindFD = bindPort = accept = -1;
+    close = listen = bindFD = accept = -1;
+    bindSize = 0;
+    memset( &bindAddress, 0, sizeof( bindAddress ) );
   }
 };
 

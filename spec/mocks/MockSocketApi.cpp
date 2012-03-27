@@ -18,9 +18,17 @@ int MockSocketApi::socket()
   return returnValues_.socket;
 }
 
-int MockSocketApi::bind( int, struct sockaddr*, size_t )
+int MockSocketApi::bind( int socketFD, struct sockaddr* address, size_t )
 {
-  throw 0;
+  if( flags_.bindShouldError )
+    return -1;
+
+  inputValues_.bindFD = socketFD;
+
+  size_t addressSize = sizeof( inputValues_.bindAddress );
+  memcpy( &inputValues_.bindAddress, address, addressSize );
+
+  return returnValues_.bind;
 }
 
 int MockSocketApi::bind( int socketFD, int portNumber )
@@ -29,7 +37,6 @@ int MockSocketApi::bind( int socketFD, int portNumber )
     return -1;
 
   inputValues_.bindFD = socketFD;
-  inputValues_.bindPort = portNumber;
   return returnValues_.bind;
 }
 

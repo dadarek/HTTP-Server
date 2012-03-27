@@ -1,5 +1,12 @@
 #include "SocketConnectionReceiver.h"
 #include "SocketApi.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h> 
+#include <sys/socket.h>
+#include <netinet/in.h>
 
 SocketConnectionReceiver::SocketConnectionReceiver( SocketApi& socketApi, int portToBindTo )
   : socketApi_( socketApi )
@@ -19,7 +26,17 @@ void SocketConnectionReceiver::createSocket()
 
 void SocketConnectionReceiver::bindToSocket( int portToBindTo )
 {
-  int bindResult = socketApi_.bind( fd_, portToBindTo );
+  struct sockaddr_in serverAddress;
+  bzero((char *) &serverAddress, sizeof(serverAddress));
+  serverAddress.sin_family = AF_INET;
+  serverAddress.sin_addr.s_addr = INADDR_ANY;
+  serverAddress.sin_port = htons( portToBindTo );
+
+  struct sockaddr* serverAddressReference = (struct sockaddr*) &serverAddress;
+
+  size_t serverAddressSize = sizeof( serverAddress );
+
+  int bindResult = socketApi_.bind( fd_, serverAddressReference, serverAddressSize );
   if( bindResult < 0 )
   {
     closeSocket();

@@ -64,12 +64,6 @@ TEST_F( SocketConnectionReceiverTester, BindsToSocketFDItReceives )
   EXPECT_EQ( returnValues_.socket, inputValues_.bindFD );
 }
 
-TEST_F( SocketConnectionReceiverTester, BindsToPortSpecifiedInConstructor ) 
-{
-  createAndDeleteListener();
-  EXPECT_EQ( PORT_TO_BIND_TO, inputValues_.bindPort );
-}
-
 TEST_F( SocketConnectionReceiverTester, ThrowsExceptionOnErrorBind )  
 {
   flags_.bindShouldError = true;
@@ -126,3 +120,23 @@ TEST_F( SocketConnectionReceiverTester, NextConnectionReturnsCorrectFD )
   delete receiver;
 }
 
+TEST_F( SocketConnectionReceiverTester, PassesInCorrectParametersToBind )
+{
+  struct sockaddr_in expectedAddress;
+  size_t addressSize = sizeof( expectedAddress );
+  memset( &expectedAddress, 0, addressSize );
+  expectedAddress.sin_family = AF_INET;
+  expectedAddress.sin_addr.s_addr = INADDR_ANY;
+  expectedAddress.sin_port = htons( PORT_TO_BIND_TO );
+
+  createAndDeleteListener();
+  
+  int difference = memcmp( &expectedAddress, &(inputValues_.bindAddress), addressSize );
+
+  ASSERT_EQ( 0, difference );
+}
+
+
+// Delete line by line in SocketConnectionReceiver and see if tests break
+// Get rid of address stuff from RawSocketApi
+// Get rid of extra bind function
