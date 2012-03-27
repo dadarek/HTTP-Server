@@ -33,3 +33,10 @@ TEST_F( HttpConnectionHandlerTester, readsOnSocketItReceives )
   ASSERT_EQ( 8, socketReader_.socketFDRead_ );
 }
 
+TEST_F( HttpConnectionHandlerTester, forwardsSocketDataToParser )
+{
+  socketReader_.readToEndReturnValue_ = "Hi there";
+  handler_.handle( 8 );
+  ASSERT_STREQ( "Hi there", parser_.stringToParse_.c_str() );
+}
+

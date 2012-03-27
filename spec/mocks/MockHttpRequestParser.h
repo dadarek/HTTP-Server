@@ -7,6 +7,8 @@ class MockHttpRequestParser
   : public HttpRequestParser
 {
   public:
+    std::string stringToParse_;
+
     MockHttpRequestParser();
     virtual ~MockHttpRequestParser();
 

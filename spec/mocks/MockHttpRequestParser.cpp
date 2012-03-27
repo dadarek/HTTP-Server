@@ -6,7 +6,8 @@ MockHttpRequestParser::MockHttpRequestParser()
 MockHttpRequestParser::~MockHttpRequestParser()
 { }
 
-HttpRequest* MockHttpRequestParser::parse( std::string )
+HttpRequest* MockHttpRequestParser::parse( std::string request )
 {
-  throw 0;
+  stringToParse_ = request;
+  return 0;
 }
