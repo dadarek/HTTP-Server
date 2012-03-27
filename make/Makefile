@@ -10,6 +10,7 @@ LIB_DIR = ${PROJECT_ROOT}/lib
 HTTP_LIB_DIR = ${LIB_DIR}/Http
 
 SPECS_DIR = ${PROJECT_ROOT}/spec
+HTTP_SPECS_DIR = ${SPECS_DIR}/Http
 MOCKS_DIR = ${SPECS_DIR}/mocks
 
 # All Google Test headers.  Usually you shouldn't change this
@@ -54,7 +55,7 @@ gtest_main.a : gtest-all.o gtest_main.o
 
 
 HEADER_LOCATIONS = -I${HEADERS_DIR} -I${HTTP_HEADERS_DIR} -I${MOCKS_DIR}
-FILES_TO_COMPILE =  ${LIB_DIR}/*.cpp ${HTTP_LIB_DIR}/*.cpp ${MOCKS_DIR}/*.cpp ${SPECS_DIR}/*.cpp
+FILES_TO_COMPILE =  ${LIB_DIR}/*.cpp ${HTTP_LIB_DIR}/*.cpp ${MOCKS_DIR}/*.cpp ${SPECS_DIR}/*.cpp ${HTTP_SPECS_DIR}/*.cpp
 
 all-objects : 
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_LOCATIONS} -c ${FILES_TO_COMPILE}
