@@ -8,16 +8,9 @@
 #include "Http/HttpRequestParser.h"
 #include "Http/HttpRequest.h"
 
-#include "FileReader.h"
-#include "SystemFileFactory.h"
-
 int a()
 {
 
-  SystemFileFactory factory;
-  FileReader fileReader( factory );
-  printf("%s\n", fileReader.readToEnd("../lib/File.h").c_str() );
-  return 0;
   RawSocketApi socketApi;
   SocketConnectionReceiver receiver( &socketApi, 8083 );
   SocketReader reader( &socketApi );

@@ -108,11 +108,9 @@ TEST_F( FileReaderTests, opensFileAsBinary )
   ensureFileOpensAs( std::ios::binary );
 }
 
-//TODO: Delete MoveTo from File if it's not used
 //TODO: Make sure all interfaces have a virtual dtor
 //TODO: FileReader should probably return char[] instead of string
 //TODO: Pull inspector out of factory.
-//TODO: make sure readtoend doesn't leak the buffer
 //TODO: Use exceptions instead of ints
 //TODO: Change makefile so that main depends on everything
 //TODO: Can I get rid of redundant test cases? (check if read, etc)
