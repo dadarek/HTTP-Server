@@ -1,6 +1,7 @@
 #include "FileReader.h"
 #include "File.h"
 #include "FileFactory.h"
+#include "FileNotFoundException.h"
 
 FileReader::FileReader( FileFactory& factory )
   : factory_( factory )
@@ -45,7 +46,7 @@ File* FileReader::open( const std::string path )
   if( !file->isOpen() )
   {
     delete file;
-    throw FILE_NOT_FOUND_EXCEPTION;
+    throw FileNotFoundException();
   }
   return file;
 }

@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "FileReader.h"
+#include "FileNotFoundException.h"
 #include "mocks/MockFileFactory.h"
 
 class FileReaderTests
@@ -71,7 +72,7 @@ TEST_F( FileReaderTests, callsReadWithFullFileSize )
 TEST_F( FileReaderTests, throwsIfFileDoesNotExist )
 {
   factory_.inspector_.openReturnValue = false;
-  EXPECT_THROW( readToEnd( "SomePath"), int );
+  EXPECT_THROW( readToEnd( "SomePath"), FileNotFoundException );
 }
 
 TEST_F( FileReaderTests, deletesFileBeforeThrowing )
@@ -81,7 +82,7 @@ TEST_F( FileReaderTests, deletesFileBeforeThrowing )
   {
     readToEnd("");
   }
-  catch( int )
+  catch( FileNotFoundException )
   { }
   ASSERT_EQ( true, factory_.inspector_.destroyed );
 }
