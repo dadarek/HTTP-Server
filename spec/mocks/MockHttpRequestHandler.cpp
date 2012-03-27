@@ -1,6 +1,7 @@
 #include "MockHttpRequestHandler.h"
 
 MockHttpRequestHandler::MockHttpRequestHandler()
+  : requestReceived_( 0 )
 { }
 
 MockHttpRequestHandler::~MockHttpRequestHandler()
@@ -8,7 +9,8 @@ MockHttpRequestHandler::~MockHttpRequestHandler()
 
 HttpResponse* MockHttpRequestHandler::handle( HttpRequest& request )
 {
-  throw 0;
+  requestReceived_ = &request;
+  return handleReturnValue_;
 }
 
 

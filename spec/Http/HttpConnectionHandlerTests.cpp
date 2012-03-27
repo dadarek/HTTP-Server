@@ -2,6 +2,7 @@
 #include "HttpConnectionHandler.h"
 #include "MockSocketReader.h"
 #include "MockHttpRequestParser.h"
+#include "MockHttpRequestHandler.h"
 #include "MockHttpRequestHandlerFactory.h"
 #include "HttpRequest.h"
 #include "HttpResponse.h"
@@ -12,15 +13,22 @@ class HttpConnectionHandlerTester
   public:
       MockSocketReader socketReader_;
       MockHttpRequestParser parser_;
+      MockHttpRequestHandler requestHandler_;
       MockHttpRequestHandlerFactory factory_;
       HttpConnectionHandler handler_;
+      HttpRequest request_;
 
     HttpConnectionHandlerTester()
       : socketReader_()
       , parser_()
+      , requestHandler_()
       , factory_()
       , handler_( socketReader_, parser_, factory_ )
-    { }
+      , request_( "Some Request" )
+    { 
+      parser_.parseReturnValue_ = &request_;
+      factory_.createHandlerReturnValue_ = &requestHandler_;
+    }
 };
 
 TEST_F( HttpConnectionHandlerTester, readsToEnd )
@@ -44,12 +52,16 @@ TEST_F( HttpConnectionHandlerTester, forwardsSocketDataToParser )
 
 TEST_F( HttpConnectionHandlerTester, forwardsParserDataToFactory )
 {
-  HttpRequest actual( "Some request") ;
-  parser_.parseReturnValue_ = &actual;
   handler_.handle( 8 );
-  ASSERT_EQ( &actual, factory_.requestReceived_ );
+  ASSERT_EQ( &request_, factory_.requestReceived_ );
 }
 
+TEST_F( HttpConnectionHandlerTester, forwardsRequestToHandlerFromFactory )
+{
+  handler_.handle( 8 );
+  ASSERT_EQ( &request_, requestHandler_.requestReceived_ );
+}
 
 // make sure it deletes the request and response
 // make sure it deletes response after writing
+// make sure it deletes the HttpHandler

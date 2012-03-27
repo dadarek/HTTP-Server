@@ -1,6 +1,7 @@
 #include "HttpConnectionHandler.h"
 #include "SocketReader.h"
 #include "HttpRequestParser.h"
+#include "HttpRequestHandler.h"
 #include "HttpRequestHandlerFactory.h"
 
 HttpConnectionHandler::HttpConnectionHandler( SocketReader& socketReader, HttpRequestParser& parser, HttpRequestHandlerFactory& factory )
@@ -18,5 +19,6 @@ void HttpConnectionHandler::handle( int socketFD )
 { 
   std::string requestString = socketReader_.readToEnd( socketFD );
   HttpRequest* request =  parser_.parse( requestString );
-  factory_.createHandler( *request );
+  HttpRequestHandler* handler = factory_.createHandler( *request );
+  handler->handle( *request );
 }
