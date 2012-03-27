@@ -15,6 +15,9 @@ MockSocketReadApi::~MockSocketReadApi()
 int MockSocketReadApi::socket()
 { throw 0; }
 
+int MockSocketReadApi::bind( int , struct sockaddr* , size_t )
+{ throw 0; }
+
 int MockSocketReadApi::bind( int, int )
 { throw 0; }
 

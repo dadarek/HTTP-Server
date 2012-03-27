@@ -1,4 +1,3 @@
-#include <iostream>
 #include "MockSocketApi.h"
 
 MockSocketApi::MockSocketApi( MockSocketApiReturnValues& returnValues, MockSocketApiInputValues& inputValues, MockSocketApiFlags& flags )
@@ -17,6 +16,11 @@ int MockSocketApi::socket()
 
   flags_.socketCalled = true;
   return returnValues_.socket;
+}
+
+int MockSocketApi::bind( int, struct sockaddr*, size_t )
+{
+  throw 0;
 }
 
 int MockSocketApi::bind( int socketFD, int portNumber )

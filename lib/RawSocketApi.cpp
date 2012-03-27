@@ -19,6 +19,11 @@ int RawSocketApi::socket()
   return ::socket( AF_INET, SOCK_STREAM, 0 );
 }
 
+int RawSocketApi::bind( int socketFD, struct sockaddr* serverAddress, size_t serverAddressSize )
+{
+  return ::bind( socketFD, serverAddress, serverAddressSize ); 
+}
+
 int RawSocketApi::bind( int socketFD, int portNumber )
 {
   struct sockaddr_in serverAddress;
