@@ -32,12 +32,14 @@ struct MockSocketApiInputValues
   struct sockaddr bindAddress;
   size_t bindSize;
   int accept;
+  socklen_t acceptSockAddressSize;
 
   MockSocketApiInputValues()
   {
     close = listen = bindFD = accept = -1;
     bindSize = 0;
     memset( &bindAddress, 0, sizeof( bindAddress ) );
+    acceptSockAddressSize = (socklen_t) 0;
   }
 };
 

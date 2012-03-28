@@ -51,7 +51,12 @@ SocketConnectionReceiver::~SocketConnectionReceiver()
 
 int SocketConnectionReceiver::nextConnection()
 {
-  int result = socketApi_.accept( this->fd_, 0, 0 );
+  struct sockaddr_in clientAddress;
+  struct sockaddr* clientAddressIn = (struct sockaddr*) &clientAddress;
+
+  socklen_t clientAddressSize = sizeof( clientAddress );
+  
+  int result = socketApi_.accept( this->fd_, clientAddressIn, &clientAddressSize );
   if( result < 0 )
     throw SocketApi::ACCEPT_EXCEPTION;
 

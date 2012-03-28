@@ -136,6 +136,17 @@ TEST_F( SocketConnectionReceiverTester, PassesInCorrectParametersToBind )
   ASSERT_EQ( 0, difference );
 }
 
+TEST_F( SocketConnectionReceiverTester, PassesInCorrectSizeToAccept )
+{
+  SocketConnectionReceiver* receiver = createListener();
+  receiver->nextConnection(); 
+  delete receiver;
+
+  struct sockaddr_in someAddress;
+  socklen_t someAddressSize = sizeof( someAddress );
+  EXPECT_EQ( someAddressSize, inputValues_.acceptSockAddressSize );
+}
+
 //
 // Get rid of address stuff from RawSocketApi
 // Does not crash when you comment out INADDR_ANY

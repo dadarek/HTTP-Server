@@ -42,12 +42,13 @@ int MockSocketApi::accept( int socketFD, struct sockaddr* clientAddress, socklen
     return -1;
 
   inputValues_.accept = socketFD;
+  inputValues_.acceptSockAddressSize = *clientAddressSize;
 
   struct sockaddr_in* clientAddressIn = (struct sockaddr_in*) clientAddress;
 
-  //struct sockaddr_in clientAddress;
-  //socklen_t clientAddressSize = sizeof(clientAddress);
-  //struct sockaddr* clientAddressReference = (struct sockaddr*) &clientAddress;
+  //Try to write random stuff, make sure address is not bogus
+  clientAddressIn->sin_family = AF_INET;
+  clientAddressIn->sin_port = 22;
 
   return returnValues_.accept;
 }
