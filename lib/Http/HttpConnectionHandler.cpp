@@ -1,5 +1,6 @@
 #include "HttpConnectionHandler.h"
 #include "SocketReader.h"
+#include "HttpResponse.h"
 #include "HttpRequest.h"
 #include "HttpRequestParser.h"
 #include "HttpRequestHandler.h"
@@ -23,5 +24,6 @@ void HttpConnectionHandler::handle( int socketFD )
   HttpRequestHandler* handler = factory_.createHandler( *request );
   delete request;
 
-  handler->handle( *request );
+  HttpResponse* response = handler->handle( *request );
+  delete response;
 }

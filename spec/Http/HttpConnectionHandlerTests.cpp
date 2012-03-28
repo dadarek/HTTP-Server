@@ -34,6 +34,7 @@ class HttpConnectionHandlerTester
       , response_( new MockHttpResponse( responseInspector_ ) ) 
     { 
       parser_.parseReturnValue_ = request_;
+      requestHandler_.handleReturnValue_ = response_;
       factory_.createHandlerReturnValue_ = &requestHandler_;
     }
 };
@@ -75,7 +76,14 @@ TEST_F( HttpConnectionHandlerTester, deletesRequest )
   ASSERT_EQ( true, requestInspector_.destroyed );
 }
 
+TEST_F( HttpConnectionHandlerTester, deletesResponses )
+{
+  handler_.handle( 8 );
+  ASSERT_EQ( true, responseInspector_.destroyed );
+}
+
 // make sure it deletes the request and response
 // make sure it deletes response after writing
 // make sure it deletes the HttpHandler
 // HttpConnectionHandler takes a SocketReader AND a SocketAPI? I don't like that ...
+// rename handler_ to connectionHandler_
