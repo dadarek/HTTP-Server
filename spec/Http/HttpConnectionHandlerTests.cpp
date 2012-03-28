@@ -4,8 +4,8 @@
 #include "MockHttpRequestParser.h"
 #include "MockHttpRequestHandler.h"
 #include "MockHttpRequestHandlerFactory.h"
-#include "HttpRequest.h"
-#include "HttpResponse.h"
+#include "MockHttpRequest.h"
+#include "MockHttpResponse.h"
 
 class HttpConnectionHandlerTester
   : public ::testing::Test
@@ -16,7 +16,11 @@ class HttpConnectionHandlerTester
       MockHttpRequestHandler requestHandler_;
       MockHttpRequestHandlerFactory factory_;
       HttpConnectionHandler handler_;
-      HttpRequest request_;
+
+      HttpRequestInspector requestInspector_;
+      HttpResponseInspector responseInspector_;
+      MockHttpRequest* request_;
+      MockHttpResponse* response_;
 
     HttpConnectionHandlerTester()
       : socketReader_()
@@ -24,9 +28,12 @@ class HttpConnectionHandlerTester
       , requestHandler_()
       , factory_()
       , handler_( socketReader_, parser_, factory_ )
-      , request_( "Some Request" )
+      , requestInspector_()
+      , responseInspector_()
+      , request_( new MockHttpRequest( requestInspector_ ) )
+      , response_( new MockHttpResponse( responseInspector_ ) ) 
     { 
-      parser_.parseReturnValue_ = &request_;
+      parser_.parseReturnValue_ = request_;
       factory_.createHandlerReturnValue_ = &requestHandler_;
     }
 };
@@ -53,13 +60,13 @@ TEST_F( HttpConnectionHandlerTester, forwardsSocketDataToParser )
 TEST_F( HttpConnectionHandlerTester, forwardsParserDataToFactory )
 {
   handler_.handle( 8 );
-  ASSERT_EQ( &request_, factory_.requestReceived_ );
+  ASSERT_EQ( request_, factory_.requestReceived_ );
 }
 
 TEST_F( HttpConnectionHandlerTester, forwardsRequestToHandlerFromFactory )
 {
   handler_.handle( 8 );
-  ASSERT_EQ( &request_, requestHandler_.requestReceived_ );
+  ASSERT_EQ( request_, requestHandler_.requestReceived_ );
 }
 
 // make sure it deletes the request and response
