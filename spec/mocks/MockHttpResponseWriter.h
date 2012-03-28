@@ -6,7 +6,7 @@
 class HttpResponse;
 
 class MockHttpResponseWriter
-  : HttpResponseWriter
+  : public HttpResponseWriter
 {
   public:
     HttpResponse* responseReceived_;

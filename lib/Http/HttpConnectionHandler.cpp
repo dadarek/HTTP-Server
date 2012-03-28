@@ -1,15 +1,17 @@
 #include "HttpConnectionHandler.h"
 #include "SocketReader.h"
 #include "HttpResponse.h"
+#include "HttpResponseWriter.h"
 #include "HttpRequest.h"
 #include "HttpRequestParser.h"
 #include "HttpRequestHandler.h"
 #include "HttpRequestHandlerFactory.h"
 
-HttpConnectionHandler::HttpConnectionHandler( SocketReader& socketReader, HttpRequestParser& parser, HttpRequestHandlerFactory& factory )
+HttpConnectionHandler::HttpConnectionHandler( SocketReader& socketReader, HttpRequestParser& parser, HttpRequestHandlerFactory& factory, HttpResponseWriter& writer )
   : socketReader_( socketReader )
   , parser_( parser )
   , factory_( factory )
+  , writer_( writer )
 { 
 }
 

@@ -6,6 +6,7 @@
 class SocketReader;
 class HttpRequestParser;
 class HttpRequestHandlerFactory;
+class HttpResponseWriter;
 
 class HttpConnectionHandler
   : public RequestHandler
@@ -14,9 +15,10 @@ class HttpConnectionHandler
     SocketReader& socketReader_;
     HttpRequestParser& parser_;
     HttpRequestHandlerFactory& factory_;
+    HttpResponseWriter& writer_;
 
   public:
-    HttpConnectionHandler( SocketReader& socketReader, HttpRequestParser& parser, HttpRequestHandlerFactory& factory );
+    HttpConnectionHandler( SocketReader& socketReader, HttpRequestParser& parser, HttpRequestHandlerFactory& factory, HttpResponseWriter& writer );
     virtual ~HttpConnectionHandler();
 
     void handle( int connection );
