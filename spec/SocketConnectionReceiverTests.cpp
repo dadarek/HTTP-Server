@@ -14,6 +14,12 @@ class SocketConnectionReceiverTester
 
     MockSocketApi socketApi_;
 
+    SocketConnectionReceiverTester()
+      : PORT_TO_BIND_TO( 8090 )
+      , returnValues_( 85, 0, 7777 )
+      , socketApi_( returnValues_, inputValues_, flags_ )
+    { }
+
     SocketConnectionReceiver* createReceiver()
     {
       return new SocketConnectionReceiver( socketApi_, PORT_TO_BIND_TO ); 
@@ -24,12 +30,14 @@ class SocketConnectionReceiverTester
       delete createReceiver();
     }
 
-  public:
-    SocketConnectionReceiverTester()
-      : PORT_TO_BIND_TO( 8090 )
-      , returnValues_( 85, 0, 7777 )
-      , socketApi_( returnValues_, inputValues_, flags_ )
-    { }
+    int callNextConnection()
+    {
+      SocketConnectionReceiver* receiver = createReceiver();
+      int result = receiver->nextConnection();
+      delete receiver;
+
+      return result;
+    }
 };
 
 
@@ -72,9 +80,7 @@ TEST_F( SocketConnectionReceiverTester, ThrowsExceptionOnErrorBind )
 
 TEST_F( SocketConnectionReceiverTester, DestructorClosesFD )  
 {
-  {
-    createAndDeleteReceiver();
-  }
+  createAndDeleteReceiver();
   EXPECT_EQ( returnValues_.socket, inputValues_.close );
 }
 
@@ -84,40 +90,22 @@ TEST_F( SocketConnectionReceiverTester, ListensToSocketFDItReceives )
   EXPECT_EQ( returnValues_.socket, inputValues_.listen );
 }
 
-TEST_F( SocketConnectionReceiverTester, AcceptsConnectionsOnSocketFDItReceives )  
-{
-  SocketConnectionReceiver* receiver = createReceiver();
-  receiver->nextConnection();
-
-  EXPECT_EQ( returnValues_.socket, inputValues_.accept );
-  delete receiver;
-}
-
 TEST_F( SocketConnectionReceiverTester, PassesInCorrectSocketFDToAccept )  
 {
-  SocketConnectionReceiver* receiver = createReceiver();
-  receiver->nextConnection();
-
+  callNextConnection();
   EXPECT_EQ( returnValues_.socket, inputValues_.accept );
-  delete receiver;
 }
 
 TEST_F( SocketConnectionReceiverTester, ThrowsExceptionWhenAcceptFails )  
 {
-  SocketConnectionReceiver* receiver = createReceiver();
   flags_.acceptShouldError = true;
-
-  ASSERT_THROW( receiver->nextConnection(), int );
-  delete receiver;
+  ASSERT_THROW( callNextConnection(), int );
 }
 
 TEST_F( SocketConnectionReceiverTester, NextConnectionReturnsCorrectFD )  
 {
-  SocketConnectionReceiver* receiver = createReceiver();
-  int actual = receiver->nextConnection(); 
-
+  int actual = callNextConnection();
   ASSERT_EQ( returnValues_.accept, actual );
-  delete receiver;
 }
 
 TEST_F( SocketConnectionReceiverTester, PassesInCorrectParametersToBind )
@@ -148,10 +136,8 @@ TEST_F( SocketConnectionReceiverTester, PassesInCorrectSizeToAccept )
 }
 
 //
-// Get rid of address stuff from RawSocketApi
 // Does not crash when you comment out INADDR_ANY
 // Does not crash when you comment out bzero
-// Check the sizevalue input into bind
 // If you comment out fd_ = -1 in SocketConnectionReceiver, no tests crash.
 // Maybe we can get rid of the memset( 0 )?
 // Refactor SocketConnectionReceiver (extract method)
