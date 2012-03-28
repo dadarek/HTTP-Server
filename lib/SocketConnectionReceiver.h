@@ -16,6 +16,8 @@ class SocketConnectionReceiver
     void bindToSocket( int portToBindTo );
     void closeSocket();
 
+    struct sockaddr_in createBindAddress( int portToBindTo );
+
   public:
     SocketConnectionReceiver( SocketApi& socketApi, int portToBindTo );
     virtual ~SocketConnectionReceiver();

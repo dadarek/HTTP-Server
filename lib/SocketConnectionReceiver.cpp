@@ -26,14 +26,8 @@ void SocketConnectionReceiver::createSocket()
 
 void SocketConnectionReceiver::bindToSocket( int portToBindTo )
 {
-  struct sockaddr_in serverAddress;
-  bzero((char *) &serverAddress, sizeof(serverAddress));
-  serverAddress.sin_family = AF_INET;
-  serverAddress.sin_addr.s_addr = INADDR_ANY;
-  serverAddress.sin_port = htons( portToBindTo );
-
+  struct sockaddr_in serverAddress = createBindAddress( portToBindTo );
   struct sockaddr* serverAddressReference = (struct sockaddr*) &serverAddress;
-
   size_t serverAddressSize = sizeof( serverAddress );
 
   int bindResult = socketApi_.bind( fd_, serverAddressReference, serverAddressSize );
@@ -42,6 +36,17 @@ void SocketConnectionReceiver::bindToSocket( int portToBindTo )
     closeSocket();
     throw SocketApi::BIND_EXCEPTION;
   }
+}
+
+struct sockaddr_in SocketConnectionReceiver::createBindAddress( int portToBindTo )
+{
+  struct sockaddr_in result;
+  bzero((char *) &result, sizeof( result ));
+  result.sin_family = AF_INET;
+  result.sin_addr.s_addr = INADDR_ANY;
+  result.sin_port = htons( portToBindTo );
+
+  return result;
 }
 
 SocketConnectionReceiver::~SocketConnectionReceiver()
