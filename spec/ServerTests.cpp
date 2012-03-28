@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 #include "Server.h"
-#include "mocks/MockRequestHandler.h"
-#include "mocks/MockConnectionReceiver.h"
+#include "MockRequestHandler.h"
+#include "MockConnectionReceiver.h"
 
 class ServerTests
   : public testing::Test

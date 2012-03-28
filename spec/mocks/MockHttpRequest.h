@@ -3,7 +3,7 @@
 
 #include "HttpRequest.h"
 
-class HttpConnectionHandlerInspector;
+struct HttpConnectionHandlerInspector;
 
 class MockHttpRequest
   : public HttpRequest

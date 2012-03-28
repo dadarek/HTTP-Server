@@ -3,14 +3,19 @@
 
 #include "HttpRequestHandler.h"
 
+struct HttpConnectionHandlerInspector;
+
 class MockHttpRequestHandler
   : public HttpRequestHandler
 {
+  private:
+    HttpConnectionHandlerInspector& inspector_;
+
   public:
     HttpRequest* requestReceived_;
     HttpResponse* handleReturnValue_;
 
-    MockHttpRequestHandler();
+    MockHttpRequestHandler( HttpConnectionHandlerInspector& inspector );
     virtual ~MockHttpRequestHandler();
 
     HttpResponse* handle( HttpRequest& request);

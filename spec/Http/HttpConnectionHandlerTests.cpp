@@ -14,20 +14,21 @@ class HttpConnectionHandlerTester
   public:
     static const int SOCKET_TO_HANDLE;
 
+    HttpConnectionHandlerInspector inspector_;
+
     MockSocketReader socketReader_;
     MockHttpRequestParser parser_;
     MockHttpRequestHandler requestHandler_;
     MockHttpRequestHandlerFactory factory_;
     HttpConnectionHandler connectionHandler_;
 
-    HttpConnectionHandlerInspector inspector_;
     MockHttpRequest* request_;
     MockHttpResponse* response_;
 
     HttpConnectionHandlerTester()
       : socketReader_()
       , parser_()
-      , requestHandler_()
+      , requestHandler_( inspector_ )
       , factory_()
       , connectionHandler_( socketReader_, parser_, factory_ )
       , request_( new MockHttpRequest( inspector_ ) )

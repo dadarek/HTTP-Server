@@ -3,7 +3,7 @@
 
 #include "HttpResponse.h"
 
-class HttpConnectionHandlerInspector;
+struct HttpConnectionHandlerInspector;
 
 class MockHttpResponse
   : public HttpResponse
