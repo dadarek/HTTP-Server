@@ -11,16 +11,18 @@ class HttpConnectionHandlerTester
   : public ::testing::Test
 {
   public:
-      MockSocketReader socketReader_;
-      MockHttpRequestParser parser_;
-      MockHttpRequestHandler requestHandler_;
-      MockHttpRequestHandlerFactory factory_;
-      HttpConnectionHandler connectionHandler_;
+    static const int SOCKET_TO_HANDLE;
 
-      HttpRequestInspector requestInspector_;
-      HttpResponseInspector responseInspector_;
-      MockHttpRequest* request_;
-      MockHttpResponse* response_;
+    MockSocketReader socketReader_;
+    MockHttpRequestParser parser_;
+    MockHttpRequestHandler requestHandler_;
+    MockHttpRequestHandlerFactory factory_;
+    HttpConnectionHandler connectionHandler_;
+
+    HttpRequestInspector requestInspector_;
+    HttpResponseInspector responseInspector_;
+    MockHttpRequest* request_;
+    MockHttpResponse* response_;
 
     HttpConnectionHandlerTester()
       : socketReader_()
@@ -37,48 +39,55 @@ class HttpConnectionHandlerTester
       requestHandler_.handleReturnValue_ = response_;
       factory_.createHandlerReturnValue_ = &requestHandler_;
     }
+
+    void handleSomething()
+    {
+      connectionHandler_.handle( HttpConnectionHandlerTester::SOCKET_TO_HANDLE );
+    }
 };
+
+const int HttpConnectionHandlerTester::SOCKET_TO_HANDLE = 5;
 
 TEST_F( HttpConnectionHandlerTester, readsToEnd )
 {
-  connectionHandler_.handle( 5 );
+  handleSomething();
   ASSERT_EQ( true, socketReader_.readToEnd_ );
 }
 
 TEST_F( HttpConnectionHandlerTester, readsOnSocketItReceives )
 {
-  connectionHandler_.handle( 8 );
-  ASSERT_EQ( 8, socketReader_.socketFDRead_ );
+  handleSomething();
+  ASSERT_EQ( HttpConnectionHandlerTester::SOCKET_TO_HANDLE, socketReader_.socketFDRead_ );
 }
 
 TEST_F( HttpConnectionHandlerTester, forwardsSocketDataToParser )
 {
   socketReader_.readToEndReturnValue_ = "Hi there";
-  connectionHandler_.handle( 8 );
+  handleSomething();
   ASSERT_STREQ( "Hi there", parser_.stringToParse_.c_str() );
 }
 
 TEST_F( HttpConnectionHandlerTester, forwardsParserDataToFactory )
 {
-  connectionHandler_.handle( 8 );
+  handleSomething();
   ASSERT_EQ( request_, factory_.requestReceived_ );
 }
 
 TEST_F( HttpConnectionHandlerTester, forwardsRequestToHandlerFromFactory )
 {
-  connectionHandler_.handle( 8 );
+  handleSomething();
   ASSERT_EQ( request_, requestHandler_.requestReceived_ );
 }
 
 TEST_F( HttpConnectionHandlerTester, deletesRequest )
 {
-  connectionHandler_.handle( 8 );
+  handleSomething();
   ASSERT_EQ( true, requestInspector_.destroyed );
 }
 
 TEST_F( HttpConnectionHandlerTester, deletesResponses )
 {
-  connectionHandler_.handle( 8 );
+  handleSomething();
   ASSERT_EQ( true, responseInspector_.destroyed );
 }
 
