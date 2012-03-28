@@ -7,6 +7,7 @@
 #include "MockHttpRequestHandlerFactory.h"
 #include "MockHttpRequest.h"
 #include "MockHttpResponse.h"
+#include "MockHttpResponseWriter.h"
 
 class HttpConnectionHandlerTester
   : public ::testing::Test
@@ -19,6 +20,7 @@ class HttpConnectionHandlerTester
     MockSocketReader socketReader_;
     MockHttpRequestParser parser_;
     MockHttpRequestHandlerFactory factory_;
+    MockHttpResponseWriter writer_;
 
     MockHttpRequest* request_;
     MockHttpResponse* response_;
@@ -30,6 +32,7 @@ class HttpConnectionHandlerTester
       : socketReader_()
       , parser_()
       , factory_()
+      , writer_()
       , request_( new MockHttpRequest( inspector_ ) )
       , response_( new MockHttpResponse( inspector_ ) ) 
       , requestHandler_( new MockHttpRequestHandler( inspector_ ) )
@@ -97,6 +100,11 @@ TEST_F( HttpConnectionHandlerTester, deletesHandler )
   ASSERT_EQ( true, inspector_.handlerDestroyed );
 }
 
+TEST_F( HttpConnectionHandlerTester, forwardsResponseToResponseWriter )
+{
+  handleSomething();
+  ASSERT_EQ( response_, writer_.responseReceived_ );
+}
+
 // make sure it deletes response after writing
-// make sure it deletes the HttpHandler
 // HttpConnectionHandler takes a SocketReader AND a SocketAPI? I don't like that ...

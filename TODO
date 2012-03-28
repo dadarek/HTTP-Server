@@ -17,3 +17,6 @@
 
 - Make sure SOMEBODY closes the client socket - probably server after delegatin to connection handler (write tests for this).
 
+- Make sure that any objects passed into HttpConnectionHandler (which will
+  probably be a thread) are ALL STATELESS!!!
+
