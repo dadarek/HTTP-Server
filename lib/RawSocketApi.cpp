@@ -29,6 +29,12 @@ void RawSocketApi::listen( int socketFD )
   ::listen( socketFD, 5 );
 }
 
+int RawSocketApi::accept( int socketFD, struct sockaddr* clientAddress, socklen_t* clientAddressSize )
+{
+  throw 0;
+  //return ::accept( socketFD, clientAddress, clientAddressSize );
+}
+
 int RawSocketApi::accept( int socketFD )
 {
   struct sockaddr_in clientAddress;

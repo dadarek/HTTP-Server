@@ -8,8 +8,21 @@
 #include "HttpRequestParserImpl.h"
 #include "HttpRequest.h"
 
+#include <iostream>
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h> 
+#include <sys/socket.h>
+#include <netinet/in.h>
+
 int a()
 {
+
+  std::cout << "Hi" << std::endl;
+  std::cout << INADDR_ANY << std::endl;
 
   RawSocketApi socketApi;
   SocketConnectionReceiver receiver( socketApi, 8083 );

@@ -18,13 +18,13 @@ int MockSocketReadApi::socket()
 int MockSocketReadApi::bind( int , struct sockaddr* , size_t )
 { throw 0; }
 
-int MockSocketReadApi::bind( int, int )
-{ throw 0; }
-
 void MockSocketReadApi::listen( int )
 { throw 0; }
 
 int MockSocketReadApi::accept( int )
+{ throw 0; }
+
+int MockSocketReadApi::accept( int socketFD, struct sockaddr* clientAddress, socklen_t* clientAddressSize )
 { throw 0; }
 
 void MockSocketReadApi::close( int )

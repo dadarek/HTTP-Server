@@ -136,9 +136,10 @@ TEST_F( SocketConnectionReceiverTester, PassesInCorrectParametersToBind )
   ASSERT_EQ( 0, difference );
 }
 
-
-// Delete line by line in SocketConnectionReceiver and see if tests break
+//
 // Get rid of address stuff from RawSocketApi
 // Does not crash when you comment out INADDR_ANY
 // Does not crash when you comment out bzero
 // Check the sizevalue input into bind
+// If you comment out fd_ = -1 in SocketConnectionReceiver, no tests crash.
+// Maybe we can get rid of the memset( 0 )?

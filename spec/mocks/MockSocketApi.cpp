@@ -18,6 +18,9 @@ int MockSocketApi::socket()
   return returnValues_.socket;
 }
 
+int MockSocketApi::accept( int socketFD, struct sockaddr* clientAddress, socklen_t* clientAddressSize )
+{ throw 0; }
+
 int MockSocketApi::bind( int socketFD, struct sockaddr* address, size_t )
 {
   if( flags_.bindShouldError )
