@@ -35,7 +35,6 @@ clean :
 main : 
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread -I${HEADERS_DIR} -I${HTTP_HEADERS_DIR} -I${FILE_IO_HEADERS_DIR} ${LIB_DIR}/*.cpp ${HTTP_LIB_DIR}/*.cpp ${FILE_IO_LIB_DIR}/*.cpp -o main
 	rm -r main.dSYM
-	./main
 
 
 # Builds gtest.a and gtest_main.a.
