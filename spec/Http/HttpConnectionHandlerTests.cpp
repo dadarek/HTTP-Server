@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "HttpConnectionHandler.h"
+#include "HttpConnectionHandlerInspector.h"
 #include "MockSocketReader.h"
 #include "MockHttpRequestParser.h"
 #include "MockHttpRequestHandler.h"
@@ -19,8 +20,7 @@ class HttpConnectionHandlerTester
     MockHttpRequestHandlerFactory factory_;
     HttpConnectionHandler connectionHandler_;
 
-    HttpRequestInspector requestInspector_;
-    HttpResponseInspector responseInspector_;
+    HttpConnectionHandlerInspector inspector_;
     MockHttpRequest* request_;
     MockHttpResponse* response_;
 
@@ -30,10 +30,8 @@ class HttpConnectionHandlerTester
       , requestHandler_()
       , factory_()
       , connectionHandler_( socketReader_, parser_, factory_ )
-      , requestInspector_()
-      , responseInspector_()
-      , request_( new MockHttpRequest( requestInspector_ ) )
-      , response_( new MockHttpResponse( responseInspector_ ) ) 
+      , request_( new MockHttpRequest( inspector_ ) )
+      , response_( new MockHttpResponse( inspector_ ) ) 
     { 
       parser_.parseReturnValue_ = request_;
       requestHandler_.handleReturnValue_ = response_;
@@ -82,13 +80,13 @@ TEST_F( HttpConnectionHandlerTester, forwardsRequestToHandlerFromFactory )
 TEST_F( HttpConnectionHandlerTester, deletesRequest )
 {
   handleSomething();
-  ASSERT_EQ( true, requestInspector_.destroyed );
+  ASSERT_EQ( true, inspector_.requestDestroyed );
 }
 
 TEST_F( HttpConnectionHandlerTester, deletesResponses )
 {
   handleSomething();
-  ASSERT_EQ( true, responseInspector_.destroyed );
+  ASSERT_EQ( true, inspector_.responseDestroyed );
 }
 
 // make sure it deletes response after writing

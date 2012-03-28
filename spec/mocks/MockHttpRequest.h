@@ -3,22 +3,16 @@
 
 #include "HttpRequest.h"
 
-struct HttpRequestInspector
-{
-  bool destroyed;
-  HttpRequestInspector()
-    : destroyed( false )
-  { }
-};
+class HttpConnectionHandlerInspector;
 
 class MockHttpRequest
   : public HttpRequest
 {
   private:
-    HttpRequestInspector& inspector_;
+    HttpConnectionHandlerInspector& inspector_;
 
   public:
-    MockHttpRequest( HttpRequestInspector& inspector );
+    MockHttpRequest( HttpConnectionHandlerInspector& inspector );
     virtual ~MockHttpRequest();
 
 };

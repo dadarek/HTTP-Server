@@ -3,22 +3,16 @@
 
 #include "HttpResponse.h"
 
-struct HttpResponseInspector
-{
-  bool destroyed;
-  HttpResponseInspector()
-    : destroyed( false )
-  { }
-};
+class HttpConnectionHandlerInspector;
 
 class MockHttpResponse
   : public HttpResponse
 {
   private:
-    HttpResponseInspector& inspector_;
+    HttpConnectionHandlerInspector& inspector_;
 
   public:
-    MockHttpResponse( HttpResponseInspector& inspector );
+    MockHttpResponse( HttpConnectionHandlerInspector& inspector );
     virtual ~MockHttpResponse();
 
 };

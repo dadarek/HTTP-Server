@@ -1,11 +1,12 @@
 #include "MockHttpRequest.h"
+#include "HttpConnectionHandlerInspector.h"
 
-MockHttpRequest::MockHttpRequest( HttpRequestInspector& inspector )
+MockHttpRequest::MockHttpRequest( HttpConnectionHandlerInspector& inspector )
   : HttpRequest( "" )
   , inspector_( inspector )
 { }
 
 MockHttpRequest::~MockHttpRequest()
 {
-  inspector_.destroyed = true;
+  inspector_.requestDestroyed = true;
 }

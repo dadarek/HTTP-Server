@@ -1,11 +1,12 @@
 #include "MockHttpResponse.h"
+#include "HttpConnectionHandlerInspector.h"
 
-MockHttpResponse::MockHttpResponse( HttpResponseInspector& inspector )
+MockHttpResponse::MockHttpResponse( HttpConnectionHandlerInspector& inspector )
   : HttpResponse( "" )
   , inspector_( inspector )
 { }
 
 MockHttpResponse::~MockHttpResponse()
 {
-  inspector_.destroyed = true;
+  inspector_.responseDestroyed = true;
 }
