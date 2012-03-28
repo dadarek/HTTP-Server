@@ -14,14 +14,14 @@ class SocketConnectionReceiverTester
 
     MockSocketApi socketApi_;
 
-    SocketConnectionReceiver* createListener()
+    SocketConnectionReceiver* createReceiver()
     {
       return new SocketConnectionReceiver( socketApi_, PORT_TO_BIND_TO ); 
     }
 
-    void createAndDeleteListener()
+    void createAndDeleteReceiver()
     {
-      delete createListener();
+      delete createReceiver();
     }
 
   public:
@@ -35,14 +35,14 @@ class SocketConnectionReceiverTester
 
 TEST_F( SocketConnectionReceiverTester, CreatesASocket )
 {
-  createAndDeleteListener();
+  createAndDeleteReceiver();
   ASSERT_TRUE( flags_.socketCalled );
 }
 
 TEST_F( SocketConnectionReceiverTester, ThrowsExceptionOnErrorSocket ) 
 {
   flags_.socketShouldError = true;
-  ASSERT_THROW( createAndDeleteListener(), int );
+  ASSERT_THROW( createAndDeleteReceiver(), int );
 }
 
 TEST_F( SocketConnectionReceiverTester, ClosesFDOnBindException ) 
@@ -50,7 +50,7 @@ TEST_F( SocketConnectionReceiverTester, ClosesFDOnBindException )
   flags_.bindShouldError = true;
   try
   {
-    createAndDeleteListener();
+    createAndDeleteReceiver();
   }
   catch( int )
   { }
@@ -60,33 +60,33 @@ TEST_F( SocketConnectionReceiverTester, ClosesFDOnBindException )
 
 TEST_F( SocketConnectionReceiverTester, BindsToSocketFDItReceives ) 
 {
-  createAndDeleteListener();
+  createAndDeleteReceiver();
   EXPECT_EQ( returnValues_.socket, inputValues_.bindFD );
 }
 
 TEST_F( SocketConnectionReceiverTester, ThrowsExceptionOnErrorBind )  
 {
   flags_.bindShouldError = true;
-  ASSERT_THROW( createAndDeleteListener(), int );
+  ASSERT_THROW( createAndDeleteReceiver(), int );
 }
 
 TEST_F( SocketConnectionReceiverTester, DestructorClosesFD )  
 {
   {
-    createAndDeleteListener();
+    createAndDeleteReceiver();
   }
   EXPECT_EQ( returnValues_.socket, inputValues_.close );
 }
 
 TEST_F( SocketConnectionReceiverTester, ListensToSocketFDItReceives )  
 {
-  createAndDeleteListener();
+  createAndDeleteReceiver();
   EXPECT_EQ( returnValues_.socket, inputValues_.listen );
 }
 
 TEST_F( SocketConnectionReceiverTester, AcceptsConnectionsOnSocketFDItReceives )  
 {
-  SocketConnectionReceiver* receiver = createListener();
+  SocketConnectionReceiver* receiver = createReceiver();
   receiver->nextConnection();
 
   EXPECT_EQ( returnValues_.socket, inputValues_.accept );
@@ -95,7 +95,7 @@ TEST_F( SocketConnectionReceiverTester, AcceptsConnectionsOnSocketFDItReceives )
 
 TEST_F( SocketConnectionReceiverTester, PassesInCorrectSocketFDToAccept )  
 {
-  SocketConnectionReceiver* receiver = createListener();
+  SocketConnectionReceiver* receiver = createReceiver();
   receiver->nextConnection();
 
   EXPECT_EQ( returnValues_.socket, inputValues_.accept );
@@ -104,7 +104,7 @@ TEST_F( SocketConnectionReceiverTester, PassesInCorrectSocketFDToAccept )
 
 TEST_F( SocketConnectionReceiverTester, ThrowsExceptionWhenAcceptFails )  
 {
-  SocketConnectionReceiver* receiver = createListener();
+  SocketConnectionReceiver* receiver = createReceiver();
   flags_.acceptShouldError = true;
 
   ASSERT_THROW( receiver->nextConnection(), int );
@@ -113,7 +113,7 @@ TEST_F( SocketConnectionReceiverTester, ThrowsExceptionWhenAcceptFails )
 
 TEST_F( SocketConnectionReceiverTester, NextConnectionReturnsCorrectFD )  
 {
-  SocketConnectionReceiver* receiver = createListener();
+  SocketConnectionReceiver* receiver = createReceiver();
   int actual = receiver->nextConnection(); 
 
   ASSERT_EQ( returnValues_.accept, actual );
@@ -129,7 +129,7 @@ TEST_F( SocketConnectionReceiverTester, PassesInCorrectParametersToBind )
   expectedAddress.sin_addr.s_addr = INADDR_ANY;
   expectedAddress.sin_port = htons( PORT_TO_BIND_TO );
 
-  createAndDeleteListener();
+  createAndDeleteReceiver();
   
   int difference = memcmp( &expectedAddress, &(inputValues_.bindAddress), addressSize );
 
@@ -138,7 +138,7 @@ TEST_F( SocketConnectionReceiverTester, PassesInCorrectParametersToBind )
 
 TEST_F( SocketConnectionReceiverTester, PassesInCorrectSizeToAccept )
 {
-  SocketConnectionReceiver* receiver = createListener();
+  SocketConnectionReceiver* receiver = createReceiver();
   receiver->nextConnection(); 
   delete receiver;
 
