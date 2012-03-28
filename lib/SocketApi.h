@@ -17,7 +17,6 @@ class SocketApi
     virtual int bind( int socketFD, struct sockaddr* serverAddress, size_t serverAddressSize ) = 0;
     virtual void listen( int socketFD ) = 0;
     virtual int accept( int socketFD, struct sockaddr* clientAddress, socklen_t* clientAddressSize ) = 0;
-    virtual int accept( int socketFD ) = 0;
     virtual void close( int socketFD ) = 0;
 
     virtual int read( int socketFD, char* buffer, unsigned bufferSize ) = 0;

@@ -18,9 +18,6 @@ int MockSocketApi::socket()
   return returnValues_.socket;
 }
 
-int MockSocketApi::accept( int socketFD, struct sockaddr* clientAddress, socklen_t* clientAddressSize )
-{ throw 0; }
-
 int MockSocketApi::bind( int socketFD, struct sockaddr* address, size_t )
 {
   if( flags_.bindShouldError )
@@ -39,12 +36,19 @@ void MockSocketApi::listen( int socketFD )
   inputValues_.listen = socketFD;
 }
 
-int MockSocketApi::accept( int socketFD )
-{
+int MockSocketApi::accept( int socketFD, struct sockaddr* clientAddress, socklen_t* clientAddressSize )
+{ 
   if( flags_.acceptShouldError )
     return -1;
 
   inputValues_.accept = socketFD;
+
+  struct sockaddr_in* clientAddressIn = (struct sockaddr_in*) clientAddress;
+
+  //struct sockaddr_in clientAddress;
+  //socklen_t clientAddressSize = sizeof(clientAddress);
+  //struct sockaddr* clientAddressReference = (struct sockaddr*) &clientAddress;
+
   return returnValues_.accept;
 }
 

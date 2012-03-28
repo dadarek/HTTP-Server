@@ -51,7 +51,7 @@ SocketConnectionReceiver::~SocketConnectionReceiver()
 
 int SocketConnectionReceiver::nextConnection()
 {
-  int result = socketApi_.accept( this->fd_ );
+  int result = socketApi_.accept( this->fd_, 0, 0 );
   if( result < 0 )
     throw SocketApi::ACCEPT_EXCEPTION;
 

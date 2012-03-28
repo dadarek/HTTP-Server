@@ -143,3 +143,4 @@ TEST_F( SocketConnectionReceiverTester, PassesInCorrectParametersToBind )
 // Check the sizevalue input into bind
 // If you comment out fd_ = -1 in SocketConnectionReceiver, no tests crash.
 // Maybe we can get rid of the memset( 0 )?
+// Refactor SocketConnectionReceiver (extract method)
