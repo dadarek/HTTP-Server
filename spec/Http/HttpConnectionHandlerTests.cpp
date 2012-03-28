@@ -69,6 +69,12 @@ TEST_F( HttpConnectionHandlerTester, forwardsRequestToHandlerFromFactory )
   ASSERT_EQ( request_, requestHandler_.requestReceived_ );
 }
 
+TEST_F( HttpConnectionHandlerTester, deletesRequest )
+{
+  handler_.handle( 8 );
+  ASSERT_EQ( true, requestInspector_.destroyed );
+}
+
 // make sure it deletes the request and response
 // make sure it deletes response after writing
 // make sure it deletes the HttpHandler
