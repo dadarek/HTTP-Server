@@ -18,25 +18,26 @@ class HttpConnectionHandlerTester
 
     MockSocketReader socketReader_;
     MockHttpRequestParser parser_;
-    MockHttpRequestHandler requestHandler_;
     MockHttpRequestHandlerFactory factory_;
-    HttpConnectionHandler connectionHandler_;
 
     MockHttpRequest* request_;
     MockHttpResponse* response_;
+    MockHttpRequestHandler* requestHandler_;
+
+    HttpConnectionHandler connectionHandler_;
 
     HttpConnectionHandlerTester()
       : socketReader_()
       , parser_()
-      , requestHandler_( inspector_ )
       , factory_()
-      , connectionHandler_( socketReader_, parser_, factory_ )
       , request_( new MockHttpRequest( inspector_ ) )
       , response_( new MockHttpResponse( inspector_ ) ) 
+      , requestHandler_( new MockHttpRequestHandler( inspector_ ) )
+      , connectionHandler_( socketReader_, parser_, factory_ )
     { 
       parser_.parseReturnValue_ = request_;
-      requestHandler_.handleReturnValue_ = response_;
-      factory_.createHandlerReturnValue_ = &requestHandler_;
+      requestHandler_->handleReturnValue_ = response_;
+      factory_.createHandlerReturnValue_ = requestHandler_;
     }
 
     void handleSomething()
@@ -75,7 +76,7 @@ TEST_F( HttpConnectionHandlerTester, forwardsParserDataToFactory )
 TEST_F( HttpConnectionHandlerTester, forwardsRequestToHandlerFromFactory )
 {
   handleSomething();
-  ASSERT_EQ( request_, requestHandler_.requestReceived_ );
+  ASSERT_EQ( request_, requestHandler_->requestReceived_ );
 }
 
 TEST_F( HttpConnectionHandlerTester, deletesRequest )
@@ -90,7 +91,12 @@ TEST_F( HttpConnectionHandlerTester, deletesResponses )
   ASSERT_EQ( true, inspector_.responseDestroyed );
 }
 
+TEST_F( HttpConnectionHandlerTester, deletesHandler )
+{
+  handleSomething();
+  ASSERT_EQ( true, inspector_.handlerDestroyed );
+}
+
 // make sure it deletes response after writing
 // make sure it deletes the HttpHandler
 // HttpConnectionHandler takes a SocketReader AND a SocketAPI? I don't like that ...
-// rename handler_ to connectionHandler_

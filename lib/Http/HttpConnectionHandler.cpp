@@ -26,4 +26,5 @@ void HttpConnectionHandler::handle( int socketFD )
 
   HttpResponse* response = handler->handle( *request );
   delete response;
+  delete handler;
 }
