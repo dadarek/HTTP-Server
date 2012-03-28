@@ -66,6 +66,5 @@ int SocketConnectionReceiver::nextConnection()
 void SocketConnectionReceiver::closeSocket()
 {
   socketApi_.close( fd_ );
-  fd_ = -1;
 }
 

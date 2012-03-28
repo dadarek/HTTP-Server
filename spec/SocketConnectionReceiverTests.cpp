@@ -134,10 +134,3 @@ TEST_F( SocketConnectionReceiverTester, PassesInCorrectSizeToAccept )
   socklen_t someAddressSize = sizeof( someAddress );
   EXPECT_EQ( someAddressSize, inputValues_.acceptSockAddressSize );
 }
-
-//
-// Does not crash when you comment out INADDR_ANY
-// Does not crash when you comment out bzero
-// If you comment out fd_ = -1 in SocketConnectionReceiver, no tests crash.
-// Maybe we can get rid of the memset( 0 )?
-// Refactor SocketConnectionReceiver (extract method)
