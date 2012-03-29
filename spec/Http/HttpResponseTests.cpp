@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 #include "HttpResponse.h"
 
-TEST( HttpResponseTests, KeepsItsAssignedValue )
+TEST( HttpResponseTests, storesStrings )
 {
   char body[10];
   size_t size = sizeof( body );
@@ -12,6 +12,23 @@ TEST( HttpResponseTests, KeepsItsAssignedValue )
   int diff = memcmp( body, response.charBody(), size );
   
   ASSERT_EQ( 0, diff );
+}
+
+TEST( HttpResponseTests, storesBinary )
+{
+  char body[4];
+  size_t size = sizeof( body );
+  
+  body[0] = 0;
+  body[1] = 15;
+  body[2] = '\0';
+  body[3] = 255;
+
+  HttpResponse response( body, size );
+  ASSERT_EQ( body[0], response.charBody()[0] );
+  ASSERT_EQ( body[1], response.charBody()[1] );
+  ASSERT_EQ( body[2], response.charBody()[2] );
+  ASSERT_EQ( body[3], response.charBody()[3] );
 }
 
 TEST( HttpResponseTests, KeepsItsAssignedValue3 )
