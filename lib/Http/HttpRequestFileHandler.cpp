@@ -13,8 +13,10 @@ HttpRequestFileHandler::~HttpRequestFileHandler()
 HttpResponse* HttpRequestFileHandler::handle( HttpRequest& request )
 {
   std::string path( basePath_ + request.url() );
-  reader_.readToEnd( path );
-  return 0;
+  std::string fileContents = reader_.readToEnd( path );
+
+  HttpResponse* response = new HttpResponse( fileContents );
+  return response;
 }
 
 
