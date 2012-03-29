@@ -1,7 +1,7 @@
 #ifndef MOCK_SOCKET_WRITE_API_H
 #define MOCK_SOCKET_WRITE_API_H
 
-#include <string>
+#include <sstream>
 #include "SocketApi.h"
 
 class MockSocketWriteApi
@@ -9,7 +9,9 @@ class MockSocketWriteApi
 {
   public:
     int socketWrittenTo_;
-    std::string whatWasWritten_;
+    std::stringstream whatWasWritten_;
+    size_t howMuchWasClaimedToBeWritten_;
+    int whatToReturn_;
 
     MockSocketWriteApi();
     virtual ~MockSocketWriteApi();

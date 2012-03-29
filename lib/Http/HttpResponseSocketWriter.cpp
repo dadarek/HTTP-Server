@@ -9,5 +9,5 @@ HttpResponseSocketWriter::~HttpResponseSocketWriter()
 
 void HttpResponseSocketWriter::write( HttpResponse& response )
 {
-  throw 0;
+  socketApi_.write( -1, response.body(), -1 );
 }

@@ -4,6 +4,7 @@
 
 MockSocketWriteApi::MockSocketWriteApi()
   : socketWrittenTo_( -1 )
+  , whatToReturn_( -1 )
 { }
 
 MockSocketWriteApi::~MockSocketWriteApi()
@@ -27,6 +28,11 @@ void MockSocketWriteApi::close( int )
 int MockSocketWriteApi::read( int, char*, unsigned )
 { throw 0; }
 
-int MockSocketWriteApi::write( int, char*, unsigned )
-{ throw 0; }
+int MockSocketWriteApi::write( int socketFD, char* content, unsigned contentSize )
+{
+  socketWrittenTo_ = socketFD;
+  whatWasWritten_ << content;
+  howMuchWasClaimedToBeWritten_ = contentSize;
 
+  return whatToReturn_;
+}

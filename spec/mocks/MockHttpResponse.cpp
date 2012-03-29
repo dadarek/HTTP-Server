@@ -6,6 +6,11 @@ MockHttpResponse::MockHttpResponse( HttpConnectionHandlerInspector& inspector )
   , inspector_( inspector )
 { }
 
+MockHttpResponse::MockHttpResponse( HttpConnectionHandlerInspector& inspector, const char* body )
+  : HttpResponse( body )
+  , inspector_( inspector )
+{ }
+
 MockHttpResponse::~MockHttpResponse()
 {
   inspector_.responseDestroyed = true;
