@@ -107,5 +107,3 @@ TEST_F( HttpConnectionHandlerTester, forwardsResponseToResponseWriter )
   ASSERT_EQ( response_, writer_.responseReceived_ );
 }
 
-// make sure it deletes response after writing
-// HttpConnectionHandler takes a SocketReader AND a SocketAPI? I don't like that ...
