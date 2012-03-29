@@ -31,6 +31,12 @@ TEST( HttpResponseTests, storesBinary )
   ASSERT_EQ( body[3], response.charBody()[3] );
 }
 
+TEST( HttpResponseTests, remembersTheResponseSize )
+{
+  HttpResponse response( "something", 9 );
+  ASSERT_EQ( 9, (int) response.bodyLength() );
+}
+
 TEST( HttpResponseTests, KeepsItsAssignedValue3 )
 {
   std::string body = "This\nis the body\n\nyo.";

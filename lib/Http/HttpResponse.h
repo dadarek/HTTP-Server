@@ -8,6 +8,7 @@ class HttpResponse
   private:
     std::string body_;
     char* charBody_;
+    size_t bodyLength_;
 
   public:
     HttpResponse( std::string body );
@@ -16,6 +17,7 @@ class HttpResponse
 
     std::string body();
     const char* charBody();
+    size_t bodyLength();
 };
 
 #endif
