@@ -1,16 +1,16 @@
-#include "FileReader.h"
+#include "SystemFileReader.h"
 #include "File.h"
 #include "FileFactory.h"
 #include "FileNotFoundException.h"
 
-FileReader::FileReader( FileFactory& factory )
+SystemFileReader::SystemFileReader( FileFactory& factory )
   : factory_( factory )
 { }
 
-FileReader::~FileReader()
+SystemFileReader::~SystemFileReader()
 { }
 
-std::string FileReader::readToEnd( const std::string path )
+std::string SystemFileReader::readToEnd( const std::string path )
 {
   File* file = open( path );
   std::string result = getContents( file );
@@ -19,7 +19,7 @@ std::string FileReader::readToEnd( const std::string path )
   return result;
 }
 
-std::string FileReader::getContents( File* file )
+std::string SystemFileReader::getContents( File* file )
 {
   size_t fileSize = file->size();
   char* buffer = new char[ fileSize ];
@@ -34,13 +34,13 @@ std::string FileReader::getContents( File* file )
   return contents;
 }
 
-void FileReader::closeAndDelete( File* file )
+void SystemFileReader::closeAndDelete( File* file )
 {
   file->close();
   delete file;
 }
 
-File* FileReader::open( const std::string path )
+File* SystemFileReader::open( const std::string path )
 {
   File* file = factory_.open( path.c_str(), getOpenMode() );
   if( !file->isOpen() )
@@ -51,7 +51,7 @@ File* FileReader::open( const std::string path )
   return file;
 }
 
-std::ios_base::openmode FileReader::getOpenMode()
+std::ios_base::openmode SystemFileReader::getOpenMode()
 {
   return std::ios::in | std::ios::ate | std::ios::binary;
 }
