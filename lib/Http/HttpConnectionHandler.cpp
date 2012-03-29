@@ -23,10 +23,11 @@ void HttpConnectionHandler::handle( int socketFD )
 { 
   std::string requestString = socketReader_.readToEnd( socketFD );
   HttpRequest* request =  parser_.parse( requestString );
+
   HttpRequestHandler* handler = factory_.createHandler( *request );
+  HttpResponse* response = handler->handle( *request );
   delete request;
 
-  HttpResponse* response = handler->handle( *request );
   writer_.write( *response );
   delete response;
   delete handler;
