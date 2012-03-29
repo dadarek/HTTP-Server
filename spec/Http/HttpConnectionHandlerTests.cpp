@@ -29,10 +29,11 @@ class HttpConnectionHandlerTester
     HttpConnectionHandler connectionHandler_;
 
     HttpConnectionHandlerTester()
-      : socketReader_()
+      : inspector_()
+      , socketReader_()
       , parser_()
       , factory_()
-      , writer_()
+      , writer_( inspector_ )
       , request_( new MockHttpRequest( inspector_ ) )
       , response_( new MockHttpResponse( inspector_ ) ) 
       , requestHandler_( new MockHttpRequestHandler( inspector_ ) )

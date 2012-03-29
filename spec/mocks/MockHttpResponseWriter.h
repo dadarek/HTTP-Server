@@ -4,14 +4,16 @@
 #include "HttpResponseWriter.h"
 
 class HttpResponse;
+class HttpConnectionHandlerInspector;
 
 class MockHttpResponseWriter
   : public HttpResponseWriter
 {
   public:
+    HttpConnectionHandlerInspector& inspector_;
     HttpResponse* responseReceived_;
 
-    MockHttpResponseWriter();
+    MockHttpResponseWriter( HttpConnectionHandlerInspector& inspector );
     virtual ~MockHttpResponseWriter();
 
     void write( HttpResponse& response );
