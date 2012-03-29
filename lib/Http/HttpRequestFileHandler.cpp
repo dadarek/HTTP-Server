@@ -1,6 +1,10 @@
 #include "HttpRequestFileHandler.h"
+#include "HttpRequest.h"
+#include "HttpResponse.H"
 
-HttpRequestFileHandler::HttpRequestFileHandler()
+HttpRequestFileHandler::HttpRequestFileHandler( std::string basePath, FileReader& reader )
+  : basePath_( basePath )
+  , reader_( reader )
 { }
 
 HttpRequestFileHandler::~HttpRequestFileHandler()
@@ -8,7 +12,7 @@ HttpRequestFileHandler::~HttpRequestFileHandler()
 
 HttpResponse* HttpRequestFileHandler::handle( HttpRequest& request )
 {
-  throw 0;
+  return 0;
 }
 
 

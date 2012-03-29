@@ -6,6 +6,11 @@ MockHttpRequest::MockHttpRequest( HttpConnectionHandlerInspector& inspector )
   , inspector_( inspector )
 { }
 
+MockHttpRequest::MockHttpRequest( HttpConnectionHandlerInspector& inspector, const char* url )
+  : HttpRequest( url )
+  , inspector_( inspector )
+{ }
+
 MockHttpRequest::~MockHttpRequest()
 {
   inspector_.requestDestroyed = true;

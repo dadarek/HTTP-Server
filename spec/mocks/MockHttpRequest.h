@@ -13,6 +13,7 @@ class MockHttpRequest
 
   public:
     MockHttpRequest( HttpConnectionHandlerInspector& inspector );
+    MockHttpRequest( HttpConnectionHandlerInspector& inspector, const char* url );
     virtual ~MockHttpRequest();
 
 };

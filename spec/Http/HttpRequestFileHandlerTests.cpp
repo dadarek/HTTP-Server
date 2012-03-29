@@ -1,8 +1,18 @@
 #include "gtest/gtest.h"
 #include "HttpRequestFileHandler.h"
 
-TEST( HttpResponseTests, Compiles )
+class HttpRequestFileHandlerTests
+  : public ::testing::Test
 {
-  HttpRequestFileHandler handler;
-}
+  public:
+    HttpRequestFileHandlerTests()
+    { }
 
+    virtual ~HttpRequestFileHandlerTests()
+    { }
+};
+
+TEST( HttpRequestFileHandlerTests, Compiles )
+{
+
+}
