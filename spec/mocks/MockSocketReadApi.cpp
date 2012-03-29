@@ -46,6 +46,6 @@ int MockSocketReadApi::read( int socketFD, char* buffer, unsigned bufferSize )
   return result;
 }
 
-int MockSocketReadApi::write( int, char*, unsigned )
+int MockSocketReadApi::write( int, const char*, unsigned )
 { throw 0; }
 

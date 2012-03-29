@@ -28,7 +28,7 @@ void MockSocketWriteApi::close( int )
 int MockSocketWriteApi::read( int, char*, unsigned )
 { throw 0; }
 
-int MockSocketWriteApi::write( int socketFD, char* content, unsigned contentSize )
+int MockSocketWriteApi::write( int socketFD, const char* content, unsigned contentSize )
 {
   socketWrittenTo_ = socketFD;
   whatWasWritten_ << content;

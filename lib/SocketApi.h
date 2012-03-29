@@ -20,7 +20,7 @@ class SocketApi
     virtual void close( int socketFD ) = 0;
 
     virtual int read( int socketFD, char* buffer, unsigned bufferSize ) = 0;
-    virtual int write( int socketFD, char* buffer, unsigned length ) = 0;
+    virtual int write( int socketFD, const char* buffer, unsigned length ) = 0;
 };
 
 #endif

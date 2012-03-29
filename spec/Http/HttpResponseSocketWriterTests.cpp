@@ -17,7 +17,7 @@ TEST_F( HttpResponseSocketWriterTests, writesTheCorrectContent )
   MockHttpResponse response( inspector, "Some text" );
   HttpResponseSocketWriter writer( socketApi );
 
-  writer.write( response );
+  writer.write( -1, response );
 
   ASSERT_EQ( socketApi.whatWasWritten_.str(), response.body() );
 }

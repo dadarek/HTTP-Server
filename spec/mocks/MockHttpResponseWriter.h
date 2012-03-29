@@ -12,11 +12,12 @@ class MockHttpResponseWriter
   public:
     HttpConnectionHandlerInspector& inspector_;
     HttpResponse* responseReceived_;
+    int socketFDReceived_;
 
     MockHttpResponseWriter( HttpConnectionHandlerInspector& inspector );
     virtual ~MockHttpResponseWriter();
 
-    void write( HttpResponse& response );
+    void write( int socketFD, HttpResponse& response );
 };
 
 #endif

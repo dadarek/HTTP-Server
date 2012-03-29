@@ -107,3 +107,9 @@ TEST_F( HttpConnectionHandlerTester, forwardsResponseToResponseWriter )
   ASSERT_EQ( response_, writer_.responseReceived_ );
 }
 
+TEST_F( HttpConnectionHandlerTester, forwardsCorrectSocketFDToWriter )
+{
+  handleSomething();
+  ASSERT_EQ( SOCKET_TO_HANDLE, writer_.socketFDReceived_ );
+}
+

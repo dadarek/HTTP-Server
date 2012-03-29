@@ -8,6 +8,6 @@ class HttpResponseWriter
   public:
     virtual ~HttpResponseWriter(){ }
 
-    virtual void write( HttpResponse& response ) = 0;
+    virtual void write( int socketFD, HttpResponse& response ) = 0;
 };
 #endif

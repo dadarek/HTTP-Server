@@ -23,7 +23,7 @@ class MockSocketWriteApi
     void close( int socketFD );
 
     int read( int socketFD, char* buffer, unsigned bufferSize );
-    int write( int socketFD, char* buffer, unsigned length );
+    int write( int socketFD, const char* buffer, unsigned length );
 };
 
 #endif

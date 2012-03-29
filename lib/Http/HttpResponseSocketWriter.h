@@ -16,7 +16,7 @@ class HttpResponseSocketWriter
     HttpResponseSocketWriter( SocketApi& socketApi );
     virtual ~HttpResponseSocketWriter();
 
-    void write( HttpResponse& response );
+    void write( int socketFD, HttpResponse& response );
 };
 
 #endif

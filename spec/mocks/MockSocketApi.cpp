@@ -61,5 +61,5 @@ void MockSocketApi::close( int socketFD )
 int MockSocketApi::read( int, char*, unsigned )
 { throw 0; }
 
-int MockSocketApi::write( int, char*, unsigned )
+int MockSocketApi::write( int, const char*, unsigned )
 { throw 0; }
