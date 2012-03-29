@@ -21,4 +21,7 @@
   probably be a thread) are ALL STATELESS!!!
 
 - It is not tested if HttpResponse allocates or deletes the correct size buffer
+- Make sure that users of SystemFileReader delete returned to char*;
+- make sure that SystemFileReader delete allocated array if read fails
+- If SystemFileReader file->read() returns -1, throw exception and DELETE BUFFER AND FILE*
 
