@@ -22,6 +22,18 @@ TEST_F( HttpResponseSocketWriterTests, writesTheCorrectContent )
   ASSERT_EQ( socketApi.whatWasWritten_.str(), response.body() );
 }
 
+TEST_F( HttpResponseSocketWriterTests, writesToTheCorrectSocket )
+{
+  HttpConnectionHandlerInspector inspector;
+  MockSocketWriteApi socketApi;
+  MockHttpResponse response( inspector, "Some text" );
+  HttpResponseSocketWriter writer( socketApi );
+
+  writer.write( 77, response );
+
+  ASSERT_EQ( 77, socketApi.socketWrittenTo_ );
+}
+
 // Changed unsigneds to size_t's (in MockSocketRead/WriteApi )
 // take care of situation when write returns -1
 //
