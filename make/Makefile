@@ -29,6 +29,9 @@ CXXFLAGS += -g -Wall -Wextra
 tests : all-tests
 	./all-tests
 
+testsn : all-tests-no-recompile
+	./all-tests
+
 clean :
 	rm -f *.a *.o main *ests
 
@@ -41,12 +44,10 @@ main :
 GTEST_SRCS_ = $(GTEST_DIR)/src/*.cc $(GTEST_DIR)/src/*.h $(GTEST_HEADERS)
 
 gtest-all.o : $(GTEST_SRCS_)
-	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c \
-            $(GTEST_DIR)/src/gtest-all.cc
-
+	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c $(GTEST_DIR)/src/gtest-all.cc
+            
 gtest_main.o : $(GTEST_SRCS_)
-	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c \
-            $(GTEST_DIR)/src/gtest_main.cc
+	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c $(GTEST_DIR)/src/gtest_main.cc
 
 gtest.a : gtest-all.o
 	$(AR) $(ARFLAGS) $@ $^
@@ -56,12 +57,35 @@ gtest_main.a : gtest-all.o gtest_main.o
 
 
 HEADER_LOCATIONS = -I${HEADERS_DIR} -I${HTTP_HEADERS_DIR} -I${MOCKS_DIR} -I${FILE_IO_HEADERS_DIR}
-FILES_TO_COMPILE =  ${LIB_DIR}/*.cpp ${HTTP_LIB_DIR}/*.cpp ${FILE_IO_LIB_DIR}/*.cpp ${MOCKS_DIR}/*.cpp ${SPECS_DIR}/*.cpp ${HTTP_SPECS_DIR}/*.cpp
 
-all-objects : 
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_LOCATIONS} -c ${FILES_TO_COMPILE}
+libs : 
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_LOCATIONS} -c ${LIB_DIR}/*.cpp
 
-all-tests : all-objects gtest_main.a
+file-libs : 
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_LOCATIONS} -c ${FILE_IO_LIB_DIR}/*.cpp
+
+http-libs : 
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_LOCATIONS} -c ${HTTP_LIB_DIR}/*.cpp
+
+all-libs : libs file-libs http-libs
+
+specs : 
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_LOCATIONS} -c ${SPECS_DIR}/*.cpp
+
+http-specs : 
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_LOCATIONS} -c ${HTTP_SPECS_DIR}/*.cpp
+
+all-specs : specs http-specs
+
+mocks :
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_LOCATIONS} -c ${MOCKS_DIR}/*.cpp 
+
+
+
+all-tests : all-libs mocks all-specs gtest_main.a
 	rm main.o
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread *.o gtest_main.a -o all-tests 
+
+all-tests-no-recompile : 
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread *.o gtest_main.a -o all-tests 
 

@@ -58,7 +58,3 @@ TEST_F( HttpResponseSocketWriterTests, throwsExceptionIfWriteFails )
   ASSERT_THROW( write(), int );
 }
 
-// Take care of situation when write returns -1
-//
-//
-// SPEED UP THAT BUILD PROCESS!!!!
