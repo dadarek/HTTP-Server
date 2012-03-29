@@ -8,30 +8,40 @@ class HttpResponseSocketWriterTests
   : public ::testing::Test
 {
   protected:
+    static const std::string RESPONSE_BODY;
+    static const int PORT;
+    
+    HttpConnectionHandlerInspector inspector_;
+    MockSocketWriteApi socketApi_;
+    MockHttpResponse response_;
+    HttpResponseSocketWriter writer_;
+
+    HttpResponseSocketWriterTests()
+      : inspector_()
+      , socketApi_()
+      , response_( inspector_, HttpResponseSocketWriterTests::RESPONSE_BODY.c_str() )
+      , writer_( socketApi_ )
+    { }
+
+    void write()
+    {
+      writer_.write( HttpResponseSocketWriterTests::PORT, response_ );
+    }
 };
+
+const std::string HttpResponseSocketWriterTests::RESPONSE_BODY("Some body");
+const int HttpResponseSocketWriterTests::PORT = 77;
 
 TEST_F( HttpResponseSocketWriterTests, writesTheCorrectContent )
 {
-  HttpConnectionHandlerInspector inspector;
-  MockSocketWriteApi socketApi;
-  MockHttpResponse response( inspector, "Some text" );
-  HttpResponseSocketWriter writer( socketApi );
-
-  writer.write( -1, response );
-
-  ASSERT_EQ( socketApi.whatWasWritten_.str(), response.body() );
+  write();
+  ASSERT_EQ( HttpResponseSocketWriterTests::RESPONSE_BODY, socketApi_.whatWasWritten_.str() );
 }
 
 TEST_F( HttpResponseSocketWriterTests, writesToTheCorrectSocket )
 {
-  HttpConnectionHandlerInspector inspector;
-  MockSocketWriteApi socketApi;
-  MockHttpResponse response( inspector, "Some text" );
-  HttpResponseSocketWriter writer( socketApi );
-
-  writer.write( 77, response );
-
-  ASSERT_EQ( 77, socketApi.socketWrittenTo_ );
+  write();
+  ASSERT_EQ( HttpResponseSocketWriterTests::PORT, socketApi_.socketWrittenTo_ );
 }
 
 // Changed unsigneds to size_t's (in MockSocketRead/WriteApi )
