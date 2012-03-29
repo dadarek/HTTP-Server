@@ -1,19 +1,18 @@
-#ifndef MOCK_SOCKET_READ_API_H
-#define MOCK_SOCKET_READ_API_H
+#ifndef MOCK_SOCKET_WRITE_API_H
+#define MOCK_SOCKET_WRITE_API_H
 
+#include <string>
 #include "SocketApi.h"
 
-class MockSocketReadApi
+class MockSocketWriteApi
   : public SocketApi
 {
   public:
-    const char* sourceBuffer_;
-    int lastReadPosition_;
-    bool returnErrorOnRead_;
-    int socketReadOn_;
+    int socketWrittenTo_;
+    std::string whatWasWritten_;
 
-    MockSocketReadApi();
-    virtual ~MockSocketReadApi();
+    MockSocketWriteApi();
+    virtual ~MockSocketWriteApi();
 
     int socket();
     int bind( int socketFD, struct sockaddr* serverAddress, size_t serverAddressSize );
