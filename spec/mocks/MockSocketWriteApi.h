@@ -10,7 +10,7 @@ class MockSocketWriteApi
   public:
     int socketWrittenTo_;
     std::stringstream whatWasWritten_;
-    size_t howMuchWasClaimedToBeWritten_;
+    unsigned howMuchWasClaimedToBeWritten_;
     int whatToReturn_;
 
     MockSocketWriteApi();

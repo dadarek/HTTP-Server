@@ -44,8 +44,15 @@ TEST_F( HttpResponseSocketWriterTests, writesToTheCorrectSocket )
   ASSERT_EQ( HttpResponseSocketWriterTests::PORT, socketApi_.socketWrittenTo_ );
 }
 
-// Changed unsigneds to size_t's (in MockSocketRead/WriteApi )
-// take care of situation when write returns -1
+TEST_F( HttpResponseSocketWriterTests, passesInCorrectBufferSize )
+{
+  write();
+  const char* body = HttpResponseSocketWriterTests::RESPONSE_BODY.c_str();
+  unsigned bodyLength = (unsigned) strlen( body );
+  ASSERT_EQ( bodyLength, socketApi_.howMuchWasClaimedToBeWritten_ );
+}
+
+// Take care of situation when write returns -1
 //
 //
 // SPEED UP THAT BUILD PROCESS!!!!

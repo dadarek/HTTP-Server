@@ -11,5 +11,7 @@ HttpResponseSocketWriter::~HttpResponseSocketWriter()
 
 void HttpResponseSocketWriter::write( int socketFD, HttpResponse& response )
 {
-  socketApi_.write( socketFD, response.body().c_str(), -1 );
+  const char* body = response.body().c_str();
+  unsigned length = strlen( body );
+  socketApi_.write( socketFD, body, length );
 }
