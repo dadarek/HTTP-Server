@@ -20,3 +20,5 @@
 - Make sure that any objects passed into HttpConnectionHandler (which will
   probably be a thread) are ALL STATELESS!!!
 
+- It is not tested if HttpResponse allocates or deletes the correct size buffer
+

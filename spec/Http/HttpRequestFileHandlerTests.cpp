@@ -27,7 +27,7 @@ class HttpRequestFileHandlerTests
 
 TEST_F( HttpRequestFileHandlerTests, ReadsTheCorrectFile )
 {
-  HttpResponse* response = handler_.handle( request_ );
+  handler_.handle( request_ );
   ASSERT_EQ( "/some/base/path/some/url", reader_.fileRead_ );
 }
 
