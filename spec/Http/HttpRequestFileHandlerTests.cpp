@@ -9,7 +9,16 @@ class HttpRequestFileHandlerTests
   : public ::testing::Test
 {
   public:
+    MockFileReader reader_;
+    HttpRequest request_;
+    std::string basePath_;
+    HttpRequestFileHandler handler_;
+
     HttpRequestFileHandlerTests()
+      : reader_()
+      , request_( "some/url" )
+      , basePath_( "/some/base/path/" )
+      , handler_( basePath_, reader_ )
     { }
 
     virtual ~HttpRequestFileHandlerTests()
@@ -18,28 +27,13 @@ class HttpRequestFileHandlerTests
 
 TEST_F( HttpRequestFileHandlerTests, ReadsTheCorrectFile )
 {
-  std::string basePath = "/some/base/";
-  MockFileReader reader;
-
-  HttpRequestFileHandler handler( basePath, reader );
-  HttpRequest request( "someUrl" );
-
-  HttpResponse* response = handler.handle( request );
-  
-
-  ASSERT_EQ( "/some/base/someUrl", reader.fileRead_ );
+  HttpResponse* response = handler_.handle( request_ );
+  ASSERT_EQ( "/some/base/path/some/url", reader_.fileRead_ );
 }
 
 TEST_F( HttpRequestFileHandlerTests, SetsTheResponseBodyToFileContents )
 {
-  MockFileReader reader;
-
-  HttpRequestFileHandler handler( "", reader );
-  HttpRequest request( "" );
-
-  reader.returnValue_ = "Some file contents.";
-
-  HttpResponse* response = handler.handle( request );
-
+  reader_.returnValue_ = "Some file contents.";
+  HttpResponse* response = handler_.handle( request_ );
   ASSERT_EQ( "Some file contents.", response->body() );
 }
