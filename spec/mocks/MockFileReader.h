@@ -7,6 +7,9 @@ class MockFileReader
   : public FileReader
 {
   public:
+    std::string fileRead_;
+    std::string returnValue_;
+
     MockFileReader();
     virtual ~MockFileReader();
 
