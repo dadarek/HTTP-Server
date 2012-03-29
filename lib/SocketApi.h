@@ -9,6 +9,7 @@ class SocketApi
     static const int SOCKET_EXCEPTION = 1;
     static const int BIND_EXCEPTION = 2;
     static const int ACCEPT_EXCEPTION = 3;
+    static const int WRITE_EXCEPTION = 4;
 
   public:
     virtual ~SocketApi() { }

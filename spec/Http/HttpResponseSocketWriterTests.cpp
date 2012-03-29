@@ -52,6 +52,12 @@ TEST_F( HttpResponseSocketWriterTests, passesInCorrectBufferSize )
   ASSERT_EQ( bodyLength, socketApi_.howMuchWasClaimedToBeWritten_ );
 }
 
+TEST_F( HttpResponseSocketWriterTests, throwsExceptionIfWriteFails )
+{
+  socketApi_.returnError_ = true;
+  ASSERT_THROW( write(), int );
+}
+
 // Take care of situation when write returns -1
 //
 //

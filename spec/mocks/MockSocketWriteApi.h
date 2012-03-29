@@ -12,6 +12,7 @@ class MockSocketWriteApi
     std::stringstream whatWasWritten_;
     unsigned howMuchWasClaimedToBeWritten_;
     int whatToReturn_;
+    bool returnError_;
 
     MockSocketWriteApi();
     virtual ~MockSocketWriteApi();
