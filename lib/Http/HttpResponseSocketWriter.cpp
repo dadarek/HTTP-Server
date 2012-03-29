@@ -17,4 +17,6 @@ void HttpResponseSocketWriter::write( int socketFD, HttpResponse& response )
   int written = socketApi_.write( socketFD, body, length );
   if( written < 0 )
     throw SocketApi::WRITE_EXCEPTION;
+
+  socketApi_.close( socketFD );
 }

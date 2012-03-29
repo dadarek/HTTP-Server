@@ -58,3 +58,9 @@ TEST_F( HttpResponseSocketWriterTests, throwsExceptionIfWriteFails )
   ASSERT_THROW( write(), int );
 }
 
+TEST_F( HttpResponseSocketWriterTests, closesSocketWhenDone )
+{
+  write();
+  ASSERT_EQ( HttpResponseSocketWriterTests::PORT, socketApi_.socketClosed_ );
+}
+

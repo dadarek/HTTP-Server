@@ -13,6 +13,7 @@ class MockSocketWriteApi
     unsigned howMuchWasClaimedToBeWritten_;
     int whatToReturn_;
     bool returnError_;
+    int socketClosed_;
 
     MockSocketWriteApi();
     virtual ~MockSocketWriteApi();
