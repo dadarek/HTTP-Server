@@ -15,17 +15,19 @@ class DummyFactory
   : public HttpRequestHandlerFactory
 {
   public:
+    SystemFileFactory fileFactory_;
+    SystemFileReader fileReader_;
+
     DummyFactory()
+      : fileFactory_()
+      , fileReader_( fileFactory_ )
     { }
     virtual ~DummyFactory()
     { }
 
     HttpRequestHandler* createHandler( HttpRequest& )
     {
-      // MEMORY LEAK!!
-      SystemFileFactory* fileFactory = new SystemFileFactory();
-      FileReader* fileReader = new SystemFileReader( *fileFactory );
-      return new HttpRequestFileHandler("/Users/dariusz/Projects/HttpServer/public/", *fileReader );
+      return new HttpRequestFileHandler("/Users/dariusz/Projects/HttpServer/public/", fileReader_ );
     }
 };
 
@@ -40,7 +42,7 @@ int main()
   HttpConnectionHandler connectionhandler
     ( socketReader, requestParser, factory, socketWriter );
 
-  SocketConnectionReceiver receiver( socketApi, 8585 );
+  SocketConnectionReceiver receiver( socketApi, 5000 );
 
   Server server( receiver, connectionhandler );
 
