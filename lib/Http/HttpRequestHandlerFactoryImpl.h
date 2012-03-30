@@ -18,6 +18,10 @@ class HttpRequestHandlerFactoryImpl
     virtual ~HttpRequestHandlerFactoryImpl();
 
     HttpRequestHandler* createHandler( HttpRequest& request );
+
+  private:
+    HttpRequestHandler* createFileHandler();
+    HttpRequestHandler* create404Handler();
 };
 
 #endif

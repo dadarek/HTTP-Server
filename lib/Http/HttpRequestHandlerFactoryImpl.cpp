@@ -16,12 +16,18 @@ HttpRequestHandler* HttpRequestHandlerFactoryImpl::createHandler( HttpRequest& r
 { 
   bool fileExists = fileApi_.exists( basePath_ + request.url() );
   if( fileExists )
-  {
-    return new HttpRequestFileHandler( basePath_, fileApi_ );
-  }
-  else
-  {
-    return new Http404RequestHandler();
-  }
+    return createFileHandler();
+
+  return create404Handler();
+}
+
+HttpRequestHandler* HttpRequestHandlerFactoryImpl::createFileHandler()
+{
+  return new HttpRequestFileHandler( basePath_, fileApi_ );
+}
+
+HttpRequestHandler* HttpRequestHandlerFactoryImpl::create404Handler()
+{
+  return new Http404RequestHandler();
 }
 
