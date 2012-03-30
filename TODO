@@ -34,3 +34,5 @@
 
 - rename HttpRequestFilehandler to HttpFileRequestHandler
 
+- get rid of dynamic casts in tests???
+

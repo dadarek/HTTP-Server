@@ -1,4 +1,5 @@
 #include "HttpRequestHandlerFactoryImpl.h"
+#include "Http404RequestHandler.h"
 #include "FileApi.h"
 #include "HttpRequest.h"
 
@@ -13,6 +14,6 @@ HttpRequestHandlerFactoryImpl::~HttpRequestHandlerFactoryImpl()
 HttpRequestHandler* HttpRequestHandlerFactoryImpl::createHandler( HttpRequest& request )
 { 
   fileApi_.exists( basePath_ + request.url() );
-  return 0;
+  return new Http404RequestHandler();
 }
 
