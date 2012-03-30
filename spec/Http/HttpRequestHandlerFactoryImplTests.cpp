@@ -9,21 +9,29 @@ class HttpRequestHandlerFactoryImplTests
   : public ::testing::Test
 {
   public:
+    MockFileApi fileApi_;
+    std::string basePath_;
+    HttpRequest request_;
+    HttpRequestHandlerFactoryImpl factory_;
+
+    HttpRequestHandlerFactoryImplTests()
+      : basePath_( "/some/base/" )
+      , request_( "some/url.html" )
+      , factory_( basePath_, fileApi_ )
+    { }
+
+    HttpRequestHandler* getHandler()
+    {
+      return factory_.createHandler( request_ );
+
+    }
 
 };
 
 TEST_F( HttpRequestHandlerFactoryImplTests, asksFileApiIfCorrectFileExists )
 {
-  MockFileApi fileApi;
-
-  std::string basePath = "/some/base/";
-  HttpRequest request( "some-url.html" );
-
-  HttpRequestHandlerFactoryImpl factory( basePath, fileApi );
-
-  factory.createHandler( request );
-
-  ASSERT_EQ( "/some/base/some-url.html", fileApi.existsInput_ ); 
+  getHandler();
+  ASSERT_EQ( basePath_ + request_.url(), fileApi_.existsInput_ ); 
 }
 
 
