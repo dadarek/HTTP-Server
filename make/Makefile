@@ -6,14 +6,18 @@ PROJECT_ROOT = ..
 HEADERS_DIR = ${PROJECT_ROOT}/lib
 HTTP_HEADERS_DIR = ${HEADERS_DIR}/Http
 FILE_IO_HEADERS_DIR = ${HEADERS_DIR}/FileIO
+EXCEPTIONS_HEADERS_DIR = ${HEADERS_DIR}/Exceptions
 
 LIB_DIR = ${PROJECT_ROOT}/lib
 HTTP_LIB_DIR = ${LIB_DIR}/Http
 FILE_IO_LIB_DIR = ${LIB_DIR}/FileIO
+EXCEPTIONS_LIB_DIR = ${LIB_DIR}/Exceptions
 
 SPECS_DIR = ${PROJECT_ROOT}/spec
 HTTP_SPECS_DIR = ${SPECS_DIR}/Http
+EXCEPTIONS_SPECS_DIR = ${SPECS_DIR}/Exceptions
 MOCKS_DIR = ${SPECS_DIR}/mocks
+
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -24,6 +28,9 @@ GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
 # Not sure what the difference is - Google's sample file had both of these flags.
 CPPFLAGS += -I$(GTEST_DIR)/include -Wreorder
 CXXFLAGS += -g -Wall -Wextra
+
+HEADER_INCLUDES = -I${HEADERS_DIR} -I${HTTP_HEADERS_DIR} -I${MOCKS_DIR} -I${FILE_IO_HEADERS_DIR} -I${EXCEPTIONS_HEADERS_DIR}
+CPP_TO_COMPILE = ${LIB_DIR}/*.cpp ${HTTP_LIB_DIR}/*.cpp ${FILE_IO_LIB_DIR}/*.cpp ${EXCEPTIONS_LIB_DIR}/*.cpp
 
 # Targets
 tests : all-tests
@@ -36,7 +43,7 @@ clean :
 	rm -f *.a *.o main *ests
 
 main : 
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread -I${HEADERS_DIR} -I${HTTP_HEADERS_DIR} -I${FILE_IO_HEADERS_DIR} ${LIB_DIR}/*.cpp ${HTTP_LIB_DIR}/*.cpp ${FILE_IO_LIB_DIR}/*.cpp -o main
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread ${HEADER_INCLUDES} ${CPP_TO_COMPILE} -o main
 	rm -r main.dSYM
 
 
@@ -56,29 +63,34 @@ gtest_main.a : gtest-all.o gtest_main.o
 	$(AR) $(ARFLAGS) $@ $^
 
 
-HEADER_LOCATIONS = -I${HEADERS_DIR} -I${HTTP_HEADERS_DIR} -I${MOCKS_DIR} -I${FILE_IO_HEADERS_DIR}
 
 libs : 
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_LOCATIONS} -c ${LIB_DIR}/*.cpp
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_INCLUDES} -c ${LIB_DIR}/*.cpp
 
 file-libs : 
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_LOCATIONS} -c ${FILE_IO_LIB_DIR}/*.cpp
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_INCLUDES} -c ${FILE_IO_LIB_DIR}/*.cpp
+
+exception-libs : 
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_INCLUDES} -c ${EXCEPTIONS_LIB_DIR}/*.cpp
 
 http-libs : 
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_LOCATIONS} -c ${HTTP_LIB_DIR}/*.cpp
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_INCLUDES} -c ${HTTP_LIB_DIR}/*.cpp
 
-all-libs : libs file-libs http-libs
+all-libs : libs file-libs http-libs exception-libs
 
 specs : 
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_LOCATIONS} -c ${SPECS_DIR}/*.cpp
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_INCLUDES} -c ${SPECS_DIR}/*.cpp
 
 http-specs : 
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_LOCATIONS} -c ${HTTP_SPECS_DIR}/*.cpp
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_INCLUDES} -c ${HTTP_SPECS_DIR}/*.cpp
 
-all-specs : specs http-specs
+exception-specs : 
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_INCLUDES} -c ${EXCEPTIONS_SPECS_DIR}/*.cpp
+
+all-specs : specs http-specs exception-specs
 
 mocks :
-	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_LOCATIONS} -c ${MOCKS_DIR}/*.cpp 
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_INCLUDES} -c ${MOCKS_DIR}/*.cpp 
 
 
 remove-main.o : 

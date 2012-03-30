@@ -7,11 +7,8 @@ class FileNotFoundException
   : public std::runtime_error
 {
   public:
-    FileNotFoundException()
-      : std::runtime_error( "File not found." )
-    { }
-
-    virtual ~FileNotFoundException() throw() { }
+    FileNotFoundException();
+    virtual ~FileNotFoundException() throw();
 };
 
 #endif
