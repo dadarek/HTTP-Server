@@ -125,11 +125,20 @@ TEST_F( SystemFileApiTests, existsChecksIfFileOpened )
   EXPECT_EQ( true, inspector_.checkedIfOpen );
 }
 
-TEST_F( SystemFileApiTests, existsReturnsWhatFileIsOpenReturns )
+TEST_F( SystemFileApiTests, existsReturnsTrueIfFileReturnsTrue )
 {
   inspector_.openReturnValue = true;
   EXPECT_EQ( true, fileApi_.exists( "" ));
+}
+
+TEST_F( SystemFileApiTests, existsReturnsFalseIfFileReturnsFalse )
+{
   inspector_.openReturnValue = false;
   EXPECT_EQ( false, fileApi_.exists( "" ));
 }
 
+TEST_F( SystemFileApiTests, existsDeletesFile )
+{
+  fileApi_.exists( "" );
+  EXPECT_EQ( true, inspector_.destroyed );
+}

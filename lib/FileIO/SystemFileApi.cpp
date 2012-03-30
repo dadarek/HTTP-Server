@@ -22,7 +22,9 @@ std::string SystemFileApi::readToEnd( const std::string path )
 bool SystemFileApi::exists( const std::string path )
 {
   File* file = factory_.open( path.c_str() );
-  return file->isOpen();
+  bool result = file->isOpen();
+  delete file;
+  return result;
 }
 
 std::string SystemFileApi::getContents( File* file )
