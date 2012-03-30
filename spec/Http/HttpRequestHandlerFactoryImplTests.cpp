@@ -39,4 +39,16 @@ TEST_F( HttpRequestHandlerFactoryImplTests, returns404HandlerIfFileNotexists )
   ASSERT_EQ( handler, dynamic_cast <Http404RequestHandler*> ( handler ) );
 }
 
+TEST_F( HttpRequestHandlerFactoryImplTests, returnsFileHandlerIfFileDoesExist )
+{
+  MockFileApi fileApi;
+  HttpRequest request( "" );
+  HttpRequestHandlerFactoryImpl factory( "", fileApi );
+
+  fileApi.existsReturnValue_ = true;
+  HttpRequestHandler* handler = factory.createHandler( request );
+
+  ASSERT_EQ( handler, dynamic_cast <HttpRequestFileHandler*> ( handler ) );
+}
+
 
