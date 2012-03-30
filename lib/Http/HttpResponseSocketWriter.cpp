@@ -1,6 +1,7 @@
 #include "HttpResponseSocketWriter.h"
 #include "SocketApi.h"
 #include "HttpResponse.h"
+#include "SocketWriteException.h"
 
 HttpResponseSocketWriter::HttpResponseSocketWriter( SocketApi& socketApi )
   : socketApi_( socketApi )
@@ -16,7 +17,7 @@ void HttpResponseSocketWriter::write( int socketFD, HttpResponse& response )
 
   int written = socketApi_.write( socketFD, body, length );
   if( written < 0 )
-    throw SocketApi::WRITE_EXCEPTION;
+    throw SocketWriteException();
 
   socketApi_.close( socketFD );
 }

@@ -3,6 +3,7 @@
 #include "MockSocketWriteApi.h"
 #include "MockHttpResponse.h"
 #include "HttpConnectionHandlerInspector.h"
+#include "SocketWriteException.h"
 
 class HttpResponseSocketWriterTests
   : public ::testing::Test
@@ -55,7 +56,7 @@ TEST_F( HttpResponseSocketWriterTests, passesInCorrectBufferSize )
 TEST_F( HttpResponseSocketWriterTests, throwsExceptionIfWriteFails )
 {
   socketApi_.returnError_ = true;
-  ASSERT_THROW( write(), int );
+  ASSERT_THROW( write(), SocketWriteException );
 }
 
 TEST_F( HttpResponseSocketWriterTests, closesSocketWhenDone )
