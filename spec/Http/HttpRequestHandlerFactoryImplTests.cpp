@@ -1,4 +1,5 @@
 #include "gtest/gtest.h"
+#include "MockFileApi.h"
 #include "HttpRequestHandlerFactoryImpl.h"
 #include "HttpRequest.h"
 
@@ -11,7 +12,8 @@ class HttpRequestHandlerFactoryImplTests
 
 TEST_F( HttpRequestHandlerFactoryImplTests, Compiles )
 {
-  HttpRequestHandlerFactoryImpl factory;
+  MockFileApi fileApi;
+  HttpRequestHandlerFactoryImpl factory( fileApi );
 }
 
 

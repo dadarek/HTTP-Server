@@ -1,6 +1,8 @@
 #include "HttpRequestHandlerFactoryImpl.h"
+#include "FileApi.h"
 
-HttpRequestHandlerFactoryImpl::HttpRequestHandlerFactoryImpl()
+HttpRequestHandlerFactoryImpl::HttpRequestHandlerFactoryImpl( FileApi& fileApi )
+  : fileApi_( fileApi )
 { }
 
 HttpRequestHandlerFactoryImpl::~HttpRequestHandlerFactoryImpl()

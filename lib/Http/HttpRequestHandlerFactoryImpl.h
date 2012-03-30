@@ -3,11 +3,16 @@
 
 #include "HttpRequestHandlerFactory.h"
 
+class FileApi;
+
 class HttpRequestHandlerFactoryImpl
   : public HttpRequestHandlerFactory
 {
+  private:
+    FileApi& fileApi_;
+
   public:
-    HttpRequestHandlerFactoryImpl();
+    HttpRequestHandlerFactoryImpl( FileApi& fileApi );
     virtual ~HttpRequestHandlerFactoryImpl();
 
     HttpRequestHandler* createHandler( HttpRequest& request );
