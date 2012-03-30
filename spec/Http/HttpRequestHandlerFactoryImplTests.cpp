@@ -10,10 +10,11 @@ class HttpRequestHandlerFactoryImplTests
 
 };
 
-TEST_F( HttpRequestHandlerFactoryImplTests, Compiles )
+TEST_F( HttpRequestHandlerFactoryImplTests, returnsFileHandlerIfFileIsValid )
 {
+  std::string basePath = "/some/base/";
   MockFileApi fileApi;
-  HttpRequestHandlerFactoryImpl factory( fileApi );
+  HttpRequestHandlerFactoryImpl factory( basePath, fileApi );
 }
 
 

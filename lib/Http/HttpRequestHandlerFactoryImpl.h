@@ -1,6 +1,7 @@
 #ifndef HTTP_REQUEST_HANDLER_FACTORY_IMPL
 #define HTTP_REQUEST_HANDLER_FACTORY_IMPL
 
+#include <string>
 #include "HttpRequestHandlerFactory.h"
 
 class FileApi;
@@ -9,10 +10,11 @@ class HttpRequestHandlerFactoryImpl
   : public HttpRequestHandlerFactory
 {
   private:
+    std::string basePath_;
     FileApi& fileApi_;
 
   public:
-    HttpRequestHandlerFactoryImpl( FileApi& fileApi );
+    HttpRequestHandlerFactoryImpl( std::string basePath, FileApi& fileApi );
     virtual ~HttpRequestHandlerFactoryImpl();
 
     HttpRequestHandler* createHandler( HttpRequest& request );
