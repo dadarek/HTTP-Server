@@ -20,4 +20,17 @@ TEST_F( Http404RequestHandlerTests, bodyContainsUrlRequested )
   std::string body = response->body();
   
   ASSERT_LE( (size_t) 0 , body.find( "invalid-url.html" ) );
+  ASSERT_GT( body.length() , body.find( "invalid-url.html" ) );
+}
+
+TEST_F( Http404RequestHandlerTests, bodyContainsNotFoundLiteral )
+{
+  HttpRequest request( "" );
+  Http404RequestHandler handler;
+
+  HttpResponse* response = handler.handle( request );
+  std::string body = response->body();
+  
+  ASSERT_LE( (size_t) 0 , body.find( "not found" ) );
+  ASSERT_GT( body.length() , body.find( "not found" ) );
 }
