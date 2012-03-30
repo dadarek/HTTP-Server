@@ -9,8 +9,8 @@ MockFileReader::~MockFileReader()
 
 std::string MockFileReader::readToEnd( std::string path )
 {
-  fileRead_ = path;
-  return returnValue_;
+  readToEndInput_ = path;
+  return readToEndReturnValue_;
 }
 
 bool MockFileReader::exists( std::string path )

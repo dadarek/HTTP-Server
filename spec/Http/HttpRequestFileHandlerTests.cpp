@@ -28,12 +28,12 @@ class HttpRequestFileHandlerTests
 TEST_F( HttpRequestFileHandlerTests, ReadsTheCorrectFile )
 {
   handler_.handle( request_ );
-  ASSERT_EQ( "/some/base/path/some/url", reader_.fileRead_ );
+  ASSERT_EQ( "/some/base/path/some/url", reader_.readToEndInput_ );
 }
 
 TEST_F( HttpRequestFileHandlerTests, SetsTheResponseBodyToFileContents )
 {
-  reader_.returnValue_ = "Some file contents.";
+  reader_.readToEndReturnValue_ = "Some file contents.";
   HttpResponse* response = handler_.handle( request_ );
   ASSERT_EQ( "Some file contents.", response->body() );
 }

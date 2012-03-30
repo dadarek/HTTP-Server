@@ -7,8 +7,8 @@ class MockFileReader
   : public FileReader
 {
   public:
-    std::string fileRead_;
-    std::string returnValue_;
+    std::string readToEndInput_;
+    std::string readToEndReturnValue_;
 
     std::string existsInput_;
     bool existsReturnValue_;
