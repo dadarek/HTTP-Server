@@ -32,3 +32,5 @@
 --- relay calls to system calls.  (SocketApi strictly relays calls to 
 --- system calls, nothing more.)  Change one of these extensions.
 
+- rename HttpRequestFilehandler to HttpFileRequestHandler
+
