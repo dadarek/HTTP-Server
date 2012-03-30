@@ -10,10 +10,14 @@ class MockFileReader
     std::string fileRead_;
     std::string returnValue_;
 
+    std::string existsInput_;
+    bool existsReturnValue_;
+
     MockFileReader();
     virtual ~MockFileReader();
 
     std::string readToEnd( std::string path );
+    bool exists( std::string path );
 };
 
 #endif

@@ -19,6 +19,11 @@ std::string SystemFileReader::readToEnd( const std::string path )
   return result;
 }
 
+bool SystemFileReader::exists( const std::string path )
+{
+  throw 1;
+}
+
 std::string SystemFileReader::getContents( File* file )
 {
   size_t fileSize = file->size();

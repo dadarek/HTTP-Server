@@ -9,6 +9,7 @@ class FileReader
     virtual ~FileReader() { }
 
     virtual std::string readToEnd( std::string path ) = 0;
+    virtual bool exists( std::string path ) = 0;
 };
 
 #endif

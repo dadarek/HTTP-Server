@@ -27,3 +27,8 @@
 - SystemFileReader should not return string but char*
 
 - Maybe use Abstract Factory (for SocketApi, FileApi, and all others that have a Mock and corresponding Real object )
+- Rename SystemFileReader to FileAPI
+
+- MockFileReader: change fileRead_ to readInput_
+--- change returnValue_ to readToEndReturnValue_
+

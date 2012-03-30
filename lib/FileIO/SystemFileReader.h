@@ -20,6 +20,7 @@ class SystemFileReader
     virtual ~SystemFileReader();
 
     std::string readToEnd( std::string path );
+    bool exists( std::string path );
 
   private:
     std::ios_base::openmode getOpenMode();
