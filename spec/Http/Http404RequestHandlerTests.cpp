@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "Http404RequestHandler.h"
+#include <string>
 
 class Http404RequestHandlerTests
   : public ::testing::Test
@@ -8,7 +9,10 @@ class Http404RequestHandlerTests
 
 };
 
-TEST_F( Http404RequestHandlerTests, Compiles )
+TEST_F( Http404RequestHandlerTests, 404TextContainsNotFound)
 {
-  Http404RequestHandler handler;
+  std::string message( Http404RequestHandler::HTML_404 );
+  std::string expectedTest( "Page Not Found");
+  
+  ASSERT_NE( std::string::npos, message.find( expectedTest ) );
 }

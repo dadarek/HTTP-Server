@@ -7,6 +7,8 @@ class Http404RequestHandler
   : public HttpRequestHandler
 {
   public:
+    static const char* const HTML_404;
+  public:
     Http404RequestHandler();
     virtual ~Http404RequestHandler();
 

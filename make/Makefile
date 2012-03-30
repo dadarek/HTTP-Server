@@ -81,9 +81,7 @@ mocks :
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_LOCATIONS} -c ${MOCKS_DIR}/*.cpp 
 
 
-
 all-tests : all-libs mocks all-specs gtest_main.a
-	rm main.o
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread *.o gtest_main.a -o all-tests 
 
 all-tests-no-recompile : 
