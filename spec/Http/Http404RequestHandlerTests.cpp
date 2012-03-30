@@ -12,11 +12,7 @@ class Http404RequestHandlerTests
     {
       HttpRequest request( url );
       Http404RequestHandler handler;
-
-      HttpResponse* response = handler.handle( request );
-      std::string body = response->body();
-      
-      return body;
+      return handler.handle( request )->body();
     }
 };
 
