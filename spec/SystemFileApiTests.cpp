@@ -119,3 +119,10 @@ TEST_F( SystemFileApiTests, existsOpensRequestedFile )
   EXPECT_EQ( path, factory_.path_ );
 }
 
+TEST_F( SystemFileApiTests, existsChecksIfFileOpened )
+{
+  std::string path( "my-file.txt");
+  fileApi_.exists( path );
+  EXPECT_EQ( true, inspector_.checkedIfOpen );
+}
+
