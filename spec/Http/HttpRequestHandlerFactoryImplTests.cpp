@@ -50,3 +50,11 @@ TEST_F( HttpRequestHandlerFactoryImplTests, returnsFileHandlerIfFileDoesExist )
 }
 
 
+TEST_F( HttpRequestHandlerFactoryImplTests, fileHandlerHasCorrectBasePath)
+{
+  fileApi_.existsReturnValue_ = true;
+  getHandler()->handle( request_ );
+  ASSERT_EQ( basePath_ + request_.url(), fileApi_.readToEndInput_ );
+}
+
+

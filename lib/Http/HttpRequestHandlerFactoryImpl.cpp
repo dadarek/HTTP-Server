@@ -17,7 +17,7 @@ HttpRequestHandler* HttpRequestHandlerFactoryImpl::createHandler( HttpRequest& r
   bool fileExists = fileApi_.exists( basePath_ + request.url() );
   if( fileExists )
   {
-    return new HttpRequestFileHandler( "", fileApi_ );
+    return new HttpRequestFileHandler( basePath_, fileApi_ );
   }
   else
   {
