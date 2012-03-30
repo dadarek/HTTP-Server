@@ -10,11 +10,18 @@ class HttpRequestHandlerFactoryImplTests
 
 };
 
-TEST_F( HttpRequestHandlerFactoryImplTests, returnsFileHandlerIfFileIsValid )
+TEST_F( HttpRequestHandlerFactoryImplTests, asksFileApiIfCorrectFileExists )
 {
-  std::string basePath = "/some/base/";
   MockFileApi fileApi;
+
+  std::string basePath = "/some/base/";
+  HttpRequest request( "some-url.html" );
+
   HttpRequestHandlerFactoryImpl factory( basePath, fileApi );
+
+  factory.createHandler( request );
+
+  ASSERT_EQ( "/some/base/some-url.html", fileApi.existsInput_ ); 
 }
 
 

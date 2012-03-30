@@ -1,5 +1,6 @@
 #include "HttpRequestHandlerFactoryImpl.h"
 #include "FileApi.h"
+#include "HttpRequest.h"
 
 HttpRequestHandlerFactoryImpl::HttpRequestHandlerFactoryImpl( std::string basePath, FileApi& fileApi )
   : basePath_( basePath )
@@ -11,6 +12,7 @@ HttpRequestHandlerFactoryImpl::~HttpRequestHandlerFactoryImpl()
 
 HttpRequestHandler* HttpRequestHandlerFactoryImpl::createHandler( HttpRequest& request )
 { 
-  throw 0;
+  fileApi_.exists( basePath_ + request.url() );
+  return 0;
 }
 
