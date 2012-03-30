@@ -121,8 +121,15 @@ TEST_F( SystemFileApiTests, existsOpensRequestedFile )
 
 TEST_F( SystemFileApiTests, existsChecksIfFileOpened )
 {
-  std::string path( "my-file.txt");
-  fileApi_.exists( path );
+  fileApi_.exists( "" );
   EXPECT_EQ( true, inspector_.checkedIfOpen );
+}
+
+TEST_F( SystemFileApiTests, existsReturnsWhatFileIsOpenReturns )
+{
+  inspector_.openReturnValue = true;
+  EXPECT_EQ( true, fileApi_.exists( "" ));
+  inspector_.openReturnValue = false;
+  EXPECT_EQ( false, fileApi_.exists( "" ));
 }
 
