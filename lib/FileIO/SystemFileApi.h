@@ -1,7 +1,7 @@
-#ifndef SYSTEM_FILE_READER_H
-#define SYSTEM_FILE_READER_H
+#ifndef SYSTEM_FILE_API_H
+#define SYSTEM_FILE_API_H
 
-#include "FileReader.h"
+#include "FileApi.h"
 
 #include <string>
 #include <iostream>
@@ -9,15 +9,15 @@
 class FileFactory;
 class File;
 
-class SystemFileReader
-  : public FileReader
+class SystemFileApi
+  : public FileApi
 {
   private:
     FileFactory& factory_;
 
   public:
-    SystemFileReader( FileFactory& factory );
-    virtual ~SystemFileReader();
+    SystemFileApi( FileFactory& factory );
+    virtual ~SystemFileApi();
 
     std::string readToEnd( std::string path );
     bool exists( std::string path );

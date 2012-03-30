@@ -1,18 +1,20 @@
 #ifndef HTTP_REQUEST_FILE_HANDLER_H
 #define HTTP_REQUEST_FILE_HANDLER_H
 
+#include <string>
 #include "HttpRequestHandler.h"
-#include "FileReader.h"
+
+class FileApi;
 
 class HttpRequestFileHandler
   : public HttpRequestHandler
 {
   private:
     std::string basePath_;
-    FileReader& reader_;
+    FileApi& fileApi_;
 
   public:
-    HttpRequestFileHandler( std::string basePath, FileReader& reader );
+    HttpRequestFileHandler( std::string basePath, FileApi& fileApi );
     virtual ~HttpRequestFileHandler();
 
     HttpResponse* handle( HttpRequest& request);

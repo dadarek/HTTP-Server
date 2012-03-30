@@ -1,10 +1,10 @@
-#ifndef MOCK_FILE_READER_H
-#define MOCK_FILE_READER_H
+#ifndef MOCK_FILE_API_H
+#define MOCK_FILE_API_H
 
-#include "FileReader.h"
+#include "FileApi.h"
 
-class MockFileReader
-  : public FileReader
+class MockFileApi
+  : public FileApi
 {
   public:
     std::string readToEndInput_;
@@ -13,8 +13,8 @@ class MockFileReader
     std::string existsInput_;
     bool existsReturnValue_;
 
-    MockFileReader();
-    virtual ~MockFileReader();
+    MockFileApi();
+    virtual ~MockFileApi();
 
     std::string readToEnd( std::string path );
     bool exists( std::string path );

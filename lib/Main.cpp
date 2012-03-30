@@ -6,7 +6,7 @@
 #include "HttpResponseSocketWriter.h"
 #include "HttpRequestFileHandler.h"
 #include "SystemFileFactory.h"
-#include "SystemFileReader.h"
+#include "SystemFileApi.h"
 #include "HttpSocketReader.h"
 #include "HttpRequestParserImpl.h"
 #include "RawSocketApi.h"
@@ -16,18 +16,18 @@ class DummyFactory
 {
   public:
     SystemFileFactory fileFactory_;
-    SystemFileReader fileReader_;
+    SystemFileApi fileApi_;
 
     DummyFactory()
       : fileFactory_()
-      , fileReader_( fileFactory_ )
+      , fileApi_( fileFactory_ )
     { }
     virtual ~DummyFactory()
     { }
 
     HttpRequestHandler* createHandler( HttpRequest& )
     {
-      return new HttpRequestFileHandler("/Users/dariusz/Projects/HttpServer/public/", fileReader_ );
+      return new HttpRequestFileHandler("/Users/dariusz/Projects/HttpServer/public/", fileApi_ );
     }
 };
 

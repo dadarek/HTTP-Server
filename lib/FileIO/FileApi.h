@@ -1,12 +1,12 @@
-#ifndef FILE_READER_H
-#define FILE_READER_H
+#ifndef FILE_API_H
+#define FILE_API_H
 
 #include <string>
 
-class FileReader
+class FileApi
 {
   public:
-    virtual ~FileReader() { }
+    virtual ~FileApi() { }
 
     virtual std::string readToEnd( std::string path ) = 0;
     virtual bool exists( std::string path ) = 0;

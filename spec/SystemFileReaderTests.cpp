@@ -1,25 +1,25 @@
 #include "gtest/gtest.h"
-#include "SystemFileReader.h"
+#include "SystemFileApi.h"
 #include "FileNotFoundException.h"
 #include "mocks/MockFileFactory.h"
 
-class SystemFileReaderTests
+class SystemFileApiTests
   : public ::testing::Test
 {
   protected:
     MockFileInspector inspector_;
     MockFileFactory factory_;
-    SystemFileReader reader_;
+    SystemFileApi fileApi_;
 
-    SystemFileReaderTests()
+    SystemFileApiTests()
       : inspector_()
       , factory_( inspector_ )
-      , reader_( factory_ )
+      , fileApi_( factory_ )
     { }
 
     std::string readToEnd( std::string path )
     {
-      return reader_.readToEnd( path );
+      return fileApi_.readToEnd( path );
     }
 
     void ensureFileOpensAs( std::ios_base::openmode mode )
@@ -30,7 +30,7 @@ class SystemFileReaderTests
     }
 };
 
-TEST_F( SystemFileReaderTests, opensRequestedFile )  
+TEST_F( SystemFileApiTests, opensRequestedFile )  
 {
   std::string path( "SomePath" );
   readToEnd( path );
@@ -39,32 +39,32 @@ TEST_F( SystemFileReaderTests, opensRequestedFile )
   EXPECT_EQ( path, factory_.path_ );
 }
 
-TEST_F( SystemFileReaderTests, closesFile )  
+TEST_F( SystemFileApiTests, closesFile )  
 {
   std::string path( "SomePath" );
   readToEnd( "" );
   EXPECT_EQ( true, inspector_.closed );
 }
 
-TEST_F( SystemFileReaderTests, destroysFile )  
+TEST_F( SystemFileApiTests, destroysFile )  
 {
   readToEnd( "" );
   EXPECT_EQ( true, inspector_.destroyed );
 }
 
-TEST_F( SystemFileReaderTests, checksIfFileOpened )
+TEST_F( SystemFileApiTests, checksIfFileOpened )
 {
   readToEnd( "" );
   EXPECT_EQ( true, inspector_.checkedIfOpen );
 }
 
-TEST_F( SystemFileReaderTests, checksTheFileSize )
+TEST_F( SystemFileApiTests, checksTheFileSize )
 {
   readToEnd( "" );
   EXPECT_EQ( true, inspector_.sizeChecked );
 }
 
-TEST_F( SystemFileReaderTests, callsReadWithFullFileSize )
+TEST_F( SystemFileApiTests, callsReadWithFullFileSize )
 {
   inspector_.sizeReturnValue = (size_t) 100;
   readToEnd( "" );
@@ -72,13 +72,13 @@ TEST_F( SystemFileReaderTests, callsReadWithFullFileSize )
   EXPECT_EQ( 100, (int) inspector_.inputValueForRead );
 }
 
-TEST_F( SystemFileReaderTests, throwsIfFileDoesNotExist )
+TEST_F( SystemFileApiTests, throwsIfFileDoesNotExist )
 {
   inspector_.openReturnValue = false;
   EXPECT_THROW( readToEnd( "SomePath"), FileNotFoundException );
 }
 
-TEST_F( SystemFileReaderTests, deletesFileBeforeThrowing )
+TEST_F( SystemFileApiTests, deletesFileBeforeThrowing )
 {
   inspector_.openReturnValue = false;
   try
@@ -90,24 +90,24 @@ TEST_F( SystemFileReaderTests, deletesFileBeforeThrowing )
   ASSERT_EQ( true, inspector_.destroyed );
 }
 
-TEST_F( SystemFileReaderTests, returnsCharactersWrittenToItsBuffer )
+TEST_F( SystemFileApiTests, returnsCharactersWrittenToItsBuffer )
 {
   inspector_.sizeReturnValue = (size_t) 6;
   strcpy( inspector_.buffer, "Hello" );
   EXPECT_EQ( "Hello", readToEnd( "x" ) );
 }
 
-TEST_F( SystemFileReaderTests, opensFileForReading )
+TEST_F( SystemFileApiTests, opensFileForReading )
 {
   ensureFileOpensAs( std::ios::in );
 }
 
-TEST_F( SystemFileReaderTests, opensFileAtEnd )
+TEST_F( SystemFileApiTests, opensFileAtEnd )
 {
   ensureFileOpensAs( std::ios::ate );
 }
 
-TEST_F( SystemFileReaderTests, opensFileAsBinary )
+TEST_F( SystemFileApiTests, opensFileAsBinary )
 {
   ensureFileOpensAs( std::ios::binary );
 }

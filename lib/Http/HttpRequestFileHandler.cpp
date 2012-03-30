@@ -1,10 +1,11 @@
 #include "HttpRequestFileHandler.h"
 #include "HttpRequest.h"
-#include "HttpResponse.H"
+#include "HttpResponse.h"
+#include "FileApi.h"
 
-HttpRequestFileHandler::HttpRequestFileHandler( std::string basePath, FileReader& reader )
+HttpRequestFileHandler::HttpRequestFileHandler( std::string basePath, FileApi& fileApi )
   : basePath_( basePath )
-  , reader_( reader )
+  , fileApi_( fileApi )
 { }
 
 HttpRequestFileHandler::~HttpRequestFileHandler()
@@ -13,10 +14,9 @@ HttpRequestFileHandler::~HttpRequestFileHandler()
 HttpResponse* HttpRequestFileHandler::handle( HttpRequest& request )
 {
   std::string path( basePath_ + request.url() );
-  std::string fileContents = reader_.readToEnd( path );
+  std::string fileContents = fileApi_.readToEnd( path );
 
   HttpResponse* response = new HttpResponse( fileContents );
   return response;
 }
-
 

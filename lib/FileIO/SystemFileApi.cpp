@@ -1,16 +1,16 @@
-#include "SystemFileReader.h"
+#include "SystemFileApi.h"
 #include "File.h"
 #include "FileFactory.h"
 #include "FileNotFoundException.h"
 
-SystemFileReader::SystemFileReader( FileFactory& factory )
+SystemFileApi::SystemFileApi( FileFactory& factory )
   : factory_( factory )
 { }
 
-SystemFileReader::~SystemFileReader()
+SystemFileApi::~SystemFileApi()
 { }
 
-std::string SystemFileReader::readToEnd( const std::string path )
+std::string SystemFileApi::readToEnd( const std::string path )
 {
   File* file = open( path );
   std::string result = getContents( file );
@@ -19,12 +19,12 @@ std::string SystemFileReader::readToEnd( const std::string path )
   return result;
 }
 
-bool SystemFileReader::exists( const std::string path )
+bool SystemFileApi::exists( const std::string path )
 {
   throw 1;
 }
 
-std::string SystemFileReader::getContents( File* file )
+std::string SystemFileApi::getContents( File* file )
 {
   size_t fileSize = file->size();
   char* buffer = new char[ fileSize ];
@@ -39,13 +39,13 @@ std::string SystemFileReader::getContents( File* file )
   return contents;
 }
 
-void SystemFileReader::closeAndDelete( File* file )
+void SystemFileApi::closeAndDelete( File* file )
 {
   file->close();
   delete file;
 }
 
-File* SystemFileReader::open( const std::string path )
+File* SystemFileApi::open( const std::string path )
 {
   File* file = factory_.open( path.c_str(), getOpenMode() );
   if( !file->isOpen() )
@@ -56,7 +56,7 @@ File* SystemFileReader::open( const std::string path )
   return file;
 }
 
-std::ios_base::openmode SystemFileReader::getOpenMode()
+std::ios_base::openmode SystemFileApi::getOpenMode()
 {
   return std::ios::in | std::ios::ate | std::ios::binary;
 }
