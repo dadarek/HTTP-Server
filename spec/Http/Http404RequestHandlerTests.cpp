@@ -1,4 +1,6 @@
 #include "gtest/gtest.h"
+#include "HttpRequest.h"
+#include "HttpResponse.h"
 #include "Http404RequestHandler.h"
 #include <string>
 
@@ -9,10 +11,13 @@ class Http404RequestHandlerTests
 
 };
 
-TEST_F( Http404RequestHandlerTests, 404TextContainsNotFound)
+TEST_F( Http404RequestHandlerTests, bodyContainsUrlRequested )
 {
-  std::string message( Http404RequestHandler::HTML_404 );
-  std::string expectedTest( "Page Not Found");
+  HttpRequest request( "invalid-url.html" );
+  Http404RequestHandler handler;
+
+  HttpResponse* response = handler.handle( request );
+  std::string body = response->body();
   
-  ASSERT_NE( std::string::npos, message.find( expectedTest ) );
+  ASSERT_LE( (size_t) 0 , body.find( "invalid-url.html" ) );
 }
