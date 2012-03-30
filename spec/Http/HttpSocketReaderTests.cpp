@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "HttpSocketReader.h"
+#include "SocketReadException.h"
 #include "MockSocketReadApi.h"
 
 class HttpSocketReaderTests
@@ -53,7 +54,7 @@ TEST_F( HttpSocketReaderTests, ThrowsExceptionOnErrorRead )
 {
   MockSocketReadApi socketApi;
   socketApi.returnErrorOnRead_ = true;
-  ASSERT_THROW( setAndGet( socketApi, "" ), int );
+  ASSERT_THROW( setAndGet( socketApi, "" ), SocketReadException );
 }
 
 TEST_F( HttpSocketReaderTests, ReadsOnSocketItReceives )

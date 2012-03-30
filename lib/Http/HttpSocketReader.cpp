@@ -1,5 +1,6 @@
 #include "SocketApi.h"
 #include "HttpSocketReader.h"
+#include "SocketReadException.h"
 
 const char* const HttpSocketReader::STREAM_TERMINATOR = "\r\n\r\n";
 
@@ -42,7 +43,7 @@ std::string HttpSocketReader::getNextChunk( int socketFD )
   
   int bytesRead = socketApi_.read( socketFD, buffer, bytesToRead );
   if( bytesRead < 0 )
-    throw HttpSocketReader::READ_EXCEPTION;
+    throw SocketReadException();
 
   return std::string( buffer );
 }

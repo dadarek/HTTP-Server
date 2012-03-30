@@ -8,9 +8,6 @@ class SocketApi;
 class HttpSocketReader
   : public SocketReader
 {
-  public:
-    static const int READ_EXCEPTION = 1;
-
   private:
     static const char* const STREAM_TERMINATOR;
     SocketApi& socketApi_;
