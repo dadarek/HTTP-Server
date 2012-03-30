@@ -24,4 +24,6 @@
 - Make sure that users of SystemFileReader delete returned to char*;
 - make sure that SystemFileReader delete allocated array if read fails
 - If SystemFileReader file->read() returns -1, throw exception and DELETE BUFFER AND FILE*
+- SystemFileReader should not return string but char*
 
+- Maybe use Abstract Factory (for SocketApi, FileApi, and all others that have a Mock and corresponding Real object )
