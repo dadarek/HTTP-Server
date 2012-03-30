@@ -21,7 +21,7 @@ std::string SystemFileApi::readToEnd( const std::string path )
 
 bool SystemFileApi::exists( const std::string path )
 {
-  throw 1;
+  File* file = factory_.open( path.c_str(), (std::ios_base::openmode) -1 );
 }
 
 std::string SystemFileApi::getContents( File* file )

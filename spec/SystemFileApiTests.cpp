@@ -112,3 +112,10 @@ TEST_F( SystemFileApiTests, opensFileAsBinary )
   ensureFileOpensAs( std::ios::binary );
 }
 
+TEST_F( SystemFileApiTests, existsOpensRequestedFile )
+{
+  std::string path( "my-file.txt");
+  fileApi_.exists( path );
+  EXPECT_EQ( path, factory_.path_ );
+}
+
