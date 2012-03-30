@@ -12,6 +12,7 @@ class SystemFile
     std::ifstream file_;
 
   public:
+    SystemFile( const char* path );
     SystemFile( const char* path, std::ios_base::openmode fileMode );
     virtual ~SystemFile();
 

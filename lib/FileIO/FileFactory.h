@@ -10,6 +10,7 @@ class FileFactory
   public:
     virtual ~FileFactory() { }
 
+    virtual File* open( const char* path ) = 0;
     virtual File* open( const char* path, std::ios_base::openmode mode ) = 0;
 };
 

@@ -1,5 +1,9 @@
 #include "SystemFile.h"
 
+SystemFile::SystemFile( const char* path )
+  : file_( path )
+{ }
+
 SystemFile::SystemFile( const char* path, std::ios_base::openmode fileMode )
   : file_( path, fileMode )
 { }

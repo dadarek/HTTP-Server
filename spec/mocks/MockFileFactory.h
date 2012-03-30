@@ -22,6 +22,7 @@ class MockFileFactory
     MockFileFactory( MockFileInspector& inspector );
     virtual ~MockFileFactory();
 
+    File* open( const char* path ); 
     File* open( const char* path, std::ios_base::openmode mode ); 
 };
 
