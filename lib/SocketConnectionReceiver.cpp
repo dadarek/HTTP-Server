@@ -1,5 +1,6 @@
 #include "SocketConnectionReceiver.h"
 #include "SocketBindException.h"
+#include "SocketAcceptException.h"
 #include "SocketApi.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -64,7 +65,7 @@ int SocketConnectionReceiver::nextConnection()
   
   int result = socketApi_.accept( this->fd_, clientAddressIn, &clientAddressSize );
   if( result < 0 )
-    throw SocketApi::ACCEPT_EXCEPTION;
+    throw SocketAcceptException();
 
   return result;
 }

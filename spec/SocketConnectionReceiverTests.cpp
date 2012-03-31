@@ -2,6 +2,7 @@
 #include "mocks/MockSocketApi.h"
 #include "SocketConnectionReceiver.h"
 #include "SocketBindException.h"
+#include "SocketAcceptException.h"
 
 class SocketConnectionReceiverTester
   : public ::testing::Test
@@ -100,7 +101,7 @@ TEST_F( SocketConnectionReceiverTester, PassesInCorrectSocketFDToAccept )
 TEST_F( SocketConnectionReceiverTester, ThrowsExceptionWhenAcceptFails )  
 {
   flags_.acceptShouldError = true;
-  ASSERT_THROW( callNextConnection(), int );
+  ASSERT_THROW( callNextConnection(), SocketAcceptException );
 }
 
 TEST_F( SocketConnectionReceiverTester, NextConnectionReturnsCorrectFD )  
