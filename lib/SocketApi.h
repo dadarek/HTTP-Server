@@ -7,7 +7,6 @@ class SocketApi
 {
   public:
     static const int SOCKET_EXCEPTION = 1;
-    static const int BIND_EXCEPTION = 2;
     static const int ACCEPT_EXCEPTION = 3;
 
   public:

@@ -1,4 +1,5 @@
 #include "SocketConnectionReceiver.h"
+#include "SocketBindException.h"
 #include "SocketApi.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,7 +35,7 @@ void SocketConnectionReceiver::bindToSocket( int portToBindTo )
   if( bindResult < 0 )
   {
     closeSocket();
-    throw SocketApi::BIND_EXCEPTION;
+    throw SocketBindException();
   }
 }
 

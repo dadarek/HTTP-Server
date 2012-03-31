@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 #include "mocks/MockSocketApi.h"
 #include "SocketConnectionReceiver.h"
+#include "SocketBindException.h"
 
 class SocketConnectionReceiverTester
   : public ::testing::Test
@@ -60,7 +61,7 @@ TEST_F( SocketConnectionReceiverTester, ClosesFDOnBindException )
   {
     createAndDeleteReceiver();
   }
-  catch( int )
+  catch( SocketBindException )
   { }
   
   EXPECT_EQ( returnValues_.socket, inputValues_.close );
@@ -75,7 +76,7 @@ TEST_F( SocketConnectionReceiverTester, BindsToSocketFDItReceives )
 TEST_F( SocketConnectionReceiverTester, ThrowsExceptionOnErrorBind )  
 {
   flags_.bindShouldError = true;
-  ASSERT_THROW( createAndDeleteReceiver(), int );
+  ASSERT_THROW( createAndDeleteReceiver(), SocketBindException );
 }
 
 TEST_F( SocketConnectionReceiverTester, DestructorClosesFD )  
