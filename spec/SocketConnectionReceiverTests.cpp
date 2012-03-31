@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 #include "mocks/MockSocketApi.h"
 #include "SocketConnectionReceiver.h"
+#include "SocketCreateException.h"
 #include "SocketBindException.h"
 #include "SocketAcceptException.h"
 
@@ -52,7 +53,7 @@ TEST_F( SocketConnectionReceiverTester, CreatesASocket )
 TEST_F( SocketConnectionReceiverTester, ThrowsExceptionOnErrorSocket ) 
 {
   flags_.socketShouldError = true;
-  ASSERT_THROW( createAndDeleteReceiver(), int );
+  ASSERT_THROW( createAndDeleteReceiver(), SocketCreateException );
 }
 
 TEST_F( SocketConnectionReceiverTester, ClosesFDOnBindException ) 

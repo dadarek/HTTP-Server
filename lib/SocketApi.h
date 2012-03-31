@@ -6,9 +6,6 @@
 class SocketApi
 {
   public:
-    static const int SOCKET_EXCEPTION = 1;
-
-  public:
     virtual ~SocketApi() { }
 
     virtual int socket() = 0;

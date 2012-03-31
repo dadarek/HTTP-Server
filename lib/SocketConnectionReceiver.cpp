@@ -1,4 +1,5 @@
 #include "SocketConnectionReceiver.h"
+#include "SocketCreateException.h"
 #include "SocketBindException.h"
 #include "SocketAcceptException.h"
 #include "SocketApi.h"
@@ -23,7 +24,7 @@ void SocketConnectionReceiver::createSocket()
 {
   fd_ = socketApi_.socket();
   if( fd_ < 0 )
-    throw SocketApi::SOCKET_EXCEPTION;
+    throw SocketCreateException();
 }
 
 void SocketConnectionReceiver::bindToSocket( int portToBindTo )
