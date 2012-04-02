@@ -23,3 +23,18 @@ TEST( HttpRequestTests, KeepsItsAssignedValue2 )
   ASSERT_EQ( url, request.url() );
 }
 
+TEST( HttpRequestTests, KeepsItsBody )
+{
+  const char* body = "Hello there"; 
+  size_t length = strlen( body );
+
+  HttpRequest request( "", "" );
+  request.setBody( body, length );
+
+
+  int diff = memcmp( body, request.body(), length );
+  ASSERT_EQ( 0, diff );
+  ASSERT_EQ( length, request.bodyLength() );
+}
+
+// sets body only once
