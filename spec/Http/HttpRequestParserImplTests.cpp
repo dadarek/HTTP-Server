@@ -22,6 +22,14 @@ class HttpRequestParserImplTests
     {
       ASSERT_EQ( expectedUrl, parseOutUrl( headers ) );
     }
+
+    void assertMethod( const char* headers, const char* expectedMethod ) 
+    {
+      HttpRequestParserImpl parser;
+      HttpRequest* request = parser.parse( std::string(headers) );
+      ASSERT_EQ( std::string(expectedMethod), request->method() );
+      delete request;
+    }
 };
 
 TEST_F( HttpRequestParserImplTests, ParsesHeaders )
@@ -57,24 +65,10 @@ TEST_F( HttpRequestParserImplTests, HandlesEncodings )
 
 TEST_F( HttpRequestParserImplTests, ParsesMethod )
 {
-  std::string headers( "POST /some-url HTTP/1.1\r\n" );
-
-  HttpRequestParserImpl parser;
-  HttpRequest* request = parser.parse( headers );
-
-  ASSERT_EQ( std::string("POST"), request->method() );
-
-  delete request;
+  assertMethod( "POST /some-url HTTP/1.1\r\n", "POST" );
 }
 
 TEST_F( HttpRequestParserImplTests, ParsesDifferentMethods )
 {
-  std::string headers( "PUT /some-url HTTP/1.1\r\n" );
-
-  HttpRequestParserImpl parser;
-  HttpRequest* request = parser.parse( headers );
-
-  ASSERT_EQ( std::string("PUT"), request->method() );
-
-  delete request;
+  assertMethod( "PUT /some-url HTTP/1.1\r\n", "PUT" );
 }
