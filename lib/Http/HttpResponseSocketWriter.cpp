@@ -14,21 +14,17 @@ void HttpResponseSocketWriter::write( int socketFD, HttpResponse& response )
 {
   std::string header("HTTP/1.1 ");
 
-  int written = socketApi_.write( socketFD, header.c_str(), header.length() );
-  if( written < 0 )
-    throw SocketWriteException();
-
-  written = socketApi_.write( socketFD, response.status().c_str(), response.status().length() );
-  if( written < 0 )
-    throw SocketWriteException();
-
-  written = socketApi_.write( socketFD, "\r\n\r\n", 4 );
-  if( written < 0 )
-    throw SocketWriteException();
-
-  written = socketApi_.write( socketFD, response.body(), response.bodyLength() );
-  if( written < 0 )
-    throw SocketWriteException();
+  write( socketFD, header.c_str(), header.length() );
+  write( socketFD, response.status().c_str(), response.status().length() );
+  write( socketFD, "\r\n\r\n", 4 );
+  write( socketFD, response.body(), response.bodyLength() );
 
   socketApi_.close( socketFD );
+}
+
+void HttpResponseSocketWriter::write( int socketFD, const char* content, size_t length )
+{
+  int written = socketApi_.write( socketFD, content, length );
+  if( written < 0 )
+    throw SocketWriteException();
 }
