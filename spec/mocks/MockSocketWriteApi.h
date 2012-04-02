@@ -26,6 +26,10 @@ class MockSocketWriteApi
 
     int read( int socketFD, char* buffer, unsigned bufferSize );
     int write( int socketFD, const char* buffer, unsigned length );
+
+  private:
+    void expandBuffer( unsigned length );
+    void appendNewContent( const char* content, unsigned length );
 };
 
 #endif

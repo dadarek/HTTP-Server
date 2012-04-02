@@ -37,27 +37,35 @@ void MockSocketWriteApi::close( int socketFD )
 int MockSocketWriteApi::read( int, char*, unsigned )
 { throw 0; }
 
-int MockSocketWriteApi::write( int socketFD, const char* content, unsigned contentSize )
+int MockSocketWriteApi::write( int socketFD, const char* content, unsigned length )
 {
   if( returnError_ )
     return -1;
 
   socketWrittenTo_ = socketFD;
 
-  unsigned oldSize = howMuchWasWritten_;
+  expandBuffer( length );
+  appendNewContent( content, length );
+
+  return whatToReturn_;
+}
+
+void MockSocketWriteApi::expandBuffer( unsigned length )
+{
   char* oldBuffer = whatWasWritten_;
 
-  unsigned newSize = howMuchWasWritten_ + contentSize;
+  unsigned newSize = howMuchWasWritten_ + length;
   char* newBuffer = new char[ newSize ];
 
-  memcpy( newBuffer, oldBuffer, oldSize );
-  memcpy( newBuffer + oldSize, content, contentSize );
-
-  whatWasWritten_ = newBuffer;
-  howMuchWasWritten_ = newSize;
+  memcpy( newBuffer, whatWasWritten_, howMuchWasWritten_ );
 
   if( 0 != oldBuffer )
     delete[] oldBuffer;
+  whatWasWritten_ = newBuffer;
+}
 
-  return whatToReturn_;
+void MockSocketWriteApi::appendNewContent( const char* content, unsigned length )
+{
+  memcpy( whatWasWritten_ + howMuchWasWritten_, content, length );
+  howMuchWasWritten_ += length;
 }
