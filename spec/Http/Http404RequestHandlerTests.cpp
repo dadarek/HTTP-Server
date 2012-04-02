@@ -9,7 +9,7 @@ class Http404RequestHandlerTests
   public:
     HttpResponse* getResponse( const char* url )
     {
-      HttpRequest request( url );
+      HttpRequest request( "", url );
       Http404RequestHandler handler;
       return handler.handle( request );
     }

@@ -21,7 +21,7 @@ class HttpRequestHandlerFactoryImplTests
 
     HttpRequestHandlerFactoryImplTests()
       : basePath_( "/some/base/" )
-      , request_( "some/url.html" )
+      , request_( "", "some/url.html" )
       , factory_( basePath_, fileApi_, directoryApi_ )
     { }
 

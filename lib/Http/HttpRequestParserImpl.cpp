@@ -19,6 +19,6 @@ HttpRequest* HttpRequestParserImpl::parse( std::string headers )
   int urlLength = urlEndIndex - urlStartIndex;
 
   std::string url = headers.substr( urlStartIndex, urlLength );
-  return new HttpRequest( url );
+  return new HttpRequest( "", url );
 }
 

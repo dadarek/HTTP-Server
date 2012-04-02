@@ -6,14 +6,15 @@
 class HttpRequest
 {
   private:
+    std::string method_;
     std::string url_;
 
   public:
-    HttpRequest( std::string url );
+    HttpRequest( std::string method, std::string url );
     virtual ~HttpRequest();
 
+    std::string method();
     std::string url();
-
 };
 
 #endif

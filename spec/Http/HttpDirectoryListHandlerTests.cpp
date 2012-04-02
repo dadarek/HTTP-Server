@@ -19,7 +19,7 @@ class HttpDirectoryListRequestHandlerTests
       : directoryApi_()
       , basePath_( "/some/base/" )
       , url_( "some/folder/ ")
-      , request_( url_ )
+      , request_( "", url_ )
       , handler_( basePath_, directoryApi_)
     { 
       setupDirectoryEntries();

@@ -16,7 +16,7 @@ class HttpRequestFileHandlerTests
 
     HttpRequestFileHandlerTests()
       : fileApi_()
-      , request_( "some/url" )
+      , request_( "", "some/url" )
       , basePath_( "/some/base/path/" )
       , handler_( basePath_, fileApi_ )
     { }

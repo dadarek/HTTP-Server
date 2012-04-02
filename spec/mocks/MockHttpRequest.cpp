@@ -2,12 +2,12 @@
 #include "HttpConnectionHandlerInspector.h"
 
 MockHttpRequest::MockHttpRequest( HttpConnectionHandlerInspector& inspector )
-  : HttpRequest( "" )
+  : HttpRequest( "", "" )
   , inspector_( inspector )
 { }
 
 MockHttpRequest::MockHttpRequest( HttpConnectionHandlerInspector& inspector, const char* url )
-  : HttpRequest( url )
+  : HttpRequest( "", url )
   , inspector_( inspector )
 { }
 

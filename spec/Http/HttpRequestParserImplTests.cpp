@@ -55,8 +55,3 @@ TEST_F( HttpRequestParserImplTests, HandlesEncodings )
   assertUrl( headers, "/Look%20Space" );
 }
 
-TEST_F( HttpRequestParserImplTests, ParsesOutHttpMethod )
-{
-  std::string headers( "POST /Form HTTP/1.1\r\n" );
-}
-
