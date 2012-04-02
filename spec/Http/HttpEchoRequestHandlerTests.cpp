@@ -18,9 +18,11 @@ TEST_F( HttpEchoRequestHandlerTests, Compiles )
   request.setBody( body, length );
 
   HttpEchoRequestHandler handler;
-
   HttpResponse* response = handler.handle( request );
 
+  int diff = memcmp( response->body(), body, length );
+
+  ASSERT_EQ( 0, diff );
   ASSERT_EQ( length, response->bodyLength() );
 
   delete response;
