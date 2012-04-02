@@ -2,20 +2,20 @@
 #include <cstring>
 
 HttpResponse::HttpResponse( const char* body, size_t bodyLength )
-  : charBody_( new char[ bodyLength ] )
+  : body_( new char[ bodyLength ] )
   , bodyLength_( bodyLength )
 {
-  memcpy( charBody_, body, bodyLength );
+  memcpy( body_, body, bodyLength );
 }
 
 HttpResponse::~HttpResponse()
 {
-  delete[] charBody_;
+  delete[] body_;
 }
 
-const char* HttpResponse::charBody()
+const char* HttpResponse::body()
 {
-  return charBody_;
+  return body_;
 }
 
 size_t HttpResponse::bodyLength()

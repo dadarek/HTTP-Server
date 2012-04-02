@@ -24,7 +24,7 @@ class Http404RequestHandlerTests
 
     void assertBodyContains( HttpResponse* response, const char* expectedText )
     {
-      char* body = appendNullTerminator( response->charBody(), response->bodyLength() );
+      char* body = appendNullTerminator( response->body(), response->bodyLength() );
       ASSERT_NE( (char*) 0 , strstr( body, expectedText ) );
       delete[] body;
     }

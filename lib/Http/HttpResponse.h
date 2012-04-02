@@ -6,14 +6,14 @@
 class HttpResponse
 {
   private:
-    char* charBody_;
+    char* body_;
     size_t bodyLength_;
 
   public:
     HttpResponse( const char* body, size_t bodyLength );
     virtual ~HttpResponse();
 
-    const char* charBody();
+    const char* body();
     size_t bodyLength();
 };
 

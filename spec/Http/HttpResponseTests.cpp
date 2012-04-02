@@ -9,7 +9,7 @@ TEST( HttpResponseTests, storesStrings )
   memcpy( body, "0123456789", size );
 
   HttpResponse response( body, size );
-  int diff = memcmp( body, response.charBody(), size );
+  int diff = memcmp( body, response.body(), size );
   
   ASSERT_EQ( 0, diff );
 }
@@ -25,10 +25,10 @@ TEST( HttpResponseTests, storesBinary )
   body[3] = 255;
 
   HttpResponse response( body, size );
-  ASSERT_EQ( body[0], response.charBody()[0] );
-  ASSERT_EQ( body[1], response.charBody()[1] );
-  ASSERT_EQ( body[2], response.charBody()[2] );
-  ASSERT_EQ( body[3], response.charBody()[3] );
+  ASSERT_EQ( body[0], response.body()[0] );
+  ASSERT_EQ( body[1], response.body()[1] );
+  ASSERT_EQ( body[2], response.body()[2] );
+  ASSERT_EQ( body[3], response.body()[3] );
 }
 
 TEST( HttpResponseTests, remembersTheResponseSize )

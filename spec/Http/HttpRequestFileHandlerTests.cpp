@@ -37,7 +37,7 @@ TEST_F( HttpRequestFileHandlerTests, SetsTheResponseBodyToFileContents )
 
   HttpResponse* response = handler_.handle( request_ );
 
-  int diff = memcmp( response->charBody(), contents, length ); 
+  int diff = memcmp( response->body(), contents, length ); 
   ASSERT_EQ( 0, diff );
   ASSERT_EQ( length, response->bodyLength() );
 
