@@ -13,7 +13,7 @@ class MockHttpResponse
 
   public:
     MockHttpResponse( HttpConnectionHandlerInspector& inspector );
-    MockHttpResponse( HttpConnectionHandlerInspector& inspector, const char* body );
+    MockHttpResponse( HttpConnectionHandlerInspector& inspector, const char* body, size_t bodyLength );
     virtual ~MockHttpResponse();
 
 };

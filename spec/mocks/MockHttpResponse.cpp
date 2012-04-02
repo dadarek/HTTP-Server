@@ -2,12 +2,12 @@
 #include "HttpConnectionHandlerInspector.h"
 
 MockHttpResponse::MockHttpResponse( HttpConnectionHandlerInspector& inspector )
-  : HttpResponse( "" )
+  : HttpResponse( "", 0 )
   , inspector_( inspector )
 { }
 
-MockHttpResponse::MockHttpResponse( HttpConnectionHandlerInspector& inspector, const char* body )
-  : HttpResponse( body )
+MockHttpResponse::MockHttpResponse( HttpConnectionHandlerInspector& inspector, const char* body, size_t bodyLength )
+  : HttpResponse( body, bodyLength )
   , inspector_( inspector )
 { }
 
