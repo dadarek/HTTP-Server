@@ -100,3 +100,9 @@ TEST_F( HttpDirectoryListRequestHandlerTests, createsResponseWithAppropriateLeng
 
 }
 
+TEST_F( HttpDirectoryListRequestHandlerTests, Sets200Status )
+{
+  HttpResponse* response = handler_.handle( request_ );
+
+  ASSERT_EQ( std::string("200 OK"), response->status() );
+}
