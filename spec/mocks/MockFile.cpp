@@ -48,7 +48,7 @@ void MockFile::read( char* buffer, size_t size )
   throwIfDidNotMoveToBeginning("Can't read if you don't move to beginning.");
 
   inspector_.inputValueForRead = size;
-  strcpy( buffer, inspector_.buffer );
+  memcpy( buffer, inspector_.buffer, inspector_.sizeReturnValue );
 }
 
 void MockFile::close()

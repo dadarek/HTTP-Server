@@ -96,14 +96,16 @@ TEST_F( SystemFileApiTests, storesCorrectCharactersInBuffer )
 {
   const char* value = "Hello";
   size_t length = strlen( value );
+  
   inspector_.sizeReturnValue = length;
-
   strcpy( inspector_.buffer, value );
 
   char* buffer;
-  fileApi_.readToEnd( "", &buffer );
+  size_t returnedLength = fileApi_.readToEnd( "", &buffer );
 
-  EXPECT_STREQ( value, buffer );
+  int diff = memcmp( value, buffer, length );
+  EXPECT_EQ( 0, diff );
+  EXPECT_EQ( length, returnedLength );
 
   delete[] buffer;
 }
