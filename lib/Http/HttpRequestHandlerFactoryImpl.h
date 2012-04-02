@@ -5,6 +5,7 @@
 #include "HttpRequestHandlerFactory.h"
 
 class FileApi;
+class DirectoryApi;
 
 class HttpRequestHandlerFactoryImpl
   : public HttpRequestHandlerFactory
@@ -12,9 +13,10 @@ class HttpRequestHandlerFactoryImpl
   private:
     std::string basePath_;
     FileApi& fileApi_;
+    DirectoryApi& directoryApi_;
 
   public:
-    HttpRequestHandlerFactoryImpl( std::string basePath, FileApi& fileApi );
+    HttpRequestHandlerFactoryImpl( std::string basePath, FileApi& fileApi, DirectoryApi& directoryApi );
     virtual ~HttpRequestHandlerFactoryImpl();
 
     HttpRequestHandler* createHandler( HttpRequest& request );

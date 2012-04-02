@@ -4,9 +4,10 @@
 #include "FileApi.h"
 #include "HttpRequest.h"
 
-HttpRequestHandlerFactoryImpl::HttpRequestHandlerFactoryImpl( std::string basePath, FileApi& fileApi )
+HttpRequestHandlerFactoryImpl::HttpRequestHandlerFactoryImpl( std::string basePath, FileApi& fileApi, DirectoryApi& directoryApi )
   : basePath_( basePath )
   , fileApi_( fileApi )
+  , directoryApi_( directoryApi )
 { }
 
 HttpRequestHandlerFactoryImpl::~HttpRequestHandlerFactoryImpl()

@@ -1,15 +1,20 @@
 #include "gtest/gtest.h"
 #include "MockFileApi.h"
+#include "MockDirectoryApi.h"
 #include "HttpRequestHandlerFactoryImpl.h"
 #include "Http404RequestHandler.h"
 #include "HttpRequestFileHandler.h"
+#include "HttpDirectoryListRequestHandler.h"
 #include "HttpRequest.h"
+
+#include <dirent.h>
 
 class HttpRequestHandlerFactoryImplTests
   : public ::testing::Test
 {
   public:
     MockFileApi fileApi_;
+    MockDirectoryApi directoryApi_;
     std::string basePath_;
     HttpRequest request_;
     HttpRequestHandlerFactoryImpl factory_;
@@ -17,7 +22,7 @@ class HttpRequestHandlerFactoryImplTests
     HttpRequestHandlerFactoryImplTests()
       : basePath_( "/some/base/" )
       , request_( "some/url.html" )
-      , factory_( basePath_, fileApi_ )
+      , factory_( basePath_, fileApi_, directoryApi_ )
     { }
 
     HttpRequestHandler* getHandler()
@@ -47,6 +52,13 @@ TEST_F( HttpRequestHandlerFactoryImplTests, returnsFileHandlerIfFileDoesExist )
   fileApi_.existsReturnValue_ = true;
   HttpRequestHandler* handler = getHandler();
   ASSERT_EQ( handler, dynamic_cast <HttpRequestFileHandler*> ( handler ) );
+}
+
+TEST_F( HttpRequestHandlerFactoryImplTests, returnsFolderHandlerIfFolderExists )
+{
+  directoryApi_.opendir_returnValue_ = (DIR*) 10;
+  HttpRequestHandler* handler = getHandler();
+  ASSERT_EQ( handler, dynamic_cast <HttpDirectoryListRequestHandler*> ( handler ) );
 }
 
 TEST_F( HttpRequestHandlerFactoryImplTests, fileHandlerHasCorrectBasePath)
