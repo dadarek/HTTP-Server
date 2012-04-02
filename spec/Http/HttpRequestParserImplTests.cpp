@@ -7,7 +7,7 @@ class HttpRequestParserImplTests
   : public testing::Test
 {
   protected:
-    std::string parse( std::string headers )
+    std::string parseOutUrl( std::string headers )
     {
       HttpRequestParserImpl parser;
       
@@ -18,40 +18,45 @@ class HttpRequestParserImplTests
       return url;
     }
 
-    void parseAndAssert( std::string headers, std::string expectedUrl )
+    void assertUrl( std::string headers, std::string expectedUrl )
     {
-      ASSERT_EQ( expectedUrl, parse( headers ) );
+      ASSERT_EQ( expectedUrl, parseOutUrl( headers ) );
     }
 };
 
 TEST_F( HttpRequestParserImplTests, ParsesHeaders )
 {
   std::string headers( "GET /someUrl.ext HTTP/1.1\r\nSomeOtherHeaders\r\nMoreHeaders" );
-  parseAndAssert( headers, "/someUrl.ext" );
+  assertUrl( headers, "/someUrl.ext" );
 }
 
 TEST_F( HttpRequestParserImplTests, ParsesHeaders2 )
 {
   std::string headers( "GET /AnotherUrl.html HTTP/1.1\r\nOtherHeaers");
-  parseAndAssert( headers, "/AnotherUrl.html" );
+  assertUrl( headers, "/AnotherUrl.html" );
 }
 
 TEST_F( HttpRequestParserImplTests, ThrowsException )
 {
-  EXPECT_THROW( parse( "Some Invalid Header" ), InvalidHttpRequestHeadersException );
-  EXPECT_THROW( parse( "GET IncompleteHeader" ), InvalidHttpRequestHeadersException );
-  EXPECT_THROW( parse( "GET BuggyHeaderHTTP/1.1\r\nOtherHeaders: Well Formatted\r\n" ), InvalidHttpRequestHeadersException );
+  EXPECT_THROW( parseOutUrl( "Some Invalid Header" ), InvalidHttpRequestHeadersException );
+  EXPECT_THROW( parseOutUrl( "GET IncompleteHeader" ), InvalidHttpRequestHeadersException );
+  EXPECT_THROW( parseOutUrl( "GET BuggyHeaderHTTP/1.1\r\nOtherHeaders: Well Formatted\r\n" ), InvalidHttpRequestHeadersException );
 }
 
 TEST_F( HttpRequestParserImplTests, HandlesSpaces )
 {
   std::string headers( "GET /Some Url with spaces.html HTTP/1.1\r\nOther Headers" );
-  parseAndAssert( headers, "/Some Url with spaces.html" );
+  assertUrl( headers, "/Some Url with spaces.html" );
 }
 
 TEST_F( HttpRequestParserImplTests, HandlesEncodings )
 {
   std::string headers( "GET /Look%20Space HTTP/1.1\r\nOther Headers" );
-  parseAndAssert( headers, "/Look%20Space" );
+  assertUrl( headers, "/Look%20Space" );
+}
+
+TEST_F( HttpRequestParserImplTests, ParsesOutHttpMethod )
+{
+  std::string headers( "POST /Form HTTP/1.1\r\n" );
 }
 
