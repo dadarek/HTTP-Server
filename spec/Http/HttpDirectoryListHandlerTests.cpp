@@ -8,6 +8,7 @@ class HttpDirectoryListRequestHandlerTests
   : public ::testing::Test
 {
   public:
+    struct dirent* directories_[4];
     MockDirectoryApi directoryApi_;
     std::string basePath_;
     std::string url_;
@@ -20,7 +21,9 @@ class HttpDirectoryListRequestHandlerTests
       , url_( "some/folder/ ")
       , request_( url_ )
       , handler_( basePath_, directoryApi_)
-    { }
+    { 
+      setupDirectoryEntries();
+    }
     
     char* appendNullTerminator( const char* string, size_t length )
     {
@@ -35,6 +38,24 @@ class HttpDirectoryListRequestHandlerTests
       char* body = appendNullTerminator( response->body(), response->bodyLength() );
       ASSERT_NE( (char*) 0 , strstr( body, expectedText ) );
       delete[] body;
+    }
+
+    void setupDirectoryEntries()
+    {
+      struct dirent someFolder;
+      strcpy( someFolder.d_name, "Some Folder Name" );
+
+      struct dirent someFile;
+      strcpy( someFile.d_name, "Some FileName.txt" );
+
+      struct dirent anotherFile;
+      strcpy( someFile.d_name, "AnotherFile.asp" );
+
+      directories_[0] = &someFolder;
+      directories_[1] = &someFile;
+      directories_[2] = &anotherFile;
+      directories_[3] = 0;
+      directoryApi_.readdir_returnValues_ = directories_;
     }
 };
 
@@ -53,48 +74,16 @@ TEST_F( HttpDirectoryListRequestHandlerTests, CallsReadDirWithCorrectDIRPointer 
 
 TEST_F( HttpDirectoryListRequestHandlerTests, CallsReadDirUntilNull )
 {
-  struct dirent* directories[4];
-  struct dirent someFolder;
-  strcpy( someFolder.d_name, "Some Folder Name" );
-
-  struct dirent someFile;
-  strcpy( someFile.d_name, "Some FileName.txt" );
-
-  struct dirent anotherFile;
-  strcpy( someFile.d_name, "AnotherFile.asp" );
-
-  directories[0] = &someFolder;
-  directories[1] = &someFile;
-  directories[2] = &anotherFile;
-  directories[3] = 0;
-  directoryApi_.readdir_returnValues_ = directories;
-
   handler_.handle( request_ );
-
   ASSERT_EQ( 4, directoryApi_.timesReaddirCalled_ );
 }
 
 TEST_F( HttpDirectoryListRequestHandlerTests, IncludesResultsInResponse )
 {
-  struct dirent* directories[4];
-  struct dirent someFolder;
-  strcpy( someFolder.d_name, "Some Folder Name" );
-
-  struct dirent someFile;
-  strcpy( someFile.d_name, "Some FileName.txt" );
-
-  struct dirent anotherFile;
-  strcpy( someFile.d_name, "AnotherFile.asp" );
-
-  directories[0] = &someFolder;
-  directories[1] = &someFile;
-  directories[2] = &anotherFile;
-  directories[3] = 0;
-  directoryApi_.readdir_returnValues_ = directories;
-
   HttpResponse* response = handler_.handle( request_ );
 
-  assertBodyContains( response, someFolder.d_name );
-  assertBodyContains( response, someFile.d_name );
+  assertBodyContains( response, directories_[0]->d_name );
+  assertBodyContains( response, directories_[1]->d_name );
+  assertBodyContains( response, directories_[2]->d_name );
 
 }
