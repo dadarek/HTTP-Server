@@ -7,7 +7,6 @@ class Http404RequestHandler
   : public HttpRequestHandler
 {
   private:
-    static const char* const HTML_404;
     static const char* const STATUS_404;
 
   public:

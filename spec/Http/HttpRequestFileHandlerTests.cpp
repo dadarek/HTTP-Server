@@ -44,3 +44,9 @@ TEST_F( HttpRequestFileHandlerTests, SetsTheResponseBodyToFileContents )
 
   delete response;
 }
+
+TEST_F( HttpRequestFileHandlerTests, Sets200StatusCode )
+{
+  HttpResponse* response = handler_.handle( request_ );
+  ASSERT_EQ( "200 OK", response->status() );
+}

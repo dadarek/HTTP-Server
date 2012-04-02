@@ -10,6 +10,8 @@ class HttpRequestFileHandler
   : public HttpRequestHandler
 {
   private:
+    static const char* const STATUS_200;
+
     std::string basePath_;
     FileApi& fileApi_;
 
