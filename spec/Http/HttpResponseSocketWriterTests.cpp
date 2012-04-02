@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 #include "HttpResponseSocketWriter.h"
 #include "MockSocketWriteApi.h"
-#include "MockHttpResponse.h"
+#include "HttpResponse.h"
 #include "HttpConnectionHandlerInspector.h"
 #include "SocketWriteException.h"
 
@@ -9,48 +9,62 @@ class HttpResponseSocketWriterTests
   : public ::testing::Test
 {
   protected:
+    static const char* const STATUS_CODE;
     static const char* const RESPONSE_BODY;
-    static const size_t RESPONSE_BODY_SIZE;
+    static const char* const LINE_BREAK;
     static const int PORT;
     
-    HttpConnectionHandlerInspector inspector_;
     MockSocketWriteApi socketApi_;
-    MockHttpResponse response_;
+    HttpResponse response_;
     HttpResponseSocketWriter writer_;
 
     HttpResponseSocketWriterTests()
-      : inspector_()
-      , socketApi_()
-      , response_( inspector_, HttpResponseSocketWriterTests::RESPONSE_BODY, HttpResponseSocketWriterTests::RESPONSE_BODY_SIZE )
+      : socketApi_()
+      , response_( RESPONSE_BODY, strlen( RESPONSE_BODY ), STATUS_CODE )
       , writer_( socketApi_ )
     { }
 
     void write()
     {
-      writer_.write( HttpResponseSocketWriterTests::PORT, response_ );
+      writer_.write( PORT, response_ );
+    }
+
+    std::string getExpectedBody()
+    {
+      std::string result("HTTP/1.1 ");
+      result += STATUS_CODE;
+      result += LINE_BREAK;
+      result += LINE_BREAK;
+      result += RESPONSE_BODY;
+
+      return result;
     }
 };
 
 const char* const HttpResponseSocketWriterTests::RESPONSE_BODY = "Some body";
-const size_t HttpResponseSocketWriterTests::RESPONSE_BODY_SIZE = strlen( RESPONSE_BODY ) + 1;
+const char* const HttpResponseSocketWriterTests::STATUS_CODE = "999 Some Code";
+const char* const HttpResponseSocketWriterTests::LINE_BREAK = "\r\n";
 const int HttpResponseSocketWriterTests::PORT = 77;
 
 TEST_F( HttpResponseSocketWriterTests, writesTheCorrectContent )
 {
   write();
-  ASSERT_STREQ( HttpResponseSocketWriterTests::RESPONSE_BODY, socketApi_.whatWasWritten_.str().c_str() );
+  std::string body = getExpectedBody();
+  int diff = memcmp( body.c_str(), socketApi_.whatWasWritten_, socketApi_.howMuchWasClaimedToBeWritten_ );
+
+  ASSERT_EQ( 0, diff );
 }
 
 TEST_F( HttpResponseSocketWriterTests, writesToTheCorrectSocket )
 {
   write();
-  ASSERT_EQ( HttpResponseSocketWriterTests::PORT, socketApi_.socketWrittenTo_ );
+  ASSERT_EQ( PORT, socketApi_.socketWrittenTo_ );
 }
 
-TEST_F( HttpResponseSocketWriterTests, passesInCorrectBufferSize )
+TEST_F( HttpResponseSocketWriterTests, passesInCorrectLength )
 {
   write();
-  ASSERT_EQ( HttpResponseSocketWriterTests::RESPONSE_BODY_SIZE, socketApi_.howMuchWasClaimedToBeWritten_ );
+  ASSERT_EQ( getExpectedBody().length(), socketApi_.howMuchWasClaimedToBeWritten_ );
 }
 
 TEST_F( HttpResponseSocketWriterTests, throwsExceptionIfWriteFails )
@@ -62,6 +76,6 @@ TEST_F( HttpResponseSocketWriterTests, throwsExceptionIfWriteFails )
 TEST_F( HttpResponseSocketWriterTests, closesSocketWhenDone )
 {
   write();
-  ASSERT_EQ( HttpResponseSocketWriterTests::PORT, socketApi_.socketClosed_ );
+  ASSERT_EQ( PORT, socketApi_.socketClosed_ );
 }
 

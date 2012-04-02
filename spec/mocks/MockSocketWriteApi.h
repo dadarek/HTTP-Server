@@ -9,7 +9,7 @@ class MockSocketWriteApi
 {
   public:
     int socketWrittenTo_;
-    std::stringstream whatWasWritten_;
+    char* whatWasWritten_;
     unsigned howMuchWasClaimedToBeWritten_;
     int whatToReturn_;
     bool returnError_;
