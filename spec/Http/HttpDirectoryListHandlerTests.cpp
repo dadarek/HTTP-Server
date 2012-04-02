@@ -37,3 +37,17 @@ TEST_F( HttpDirectoryListRequestHandlerTests, CallsReadDirWithCorrectDIRPointer 
   handler_.handle( request_ );
   ASSERT_EQ( (DIR*) 77, directoryApi_.readdir_input_ );
 }
+
+TEST_F( HttpDirectoryListRequestHandlerTests, CallsReadDirUntilNull )
+{
+  struct dirent* directories[4];
+  directories[0] = (struct dirent*) 5;
+  directories[1] = (struct dirent*) 6;
+  directories[2] = (struct dirent*) 7;
+  directories[3] = 0;
+  directoryApi_.readdir_returnValues_ = directories;
+
+  handler_.handle( request_ );
+
+  ASSERT_EQ( 4, directoryApi_.timesReaddirCalled_ );
+}

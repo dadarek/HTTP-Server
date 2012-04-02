@@ -16,5 +16,6 @@ HttpResponse* HttpDirectoryListRequestHandler::handle( HttpRequest& request )
   std::string directoryPath = basePath_ + request.url();
 
   DIR* directory = directoryApi_.opendir( directoryPath.c_str() );
-  directoryApi_.readdir( directory );
+  while( directoryApi_.readdir( directory ) ) ;
+  
 }

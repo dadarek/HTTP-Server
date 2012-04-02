@@ -11,6 +11,8 @@ class MockDirectoryApi
     std::string directoryOpened_;
     DIR* opendir_returnValue_;
     DIR* readdir_input_;
+    struct dirent** readdir_returnValues_;
+    int timesReaddirCalled_;
 
     MockDirectoryApi();
     virtual ~MockDirectoryApi();
