@@ -1,10 +1,10 @@
 #include "HttpDirectoryListRequestHandler.h"
 #include "HttpRequest.h"
 #include "HttpResponse.h"
-#include "FileApi.h"
+#include "DirectoryApi.h"
 
-HttpDirectoryListRequestHandler::HttpDirectoryListRequestHandler( FileApi& fileApi )
-  : fileApi_( fileApi )
+HttpDirectoryListRequestHandler::HttpDirectoryListRequestHandler( FileApi& directoryApi )
+  : directoryApi_( directoryApi )
 { }
 
 HttpDirectoryListRequestHandler::~HttpDirectoryListRequestHandler()
