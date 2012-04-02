@@ -35,4 +35,3 @@
 
 - add an "UNKNOWN RESPONSE" handler that simply echos back the request
 
-- Got rid of int socket exceptions, but main still crashes without an error message ... que pedo?
