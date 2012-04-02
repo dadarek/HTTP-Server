@@ -13,15 +13,23 @@ HttpDirectoryListRequestHandler::~HttpDirectoryListRequestHandler()
 
 HttpResponse* HttpDirectoryListRequestHandler::handle( HttpRequest& request )
 {
-  std::string body;
   std::string directoryPath = basePath_ + request.url();
+  std::string body = getBody( directoryPath.c_str() );
 
-  DIR* directory = directoryApi_.opendir( directoryPath.c_str() );
+  return new HttpResponse( body.c_str(), body.length(), "200 OK" );
+}
+
+std::string HttpDirectoryListRequestHandler::getBody( const char* folder )
+{
+  std::string result;
+
+  DIR* directory = directoryApi_.opendir( folder );
   struct dirent* directoryEntry;
   while( 0 != (directoryEntry = directoryApi_.readdir( directory ) )  )
   {
-    body += directoryEntry->d_name;
+    std::string name( directoryEntry->d_name );
+    result += name;
   }
 
-  return new HttpResponse( body.c_str(), body.length(), "200 OK" );
+  return result;
 }

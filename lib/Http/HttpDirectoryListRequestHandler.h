@@ -18,6 +18,9 @@ class HttpDirectoryListRequestHandler
     virtual ~HttpDirectoryListRequestHandler();
 
     HttpResponse* handle( HttpRequest& request );
+
+  private:
+    std::string getBody( const char* folder );
 };
 
 #endif

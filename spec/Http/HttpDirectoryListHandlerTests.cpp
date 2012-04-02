@@ -40,20 +40,17 @@ class HttpDirectoryListRequestHandlerTests
       delete[] body;
     }
 
+    struct dirent* createEntry( const char* name )
+    {
+      struct dirent* result = new struct dirent();
+      strcpy( result->d_name, name );
+      return result;
+    }
     void setupDirectoryEntries()
     {
-      struct dirent someFolder;
-      strcpy( someFolder.d_name, "Some Folder Name" );
-
-      struct dirent someFile;
-      strcpy( someFile.d_name, "Some FileName.txt" );
-
-      struct dirent anotherFile;
-      strcpy( someFile.d_name, "AnotherFile.asp" );
-
-      directories_[0] = &someFolder;
-      directories_[1] = &someFile;
-      directories_[2] = &anotherFile;
+      directories_[0] = createEntry("Some Folder Name");
+      directories_[1] = createEntry("Some file Name.txt");
+      directories_[2] = createEntry("AnotherFile.asp");
       directories_[3] = 0;
       directoryApi_.readdir_returnValues_ = directories_;
     }
@@ -97,12 +94,10 @@ TEST_F( HttpDirectoryListRequestHandlerTests, createsResponseWithAppropriateLeng
   totalLength += strlen( directories_[2]->d_name );
 
   ASSERT_EQ( totalLength, response->bodyLength() );
-
 }
 
 TEST_F( HttpDirectoryListRequestHandlerTests, Sets200Status )
 {
   HttpResponse* response = handler_.handle( request_ );
-
   ASSERT_EQ( std::string("200 OK"), response->status() );
 }
