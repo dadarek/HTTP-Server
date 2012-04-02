@@ -10,7 +10,7 @@ class HttpDirectoryListRequestHandlerTests
 
 };
 
-TEST_F( HttpDirectoryListRequestHandlerTests, Compiles )
+TEST_F( HttpDirectoryListRequestHandlerTests, OpensCorrectFolder )
 {
   MockDirectoryApi directoryApi;
   std::string basePath( "/some/base/" );
@@ -21,5 +21,16 @@ TEST_F( HttpDirectoryListRequestHandlerTests, Compiles )
   handler.handle(request);
 
   ASSERT_EQ( basePath + url, directoryApi.directoryOpened_ );
+}
 
+TEST_F( HttpDirectoryListRequestHandlerTests, CallsReadDirWithCorrectDIRPointer )
+{
+  MockDirectoryApi directoryApi;
+  HttpDirectoryListRequestHandler handler( "", directoryApi );
+  HttpRequest request( "" );
+
+  directoryApi.opendir_returnValue_ = (DIR*) 77;
+  handler.handle( request );
+
+  ASSERT_EQ( (DIR*) 77, directoryApi.readdir_input_ );
 }

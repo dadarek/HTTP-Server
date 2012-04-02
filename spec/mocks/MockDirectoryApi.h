@@ -9,6 +9,8 @@ class MockDirectoryApi
 {
   public:
     std::string directoryOpened_;
+    DIR* opendir_returnValue_;
+    DIR* readdir_input_;
 
     MockDirectoryApi();
     virtual ~MockDirectoryApi();
