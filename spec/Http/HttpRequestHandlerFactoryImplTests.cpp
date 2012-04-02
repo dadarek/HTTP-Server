@@ -31,6 +31,12 @@ class HttpRequestHandlerFactoryImplTests
 
     }
 
+    template <class ExpectedType>
+    void assertHandlerType()
+    {
+      HttpRequestHandler* handler = getHandler();
+      ASSERT_EQ( handler, dynamic_cast <ExpectedType*> ( handler ) );
+    }
 };
 
 TEST_F( HttpRequestHandlerFactoryImplTests, asksFileApiIfCorrectFileExists )
@@ -43,22 +49,19 @@ TEST_F( HttpRequestHandlerFactoryImplTests, asksFileApiIfCorrectFileExists )
 TEST_F( HttpRequestHandlerFactoryImplTests, returns404HandlerIfFileNotexists )
 {
   fileApi_.existsReturnValue_ = false;
-  HttpRequestHandler* handler = getHandler();
-  ASSERT_EQ( handler, dynamic_cast <Http404RequestHandler*> ( handler ) );
+  assertHandlerType< Http404RequestHandler >();
 }
 
 TEST_F( HttpRequestHandlerFactoryImplTests, returnsFileHandlerIfFileDoesExist )
 {
   fileApi_.existsReturnValue_ = true;
-  HttpRequestHandler* handler = getHandler();
-  ASSERT_EQ( handler, dynamic_cast <HttpRequestFileHandler*> ( handler ) );
+  assertHandlerType< HttpRequestFileHandler >();
 }
 
 TEST_F( HttpRequestHandlerFactoryImplTests, returnsFolderHandlerIfFolderExists )
 {
   directoryApi_.opendir_returnValue_ = (DIR*) 10;
-  HttpRequestHandler* handler = getHandler();
-  ASSERT_EQ( handler, dynamic_cast <HttpDirectoryListRequestHandler*> ( handler ) );
+  assertHandlerType< HttpDirectoryListRequestHandler >();
 }
 
 TEST_F( HttpRequestHandlerFactoryImplTests, fileHandlerHasCorrectBasePath)
