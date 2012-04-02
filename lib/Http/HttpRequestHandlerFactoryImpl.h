@@ -22,6 +22,10 @@ class HttpRequestHandlerFactoryImpl
     HttpRequestHandler* createHandler( HttpRequest& request );
 
   private:
+    bool directoryExists( std::string path );
+    bool fileExists( std::string path );
+
+    HttpRequestHandler* createDirectoryListHandler();
     HttpRequestHandler* createFileHandler();
     HttpRequestHandler* create404Handler();
 };

@@ -18,17 +18,25 @@ HttpRequestHandlerFactoryImpl::~HttpRequestHandlerFactoryImpl()
 HttpRequestHandler* HttpRequestHandlerFactoryImpl::createHandler( HttpRequest& request )
 { 
   std::string path( basePath_ + request.url() );
-  DIR* directory = directoryApi_.opendir( path.c_str() );
-  bool directoryExists = ((DIR*) 0) != directory;
-  if( directoryExists )
-    return new HttpDirectoryListRequestHandler( basePath_, directoryApi_ );
-  
 
-  bool fileExists = fileApi_.exists( path );
-  if( fileExists )
+  if( directoryExists( path ) )
+    return createDirectoryListHandler();
+
+  if( fileExists( path ) )
     return createFileHandler();
 
   return create404Handler();
+}
+
+bool HttpRequestHandlerFactoryImpl::directoryExists( std::string path )
+{
+  DIR* directory = directoryApi_.opendir( path.c_str() );
+  return (DIR*) 0 != directory;
+}
+
+bool HttpRequestHandlerFactoryImpl::fileExists( std::string path )
+{
+  return fileApi_.exists( path );
 }
 
 HttpRequestHandler* HttpRequestHandlerFactoryImpl::createFileHandler()
@@ -41,3 +49,7 @@ HttpRequestHandler* HttpRequestHandlerFactoryImpl::create404Handler()
   return new Http404RequestHandler();
 }
 
+HttpRequestHandler* HttpRequestHandlerFactoryImpl::createDirectoryListHandler()
+{
+  return new HttpDirectoryListRequestHandler( basePath_, directoryApi_ );
+}
