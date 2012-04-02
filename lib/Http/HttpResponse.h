@@ -1,6 +1,8 @@
 #ifndef HTTP_RESPONSE_H
 #define HTTP_RESPONSE_H
 
+#include <stddef.h>
+
 class HttpResponse
 {
   private:

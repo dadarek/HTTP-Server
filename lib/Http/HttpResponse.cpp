@@ -1,4 +1,5 @@
 #include "HttpResponse.h"
+#include <cstring>
 
 HttpResponse::HttpResponse( const char* body, size_t bodyLength )
   : charBody_( new char[ bodyLength ] )

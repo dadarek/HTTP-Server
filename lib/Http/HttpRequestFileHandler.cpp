@@ -14,9 +14,13 @@ HttpRequestFileHandler::~HttpRequestFileHandler()
 HttpResponse* HttpRequestFileHandler::handle( HttpRequest& request )
 {
   std::string path( basePath_ + request.url() );
-  std::string fileContents = fileApi_.readToEnd( path );
 
-  HttpResponse* response = new HttpResponse( fileContents );
+  char* contents;
+  size_t size = fileApi_.readToEnd( path, &contents );
+
+  HttpResponse* response = new HttpResponse( contents, size );
+
+  delete[] contents;
   return response;
 }
 

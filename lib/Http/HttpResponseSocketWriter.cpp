@@ -12,10 +12,7 @@ HttpResponseSocketWriter::~HttpResponseSocketWriter()
 
 void HttpResponseSocketWriter::write( int socketFD, HttpResponse& response )
 {
-  const char* body = response.body().c_str();
-  unsigned length = strlen( body );
-
-  int written = socketApi_.write( socketFD, body, length );
+  int written = socketApi_.write( socketFD, response.charBody(), response.bodyLength() );
   if( written < 0 )
     throw SocketWriteException();
 

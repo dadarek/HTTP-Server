@@ -12,10 +12,14 @@ Http404RequestHandler::~Http404RequestHandler()
 
 HttpResponse* Http404RequestHandler::handle( HttpRequest& request )
 {
-  std::stringstream message;
-  message << "The requested url: ";
-  message << request.url();
-  message << " was not found.";
-  HttpResponse* result = new HttpResponse( message.str() );
+  std::stringstream buffer;
+  buffer << "The requested url: ";
+  buffer << request.url();
+  buffer << " was not found.";
+
+  std::string message = buffer.str();
+  size_t length = message.length();
+
+  HttpResponse* result = new HttpResponse( message.c_str(), length );
   return result;
 }
