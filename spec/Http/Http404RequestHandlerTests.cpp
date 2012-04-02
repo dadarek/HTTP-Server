@@ -46,3 +46,12 @@ TEST_F( Http404RequestHandlerTests, bodyContainsNotFoundLiteral )
 
   delete response;
 }
+
+TEST_F( Http404RequestHandlerTests, setsCorrect404StatusCode )
+{
+  HttpResponse* response = getResponse( "" );
+
+  ASSERT_EQ( std::string("404 Not Found"), response->status() );
+
+  delete response;
+}
