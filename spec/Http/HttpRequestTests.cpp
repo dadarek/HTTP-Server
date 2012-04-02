@@ -37,4 +37,3 @@ TEST( HttpRequestTests, KeepsItsBody )
   ASSERT_EQ( length, request.bodyLength() );
 }
 
-// sets body only once
