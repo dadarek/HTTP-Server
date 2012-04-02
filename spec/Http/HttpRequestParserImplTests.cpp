@@ -55,3 +55,26 @@ TEST_F( HttpRequestParserImplTests, HandlesEncodings )
   assertUrl( headers, "/Look%20Space" );
 }
 
+TEST_F( HttpRequestParserImplTests, ParsesMethod )
+{
+  std::string headers( "POST /some-url HTTP/1.1\r\n" );
+
+  HttpRequestParserImpl parser;
+  HttpRequest* request = parser.parse( headers );
+
+  ASSERT_EQ( std::string("POST"), request->method() );
+
+  delete request;
+}
+
+TEST_F( HttpRequestParserImplTests, ParsesDifferentMethods )
+{
+  std::string headers( "PUT /some-url HTTP/1.1\r\n" );
+
+  HttpRequestParserImpl parser;
+  HttpRequest* request = parser.parse( headers );
+
+  ASSERT_EQ( std::string("PUT"), request->method() );
+
+  delete request;
+}
