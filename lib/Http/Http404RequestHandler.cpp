@@ -3,7 +3,7 @@
 #include "HttpRequest.h"
 #include <sstream>
 
-const char* const Http404RequestHandler::HTML_404 = "<h1>Page Not Found</h1>";
+const char* const Http404RequestHandler::STATUS_404 = "404 Not Found";
 Http404RequestHandler::Http404RequestHandler()
 { }
 
@@ -20,6 +20,6 @@ HttpResponse* Http404RequestHandler::handle( HttpRequest& request )
   std::string message = buffer.str();
   size_t length = message.length();
 
-  HttpResponse* result = new HttpResponse( message.c_str(), length, "404 Not Found" );
+  HttpResponse* result = new HttpResponse( message.c_str(), length, STATUS_404 );
   return result;
 }
