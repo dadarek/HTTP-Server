@@ -37,17 +37,3 @@ TEST( HttpResponseTests, remembersTheResponseSize )
   ASSERT_EQ( 9, (int) response.bodyLength() );
 }
 
-TEST( HttpResponseTests, KeepsItsAssignedValue3 )
-{
-  std::string body = "This\nis the body\n\nyo.";
-  HttpResponse response( body );
-  ASSERT_EQ( body, response.body() );
-}
-
-TEST( HttpResponseTests, KeepsItsAssignedValue4 )
-{
-  std::string body = "Some body ... of some file ... hey!";
-  HttpResponse response( body );
-  ASSERT_EQ( body, response.body() );
-}
-

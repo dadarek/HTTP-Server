@@ -2,33 +2,46 @@
 #include "HttpRequest.h"
 #include "HttpResponse.h"
 #include "Http404RequestHandler.h"
-#include <string>
 
 class Http404RequestHandlerTests
   : public ::testing::Test
 {
   public:
-    std::string getBody( const char* url )
+    HttpResponse* getResponse( const char* url )
     {
       HttpRequest request( url );
       Http404RequestHandler handler;
-      return handler.handle( request )->body();
+      return handler.handle( request );
+    }
+
+    char* appendNullTerminator( const char* string, size_t length )
+    {
+      char* result = new char[ length + 1 ];
+      memcpy( result, string, length );
+      result[ length ] = '\0';
+      return result;
     }
 };
 
 TEST_F( Http404RequestHandlerTests, bodyContainsUrlRequested )
 {
   const char* url = "invalid-url.html";
-  std::string body = getBody( url );
+  HttpResponse* response = getResponse( url );
+  char* body = appendNullTerminator( response->charBody(), response->bodyLength() );
   
-  ASSERT_LE( (size_t) 0 , body.find( url ) );
-  ASSERT_GT( body.length() , body.find( url ) );
+  ASSERT_NE( (char*) 0 , strstr( body, url ) );
+
+  delete[] body;
+  delete response;
 }
 
 TEST_F( Http404RequestHandlerTests, bodyContainsNotFoundLiteral )
 {
-  std::string body = getBody( "" );
+  HttpResponse* response = getResponse( "" );
+  char* body = appendNullTerminator( response->charBody(), response->bodyLength() );
   
-  ASSERT_LE( (size_t) 0 , body.find( "not found" ) );
-  ASSERT_GT( body.length() , body.find( "not found" ) );
+  ASSERT_NE( (char*) 0, strstr( body, "not found" ) );
+
+  delete[] body;
+  delete response;
 }

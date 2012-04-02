@@ -35,3 +35,6 @@
 
 - add an "UNKNOWN RESPONSE" handler that simply echos back the request
 
+- Figure out Memory Checking in GTest
+
+- use ASSERT_STREQ instead of ASSERT_EQ
