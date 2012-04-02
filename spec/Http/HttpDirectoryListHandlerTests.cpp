@@ -22,7 +22,20 @@ class HttpDirectoryListRequestHandlerTests
       , handler_( basePath_, directoryApi_)
     { }
     
+    char* appendNullTerminator( const char* string, size_t length )
+    {
+      char* result = new char[ length + 1 ];
+      memcpy( result, string, length );
+      result[ length ] = '\0';
+      return result;
+    }
 
+    void assertBodyContains( HttpResponse* response, const char* expectedText )
+    {
+      char* body = appendNullTerminator( response->body(), response->bodyLength() );
+      ASSERT_NE( (char*) 0 , strstr( body, expectedText ) );
+      delete[] body;
+    }
 };
 
 TEST_F( HttpDirectoryListRequestHandlerTests, OpensCorrectFolder )
@@ -50,4 +63,25 @@ TEST_F( HttpDirectoryListRequestHandlerTests, CallsReadDirUntilNull )
   handler_.handle( request_ );
 
   ASSERT_EQ( 4, directoryApi_.timesReaddirCalled_ );
+}
+
+TEST_F( HttpDirectoryListRequestHandlerTests, IncludesResultsInResponse )
+{
+  struct dirent* directories[3];
+  struct dirent someFolder;
+  strcpy( someFolder.d_name, "Some Folder Name" );
+
+  struct dirent someFile;
+  strcpy( someFile.d_name, "Some FileName.txt" );
+
+  directories[0] = &someFolder;
+  directories[1] = &someFile;
+  directories[2] = 0;
+  directoryApi_.readdir_returnValues_ = directories;
+
+  HttpResponse* response = handler_.handle( request_ );
+
+  assertBodyContains( response, someFolder.d_name );
+  assertBodyContains( response, someFile.d_name );
+
 }

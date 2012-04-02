@@ -17,5 +17,6 @@ HttpResponse* HttpDirectoryListRequestHandler::handle( HttpRequest& request )
 
   DIR* directory = directoryApi_.opendir( directoryPath.c_str() );
   while( directoryApi_.readdir( directory ) ) ;
-  
+
+  return new HttpResponse( "", 0, "" );
 }

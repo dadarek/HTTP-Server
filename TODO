@@ -40,3 +40,5 @@
 - use ASSERT_STREQ instead of ASSERT_EQ
 
 - make sure users of SystemFileApi (or FileApi) delete referenced to char** )
+
+- merge appendNullTerminator functions
