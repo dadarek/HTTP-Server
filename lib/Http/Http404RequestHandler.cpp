@@ -20,6 +20,6 @@ HttpResponse* Http404RequestHandler::handle( HttpRequest& request )
   std::string message = buffer.str();
   size_t length = message.length();
 
-  HttpResponse* result = new HttpResponse( message.c_str(), length );
+  HttpResponse* result = new HttpResponse( message.c_str(), length, "" );
   return result;
 }

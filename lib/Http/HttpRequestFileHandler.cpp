@@ -18,7 +18,7 @@ HttpResponse* HttpRequestFileHandler::handle( HttpRequest& request )
   char* contents;
   size_t size = fileApi_.readToEnd( path, &contents );
 
-  HttpResponse* response = new HttpResponse( contents, size );
+  HttpResponse* response = new HttpResponse( contents, size, "" );
 
   delete[] contents;
   return response;
