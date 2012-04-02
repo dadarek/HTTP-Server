@@ -5,7 +5,7 @@
 MockSocketWriteApi::MockSocketWriteApi()
   : socketWrittenTo_( -1 )
   , whatWasWritten_( 0 )
-  , howMuchWasClaimedToBeWritten_( 0 )
+  , howMuchWasWritten_( 0 )
   , whatToReturn_( 0 )
   , returnError_( false )
   , socketClosed_( -1 )
@@ -44,17 +44,17 @@ int MockSocketWriteApi::write( int socketFD, const char* content, unsigned conte
 
   socketWrittenTo_ = socketFD;
 
-  unsigned oldSize = howMuchWasClaimedToBeWritten_;
+  unsigned oldSize = howMuchWasWritten_;
   char* oldBuffer = whatWasWritten_;
 
-  unsigned newSize = howMuchWasClaimedToBeWritten_ + contentSize;
+  unsigned newSize = howMuchWasWritten_ + contentSize;
   char* newBuffer = new char[ newSize ];
 
   memcpy( newBuffer, oldBuffer, oldSize );
   memcpy( newBuffer + oldSize, content, contentSize );
 
   whatWasWritten_ = newBuffer;
-  howMuchWasClaimedToBeWritten_ = newSize;
+  howMuchWasWritten_ = newSize;
 
   if( 0 != oldBuffer )
     delete[] oldBuffer;

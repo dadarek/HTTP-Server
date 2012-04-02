@@ -10,7 +10,7 @@ class MockSocketWriteApi
   public:
     int socketWrittenTo_;
     char* whatWasWritten_;
-    unsigned howMuchWasClaimedToBeWritten_;
+    unsigned howMuchWasWritten_;
     int whatToReturn_;
     bool returnError_;
     int socketClosed_;

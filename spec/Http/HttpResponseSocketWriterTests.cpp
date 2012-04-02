@@ -50,7 +50,7 @@ TEST_F( HttpResponseSocketWriterTests, writesTheCorrectContent )
 {
   write();
   std::string body = getExpectedBody();
-  int diff = memcmp( body.c_str(), socketApi_.whatWasWritten_, socketApi_.howMuchWasClaimedToBeWritten_ );
+  int diff = memcmp( body.c_str(), socketApi_.whatWasWritten_, socketApi_.howMuchWasWritten_ );
 
   ASSERT_EQ( 0, diff );
 }
@@ -64,7 +64,7 @@ TEST_F( HttpResponseSocketWriterTests, writesToTheCorrectSocket )
 TEST_F( HttpResponseSocketWriterTests, passesInCorrectLength )
 {
   write();
-  ASSERT_EQ( getExpectedBody().length(), socketApi_.howMuchWasClaimedToBeWritten_ );
+  ASSERT_EQ( getExpectedBody().length(), socketApi_.howMuchWasWritten_ );
 }
 
 TEST_F( HttpResponseSocketWriterTests, throwsExceptionIfWriteFails )
