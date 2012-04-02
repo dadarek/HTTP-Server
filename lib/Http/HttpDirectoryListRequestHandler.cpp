@@ -23,5 +23,5 @@ HttpResponse* HttpDirectoryListRequestHandler::handle( HttpRequest& request )
     body += directoryEntry->d_name;
   }
 
-  return new HttpResponse( body.c_str(), body.length(), "" );
+  return new HttpResponse( body.c_str(), 0, "" );
 }

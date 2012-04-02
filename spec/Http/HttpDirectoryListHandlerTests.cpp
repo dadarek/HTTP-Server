@@ -87,3 +87,16 @@ TEST_F( HttpDirectoryListRequestHandlerTests, IncludesResultsInResponse )
   assertBodyContains( response, directories_[2]->d_name );
 
 }
+
+TEST_F( HttpDirectoryListRequestHandlerTests, createsResponseWithAppropriateLength )
+{
+  HttpResponse* response = handler_.handle( request_ );
+  size_t totalLength = 0;
+  totalLength += strlen( directories_[0]->d_name );
+  totalLength += strlen( directories_[1]->d_name );
+  totalLength += strlen( directories_[2]->d_name );
+
+  ASSERT_EQ( totalLength, response->bodyLength() );
+
+}
+
