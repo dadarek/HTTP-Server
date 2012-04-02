@@ -20,9 +20,6 @@ class HttpRequestFileHandlerTests
       , basePath_( "/some/base/path/" )
       , handler_( basePath_, fileApi_ )
     { }
-
-    virtual ~HttpRequestFileHandlerTests()
-    { }
 };
 
 TEST_F( HttpRequestFileHandlerTests, ReadsTheCorrectFile )
@@ -33,7 +30,16 @@ TEST_F( HttpRequestFileHandlerTests, ReadsTheCorrectFile )
 
 TEST_F( HttpRequestFileHandlerTests, SetsTheResponseBodyToFileContents )
 {
-  fileApi_.readToEndReturnValue_ = "Some file contents.";
+  const char* contents = "Some file contents.";
+  size_t length = strlen( contents );
+  fileApi_.fileContents_ = contents;
+  fileApi_.fileSize_ = length;
+
   HttpResponse* response = handler_.handle( request_ );
-  ASSERT_EQ( "Some file contents.", response->body() );
+
+  int diff = memcmp( response->charBody(), contents, length ); 
+  ASSERT_EQ( 0, diff );
+
+
+  delete response;
 }

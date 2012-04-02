@@ -2,15 +2,19 @@
 
 MockFileApi::MockFileApi()
   : existsReturnValue_( false )
+  , fileContents_( 0 )
+  , fileSize_( (size_t) 0 )
 { }
 
 MockFileApi::~MockFileApi()
 { }
 
-std::string MockFileApi::readToEnd( std::string path )
+size_t MockFileApi::readToEnd( std::string path, char** whereToStore )
 {
   readToEndInput_ = path;
-  return readToEndReturnValue_;
+  (*whereToStore) = new char[fileSize];
+  memcpy( (*whereToStore), fileContents_, fileSize_ );
+  return fileSize_;
 }
 
 bool MockFileApi::exists( std::string path )

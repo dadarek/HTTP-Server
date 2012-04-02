@@ -10,10 +10,10 @@ SystemFileApi::SystemFileApi( FileFactory& factory )
 SystemFileApi::~SystemFileApi()
 { }
 
-std::string SystemFileApi::readToEnd( const std::string path )
+size_t SystemFileApi::readToEnd( const std::string path, char** whereToStore )
 {
   File* file = open( path );
-  std::string result = getContents( file );
+  size_t result = getContents( file, whereToStore );
   closeAndDelete( file );
 
   return result;
@@ -27,7 +27,7 @@ bool SystemFileApi::exists( const std::string path )
   return result;
 }
 
-std::string SystemFileApi::getContents( File* file )
+size_t SystemFileApi::getContents( File* file, char** whereToStore )
 {
   size_t fileSize = file->size();
   char* buffer = new char[ fileSize ];
@@ -35,11 +35,8 @@ std::string SystemFileApi::getContents( File* file )
   file->moveTo( 0 );
   file->read( buffer, fileSize );
 
-  std::string contents( buffer );
-
-  delete[] buffer;
-
-  return contents;
+  (*whereToStore) = buffer;
+  return fileSize;
 }
 
 void SystemFileApi::closeAndDelete( File* file )

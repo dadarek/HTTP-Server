@@ -8,7 +8,8 @@ class MockFileApi
 {
   public:
     std::string readToEndInput_;
-    std::string readToEndReturnValue_;
+    const char* fileContents_;
+    size_t fileSize_;
 
     std::string existsInput_;
     bool existsReturnValue_;
@@ -16,7 +17,7 @@ class MockFileApi
     MockFileApi();
     virtual ~MockFileApi();
 
-    std::string readToEnd( std::string path );
+    size_t readToEnd( std::string path, char** whereToStore );
     bool exists( std::string path );
 };
 

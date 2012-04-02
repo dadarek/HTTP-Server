@@ -8,7 +8,7 @@ class FileApi
   public:
     virtual ~FileApi() { }
 
-    virtual std::string readToEnd( std::string path ) = 0;
+    virtual size_t readToEnd( std::string path, char** whereToStore ) = 0;
     virtual bool exists( std::string path ) = 0;
 };
 

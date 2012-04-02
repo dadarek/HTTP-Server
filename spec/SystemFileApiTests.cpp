@@ -17,9 +17,11 @@ class SystemFileApiTests
       , fileApi_( factory_ )
     { }
 
-    std::string readToEnd( std::string path )
+    void readToEnd( std::string path )
     {
-      return fileApi_.readToEnd( path );
+      char* contents;
+      fileApi_.readToEnd( path, &contents );
+      delete[] contents;
     }
 
     void ensureFileOpensAs( std::ios_base::openmode mode )
@@ -90,11 +92,20 @@ TEST_F( SystemFileApiTests, deletesFileBeforeThrowing )
   ASSERT_EQ( true, inspector_.destroyed );
 }
 
-TEST_F( SystemFileApiTests, returnsCharactersWrittenToItsBuffer )
+TEST_F( SystemFileApiTests, storesCorrectCharactersInBuffer )
 {
-  inspector_.sizeReturnValue = (size_t) 6;
-  strcpy( inspector_.buffer, "Hello" );
-  EXPECT_EQ( "Hello", readToEnd( "x" ) );
+  const char* value = "Hello";
+  size_t length = strlen( value );
+  inspector_.sizeReturnValue = length;
+
+  strcpy( inspector_.buffer, value );
+
+  char* buffer;
+  fileApi_.readToEnd( "", &buffer );
+
+  EXPECT_STREQ( value, buffer );
+
+  delete[] buffer;
 }
 
 TEST_F( SystemFileApiTests, opensFileForReading )

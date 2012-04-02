@@ -3,7 +3,6 @@
 
 #include "FileApi.h"
 
-#include <string>
 #include <iostream>
 
 class FileFactory;
@@ -19,13 +18,13 @@ class SystemFileApi
     SystemFileApi( FileFactory& factory );
     virtual ~SystemFileApi();
 
-    std::string readToEnd( std::string path );
+    size_t readToEnd( std::string path, char** whereToStore );
     bool exists( std::string path );
 
   private:
     std::ios_base::openmode getOpenMode();
     File* open( const std::string path );
-    std::string getContents( File* file );
+    size_t getContents( File* file, char** whereToStore );
     void closeAndDelete( File* file );
 };
 
