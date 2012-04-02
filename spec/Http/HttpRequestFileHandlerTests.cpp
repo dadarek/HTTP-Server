@@ -39,6 +39,7 @@ TEST_F( HttpRequestFileHandlerTests, SetsTheResponseBodyToFileContents )
 
   int diff = memcmp( response->charBody(), contents, length ); 
   ASSERT_EQ( 0, diff );
+  ASSERT_EQ( length, response->bodyLength() );
 
 
   delete response;
