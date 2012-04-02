@@ -12,8 +12,9 @@
 #include "SystemFileApi.h"
 
 #include <string>
+#include <stdexcept>
 
-int main()
+void go()
 {
   RawSocketApi socketApi;
   HttpSocketReader socketReader( socketApi );
@@ -37,3 +38,15 @@ int main()
   server.start();
 }
 
+
+int main()
+{
+  try
+  {
+    go();
+  }
+  catch( std::runtime_error e )
+  {
+    printf("Exception: %s\n\n", e.what());
+  }
+}
