@@ -3,8 +3,9 @@
 #include "HttpResponse.h"
 #include "DirectoryApi.h"
 
-HttpDirectoryListRequestHandler::HttpDirectoryListRequestHandler( FileApi& directoryApi )
-  : directoryApi_( directoryApi )
+HttpDirectoryListRequestHandler::HttpDirectoryListRequestHandler( std::string basePath, DirectoryApi& directoryApi )
+  : basePath_( basePath )
+  , directoryApi_( directoryApi )
 { }
 
 HttpDirectoryListRequestHandler::~HttpDirectoryListRequestHandler()
@@ -12,5 +13,6 @@ HttpDirectoryListRequestHandler::~HttpDirectoryListRequestHandler()
 
 HttpResponse* HttpDirectoryListRequestHandler::handle( HttpRequest& request )
 {
-  throw 0;
+  std::string directoryPath = basePath_ + request.url();
+  directoryApi_.opendir( directoryPath.c_str() );
 }

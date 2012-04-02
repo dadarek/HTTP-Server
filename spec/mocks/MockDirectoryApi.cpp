@@ -8,7 +8,8 @@ MockDirectoryApi::~MockDirectoryApi()
 
 DIR* MockDirectoryApi::opendir( const char* path )
 {
-  throw 0;
+  directoryOpened_ = path;
+  return 0;
 }
 
 struct dirent* MockDirectoryApi::readdir( DIR* directory )
