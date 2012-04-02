@@ -21,27 +21,28 @@ class Http404RequestHandlerTests
       result[ length ] = '\0';
       return result;
     }
+
+    void assertBodyContains( HttpResponse* response, const char* expectedText )
+    {
+      char* body = appendNullTerminator( response->charBody(), response->bodyLength() );
+      ASSERT_NE( (char*) 0 , strstr( body, expectedText ) );
+      delete[] body;
+    }
 };
 
 TEST_F( Http404RequestHandlerTests, bodyContainsUrlRequested )
 {
   const char* url = "invalid-url.html";
   HttpResponse* response = getResponse( url );
-  char* body = appendNullTerminator( response->charBody(), response->bodyLength() );
-  
-  ASSERT_NE( (char*) 0 , strstr( body, url ) );
+  assertBodyContains( response, url );
 
-  delete[] body;
   delete response;
 }
 
 TEST_F( Http404RequestHandlerTests, bodyContainsNotFoundLiteral )
 {
   HttpResponse* response = getResponse( "" );
-  char* body = appendNullTerminator( response->charBody(), response->bodyLength() );
-  
-  ASSERT_NE( (char*) 0, strstr( body, "not found" ) );
+  assertBodyContains( response, "not found" );
 
-  delete[] body;
   delete response;
 }
