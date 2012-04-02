@@ -8,6 +8,7 @@
 
 #include "Server.h"
 #include "SocketConnectionReceiver.h"
+#include "SystemDirectoryApi.h"
 #include "SystemFileFactory.h"
 #include "SystemFileApi.h"
 
@@ -18,41 +19,11 @@
 #include <dirent.h>
 void go()
 {
-  std::vector< std::string > directories;
-
-  DIR* directory = opendir(".");
-
-  struct dirent* entry;
-  if( directory ) 
-  {
-    printf("YES!!!\n");
-   while( 0 != ( entry = readdir( directory ) ) )
-   {
-     if( DT_DIR == entry->d_type )
-     {
-       printf("DIRECTORY!!!\n");
-     }
-     printf("etnry: %u!\n", entry->d_type);
-     directories.push_back( entry->d_name );
-   } 
-  }
-
-
-  for(size_t i = 0; i < directories.size(); i++ )
-  {
-    std::cout << directories[i];
-    std::cout << std::endl;
-  }
-  
-
-
-}
-
-void g()
-{
   RawSocketApi socketApi;
   HttpSocketReader socketReader( socketApi );
   HttpResponseSocketWriter socketWriter( socketApi );
+
+  SystemDirectoryApi directoryApi;
 
   SystemFileFactory fileFactory;
   SystemFileApi fileApi( fileFactory );
@@ -60,7 +31,7 @@ void g()
 
   HttpRequestParserImpl requestParser;
 
-  HttpRequestHandlerFactoryImpl requestHandlerFactory( basePath, fileApi ); 
+  HttpRequestHandlerFactoryImpl requestHandlerFactory( basePath, fileApi, directoryApi );
 
   HttpConnectionHandler connectionhandler
     ( socketReader, requestParser, requestHandlerFactory, socketWriter );

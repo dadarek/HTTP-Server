@@ -10,7 +10,7 @@ class SystemDirectoryApi
     SystemDirectoryApi();
     virtual ~SystemDirectoryApi();
 
-    DIR* opendir( const char* path ) = 0;
+    DIR* opendir( const char* path );
     struct dirent* readdir( DIR* directory );
 
 };
