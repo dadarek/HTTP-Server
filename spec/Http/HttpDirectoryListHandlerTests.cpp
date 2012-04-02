@@ -54,9 +54,18 @@ TEST_F( HttpDirectoryListRequestHandlerTests, CallsReadDirWithCorrectDIRPointer 
 TEST_F( HttpDirectoryListRequestHandlerTests, CallsReadDirUntilNull )
 {
   struct dirent* directories[4];
-  directories[0] = (struct dirent*) 5;
-  directories[1] = (struct dirent*) 6;
-  directories[2] = (struct dirent*) 7;
+  struct dirent someFolder;
+  strcpy( someFolder.d_name, "Some Folder Name" );
+
+  struct dirent someFile;
+  strcpy( someFile.d_name, "Some FileName.txt" );
+
+  struct dirent anotherFile;
+  strcpy( someFile.d_name, "AnotherFile.asp" );
+
+  directories[0] = &someFolder;
+  directories[1] = &someFile;
+  directories[2] = &anotherFile;
   directories[3] = 0;
   directoryApi_.readdir_returnValues_ = directories;
 
@@ -67,16 +76,20 @@ TEST_F( HttpDirectoryListRequestHandlerTests, CallsReadDirUntilNull )
 
 TEST_F( HttpDirectoryListRequestHandlerTests, IncludesResultsInResponse )
 {
-  struct dirent* directories[3];
+  struct dirent* directories[4];
   struct dirent someFolder;
   strcpy( someFolder.d_name, "Some Folder Name" );
 
   struct dirent someFile;
   strcpy( someFile.d_name, "Some FileName.txt" );
 
+  struct dirent anotherFile;
+  strcpy( someFile.d_name, "AnotherFile.asp" );
+
   directories[0] = &someFolder;
   directories[1] = &someFile;
-  directories[2] = 0;
+  directories[2] = &anotherFile;
+  directories[3] = 0;
   directoryApi_.readdir_returnValues_ = directories;
 
   HttpResponse* response = handler_.handle( request_ );

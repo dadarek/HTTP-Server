@@ -19,7 +19,6 @@ DIR* MockDirectoryApi::opendir( const char* path )
 struct dirent* MockDirectoryApi::readdir( DIR* directory )
 {
   readdir_input_ = directory;
-  printf("here\n");
   timesReaddirCalled_++;
   if( 0 != readdir_returnValues_ )
     return *(readdir_returnValues_++);
