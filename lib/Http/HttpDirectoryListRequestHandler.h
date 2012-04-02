@@ -3,11 +3,16 @@
 
 #include "HttpRequestHandler.h"
 
+class FileApi;
+
 class HttpDirectoryListRequestHandler
   : public HttpRequestHandler
 {
+  private:
+    FileApi& fileApi_;
+
   public:
-    HttpDirectoryListRequestHandler();
+    HttpDirectoryListRequestHandler( FileApi& fileApi_ );
     virtual ~HttpDirectoryListRequestHandler();
 
     HttpResponse* handle( HttpRequest& request );

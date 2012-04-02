@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 #include "HttpRequest.h"
 #include "HttpResponse.h"
+#include "MockFileApi.h"
 #include "HttpDirectoryListRequestHandler.h"
 
 class HttpDirectoryListRequestHandlerTests
@@ -11,5 +12,6 @@ class HttpDirectoryListRequestHandlerTests
 
 TEST_F( HttpDirectoryListRequestHandlerTests, Compiles )
 {
-  HttpDirectoryListRequestHandler handler;
+  MockFileApi fileApi;
+  HttpDirectoryListRequestHandler handler( fileApi );
 }
