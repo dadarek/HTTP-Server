@@ -9,8 +9,8 @@ HttpRequest::HttpRequest( std::string method, std::string url )
 
 HttpRequest::~HttpRequest()
 { 
-  //if( 0 != body_ )
-    //delete[] body_;
+  if( 0 != body_ )
+    delete[] body_;
 }
 
 std::string HttpRequest::url()
