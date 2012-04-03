@@ -23,6 +23,9 @@ HttpRequestHandler* HttpRequestHandlerFactoryImpl::createHandler( HttpRequest& r
   if( request.method() == std::string("PUT") )
     return new HttpEchoRequestHandler();
 
+  if( request.method() == std::string("POST") )
+    return new HttpEchoRequestHandler();
+
   if( directoryExists( path ) )
     return createDirectoryListHandler();
 

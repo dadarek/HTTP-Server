@@ -65,9 +65,16 @@ TEST_F( HttpRequestHandlerFactoryImplTests, returnsFolderHandlerIfFolderExists )
   assertHandlerType< HttpDirectoryListRequestHandler >();
 }
 
-TEST_F( HttpRequestHandlerFactoryImplTests, returnsEchoHandlerOnPutRequest )
+TEST_F( HttpRequestHandlerFactoryImplTests, returnsEchoHandlerOnPutRequests )
 {
   HttpRequest request( "PUT", "" );
+  HttpRequestHandler* handler = factory_.createHandler( request );
+  ASSERT_EQ( handler, dynamic_cast < HttpEchoRequestHandler* > ( handler ) );
+}
+
+TEST_F( HttpRequestHandlerFactoryImplTests, returnsEchoHandlerOnPostRequests )
+{
+  HttpRequest request( "POST", "" );
   HttpRequestHandler* handler = factory_.createHandler( request );
   ASSERT_EQ( handler, dynamic_cast < HttpEchoRequestHandler* > ( handler ) );
 }
