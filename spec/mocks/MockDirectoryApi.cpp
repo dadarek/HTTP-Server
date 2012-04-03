@@ -5,7 +5,6 @@ MockDirectoryApi::MockDirectoryApi()
   : opendir_returnValue_( 0 )
   , readdir_input_( 0 )
   , closedir_input_( 0 )
-  , closeDirCalled_( false )
   , readdir_returnValues_( 0 )
   , timesReaddirCalled_( 0 )
 { }
@@ -21,7 +20,7 @@ DIR* MockDirectoryApi::opendir( const char* path )
 
 struct dirent* MockDirectoryApi::readdir( DIR* directory )
 {
-  if( closeDirCalled_ )
+  if( closedir_input_ == directory )
     throw std::runtime_error( "Can't read a closed directory." );
 
   readdir_input_ = directory;
@@ -33,6 +32,8 @@ struct dirent* MockDirectoryApi::readdir( DIR* directory )
 
 void MockDirectoryApi::closedir( DIR* directory )
 {
-  closeDirCalled_ = true;
+  if( 0 == directory )
+    throw std::runtime_error( "Can't close a NULL directory." );
+
   closedir_input_ = directory;
 }

@@ -36,7 +36,8 @@ bool HttpRequestHandlerFactoryImpl::directoryExists( std::string path )
 {
   DIR* directory = directoryApi_.opendir( path.c_str() );
   bool result = (DIR*) 0 != directory;
-  directoryApi_.closedir( directory );
+  if( result )
+    directoryApi_.closedir( directory );
   return result;
 }
 

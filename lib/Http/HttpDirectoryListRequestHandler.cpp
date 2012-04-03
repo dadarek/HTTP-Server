@@ -30,7 +30,8 @@ std::string HttpDirectoryListRequestHandler::getBody( const char* folder )
     std::string name( directoryEntry->d_name );
     result += name;
   }
-  directoryApi_.closedir( directory );
+  if( 0 != directory )
+    directoryApi_.closedir( directory );
 
   return result;
 }

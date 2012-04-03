@@ -8,6 +8,7 @@ class HttpDirectoryListRequestHandlerTests
   : public ::testing::Test
 {
   public:
+    DIR* openDirReturnValue_;
     struct dirent* directories_[4];
     MockDirectoryApi directoryApi_;
     std::string basePath_;
@@ -16,12 +17,14 @@ class HttpDirectoryListRequestHandlerTests
     HttpDirectoryListRequestHandler handler_;
 
     HttpDirectoryListRequestHandlerTests()
-      : directoryApi_()
+      : openDirReturnValue_( (DIR*) 77 )
+      , directoryApi_()
       , basePath_( "/some/base/" )
       , url_( "some/folder/ ")
       , request_( "", url_ )
       , handler_( basePath_, directoryApi_)
     { 
+      directoryApi_.opendir_returnValue_ = openDirReturnValue_;
       setupDirectoryEntries();
     }
     
@@ -64,17 +67,14 @@ TEST_F( HttpDirectoryListRequestHandlerTests, OpensCorrectFolder )
 
 TEST_F( HttpDirectoryListRequestHandlerTests, closesDirectory )
 {
-  DIR* returnValue = (DIR*) 77;
-  directoryApi_.opendir_returnValue_ = returnValue;
   handler_.handle( request_ );
-  ASSERT_EQ( returnValue, directoryApi_.closedir_input_ );
+  ASSERT_EQ( openDirReturnValue_, directoryApi_.closedir_input_ );
 }
 
 TEST_F( HttpDirectoryListRequestHandlerTests, CallsReadDirWithCorrectDIRPointer )
 {
-  directoryApi_.opendir_returnValue_ = (DIR*) 77;
   handler_.handle( request_ );
-  ASSERT_EQ( (DIR*) 77, directoryApi_.readdir_input_ );
+  ASSERT_EQ( openDirReturnValue_, directoryApi_.readdir_input_ );
 }
 
 TEST_F( HttpDirectoryListRequestHandlerTests, CallsReadDirUntilNull )

@@ -66,9 +66,10 @@ TEST_F( HttpRequestHandlerFactoryImplTests, returnsFolderHandlerIfFolderExists )
 
 TEST_F( HttpRequestHandlerFactoryImplTests, closesDirectoryIfOpens )
 {
-  directoryApi_.opendir_returnValue_ = (DIR*) 10;
+  DIR* directory = (DIR*) 10;
+  directoryApi_.opendir_returnValue_ = directory;
   getHandler();
-  ASSERT_EQ( true, directoryApi_.closeDirCalled_ );
+  ASSERT_EQ( directory, directoryApi_.closedir_input_ );
 }
 
 TEST_F( HttpRequestHandlerFactoryImplTests, returnsEchoHandlerOnPutRequests )

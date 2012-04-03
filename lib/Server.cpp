@@ -2,6 +2,8 @@
 #include "RequestHandler.h"
 #include "ConnectionReceiver.h"
 
+#include <iostream>
+
 Server::Server( ConnectionReceiver& receiver, RequestHandler& handler )
   : handler_( handler )
   , receiver_( receiver )

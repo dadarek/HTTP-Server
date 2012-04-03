@@ -15,6 +15,9 @@
 #include <string>
 #include <stdexcept>
 
+
+#include "HttpRequest.h"
+
 void go()
 {
   RawSocketApi socketApi;
