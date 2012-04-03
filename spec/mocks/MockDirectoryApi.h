@@ -12,6 +12,7 @@ class MockDirectoryApi
     DIR* opendir_returnValue_;
     DIR* readdir_input_;
     DIR* closedir_input_;
+    bool closeDirCalled_;
     struct dirent** readdir_returnValues_;
     int timesReaddirCalled_;
 
