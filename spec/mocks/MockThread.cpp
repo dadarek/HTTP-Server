@@ -5,7 +5,8 @@ MockThread::MockThread()
 { }
 
 MockThread::~MockThread()
-{ }
+{
+}
 
 void MockThread::go()
 {

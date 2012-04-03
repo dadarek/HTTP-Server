@@ -4,7 +4,7 @@
 #include "ThreadStartException.h"
 #include "Runnable.h"
 
-SystemThread::SystemThread( ThreadApi& threadApi, Runnable& runnable )
+SystemThread::SystemThread( ThreadApi& threadApi, Runnable* runnable )
   : threadApi_( threadApi )
   , runnable_( runnable )
 { }
@@ -14,7 +14,8 @@ SystemThread::~SystemThread()
 
 void SystemThread::go()
 {
-  runnable_.run();
+  runnable_->run();
+  delete runnable_;
 }
 
 void SystemThread::start()

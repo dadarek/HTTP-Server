@@ -3,13 +3,23 @@
 
 #include "Runnable.h"
 
+struct MockRunnableInspector
+{
+  bool ran;
+  bool deleted;
+  MockRunnableInspector()
+    : ran( false )
+    , deleted( false )
+  { }
+};
+
 class MockRunnable
   : public Runnable
 {
   public:
-    bool ran_;
+    MockRunnableInspector& inspector_;
 
-    MockRunnable();
+    MockRunnable( MockRunnableInspector& inspector );
     virtual ~MockRunnable();
 
     void run();

@@ -11,11 +11,11 @@ class SystemThread
 {
   private:
     ThreadApi& threadApi_;
-    Runnable& runnable_;
+    Runnable* runnable_;
 
 
   public:
-    SystemThread( ThreadApi& threadApi, Runnable& runnable );
+    SystemThread( ThreadApi& threadApi, Runnable* runnable );
     virtual ~SystemThread();
 
     void start();

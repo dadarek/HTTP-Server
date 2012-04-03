@@ -9,12 +9,14 @@ class SystemThreadTests
   : public ::testing::Test
 {
   public:
-    MockRunnable runnable_;
+    MockRunnableInspector inspector_;
+    MockRunnable* runnable_;
     MockThreadApi threadApi_;
     SystemThread thread_;
     
     SystemThreadTests()
-      : runnable_()
+      : inspector_()
+      , runnable_( new MockRunnable( inspector_ ) )
       , threadApi_()
       , thread_( threadApi_, runnable_ )
     { }
@@ -44,5 +46,11 @@ TEST_F( SystemThreadTests, ThrowsExceptionIf_pthread_create_returnsError )
 TEST_F( SystemThreadTests, RunsTheRunnable )
 {
   thread_.go();
-  EXPECT_EQ( true, runnable_.ran_ );
+  EXPECT_EQ( true, inspector_.ran );
+}
+
+TEST_F( SystemThreadTests, DeletesRunnableAfterRun )
+{
+  thread_.go();
+  EXPECT_EQ( true, inspector_.deleted );
 }

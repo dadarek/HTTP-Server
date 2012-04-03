@@ -1,13 +1,15 @@
 #include "MockRunnable.h"
 
-MockRunnable::MockRunnable()
-  : ran_( false )
+MockRunnable::MockRunnable( MockRunnableInspector& inspector )
+  : inspector_( inspector )
 { }
 
 MockRunnable::~MockRunnable()
-{ }
+{
+  inspector_.deleted = true;
+}
 
 void MockRunnable::run()
 {
-  ran_ = true;
+  inspector_.ran = true;
 }
