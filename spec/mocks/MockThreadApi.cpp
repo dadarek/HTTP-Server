@@ -2,6 +2,8 @@
 
 MockThreadApi::MockThreadApi()
   : callBackFunctionPassedIn_( 0 )
+  , callBackParameterPassedIn_( 0 )
+  , createReturnValue_( 0 )
 { }
 
 MockThreadApi::~MockThreadApi()
@@ -17,5 +19,5 @@ long MockThreadApi::pthread_create(
   callBackFunctionPassedIn_ = callbackFunction;
   callBackParameterPassedIn_ = callbackParameter;
 
-  return 0;
+  return createReturnValue_;
 }

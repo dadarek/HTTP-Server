@@ -1,6 +1,7 @@
 #include "SystemThread.h"
 #include "ThreadApi.h"
 #include "ThreadLauncher.h"
+#include "ThreadStartException.h"
 
 SystemThread::SystemThread( ThreadApi& threadApi )
   : threadApi_( threadApi )
@@ -16,5 +17,8 @@ void SystemThread::go()
 
 void SystemThread::start()
 {
-  threadApi_.pthread_create( 0, 0, ThreadLauncher::launch, this );
+  long result = threadApi_.pthread_create( 0, 0, ThreadLauncher::launch, this );
+  
+  if( 0 != result )
+    throw ThreadStartException();
 }
