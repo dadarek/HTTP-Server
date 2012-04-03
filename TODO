@@ -35,15 +35,11 @@
 
 - add an "UNKNOWN RESPONSE" handler that simply echos back the request
 
-- Figure out Memory Checking in GTest
-
 - use ASSERT_STREQ instead of ASSERT_EQ
 
 - make sure users of SystemFileApi (or FileApi) delete referenced to char** )
 
 - merge appendNullTerminator functions
-
-- Do folders need to be closed?
 
 - cleanup first tests you wrote
 
