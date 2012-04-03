@@ -24,6 +24,11 @@ class HttpRequestParserImplTests
       ASSERT_EQ( std::string(expectedMethod), request->method() );
       delete request;
     }
+
+    void expectInvalidHeaderException( const char* headers )
+    {
+      EXPECT_THROW( parser_.parse( std::string(headers) ), InvalidHttpRequestHeadersException );
+    }
 };
 
 TEST_F( HttpRequestParserImplTests, ParsesHeaders )
@@ -70,10 +75,11 @@ TEST_F( HttpRequestParserImplTests, ParsesOutBody )
   ASSERT_EQ( body.length(), request->bodyLength() );
 }
 
-TEST_F( HttpRequestParserImplTests, ThrowsException )
+TEST_F( HttpRequestParserImplTests, ThrowsExceptionOnInvalidHeaders )
 {
-  EXPECT_THROW( parseOutUrl( "Some Invalid Header" ), InvalidHttpRequestHeadersException );
-  EXPECT_THROW( parseOutUrl( "GET IncompleteHeader" ), InvalidHttpRequestHeadersException );
-  EXPECT_THROW( parseOutUrl( "GET BuggyHeaderHTTP/1.1\r\nOtherHeaders: Well Formatted\r\n" ), InvalidHttpRequestHeadersException );
+  expectInvalidHeaderException( "HTTP/1.1\r\n" );
+  expectInvalidHeaderException( "Some Invalid Header" );
+  expectInvalidHeaderException( "GET IncompleteHeader" );
+  expectInvalidHeaderException( "GET BuggyHeaderHTTP/1.1\r\nOtherHeaders: Well Formatted\r\n" );
 }
 
