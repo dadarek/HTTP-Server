@@ -29,7 +29,6 @@ class HttpRequestHandlerFactoryImplTests
     HttpRequestHandler* getHandler()
     {
       return factory_.createHandler( request_ );
-
     }
 
     template <class ExpectedType>
