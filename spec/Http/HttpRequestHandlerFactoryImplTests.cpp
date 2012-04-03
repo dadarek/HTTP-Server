@@ -5,6 +5,7 @@
 #include "Http404RequestHandler.h"
 #include "HttpRequestFileHandler.h"
 #include "HttpDirectoryListRequestHandler.h"
+#include "HttpEchoRequestHandler.h"
 #include "HttpRequest.h"
 
 #include <dirent.h>
@@ -62,6 +63,13 @@ TEST_F( HttpRequestHandlerFactoryImplTests, returnsFolderHandlerIfFolderExists )
 {
   directoryApi_.opendir_returnValue_ = (DIR*) 10;
   assertHandlerType< HttpDirectoryListRequestHandler >();
+}
+
+TEST_F( HttpRequestHandlerFactoryImplTests, returnsEchoHandlerOnPutRequest )
+{
+  HttpRequest request( "PUT", "" );
+  HttpRequestHandler* handler = factory_.createHandler( request );
+  ASSERT_EQ( handler, dynamic_cast < HttpEchoRequestHandler* > ( handler ) );
 }
 
 TEST_F( HttpRequestHandlerFactoryImplTests, fileHandlerHasCorrectBasePath)

@@ -2,6 +2,7 @@
 #include "Http404RequestHandler.h"
 #include "HttpRequestFileHandler.h"
 #include "HttpDirectoryListRequestHandler.h"
+#include "HttpEchoRequestHandler.h"
 #include "FileApi.h"
 #include "DirectoryApi.h"
 #include "HttpRequest.h"
@@ -18,6 +19,9 @@ HttpRequestHandlerFactoryImpl::~HttpRequestHandlerFactoryImpl()
 HttpRequestHandler* HttpRequestHandlerFactoryImpl::createHandler( HttpRequest& request )
 { 
   std::string path( basePath_ + request.url() );
+
+  if( request.method() == std::string("PUT") )
+    return new HttpEchoRequestHandler();
 
   if( directoryExists( path ) )
     return createDirectoryListHandler();
