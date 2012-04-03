@@ -18,7 +18,6 @@ HttpRequest* HttpRequestParserImpl::parse( std::string headers )
   char url[1024];
 
   int variablesFilled = sscanf( firstLine, "%s %[^\r]", method, url );
-  printf("Variables filed: %d\n", variablesFilled );
   if( 2 != variablesFilled )
     throw InvalidHttpRequestHeadersException();
 
