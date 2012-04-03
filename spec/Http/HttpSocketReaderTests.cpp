@@ -17,19 +17,14 @@ class HttpSocketReaderTests
       , reader_( socketApi_ )
     { }
 
-    std::string read( const char* input )
-    {
-      socketApi_.sourceBuffer_ = input;
-      std::string result = reader_.readToEnd( -1 );
-
-      return result;
-    }
     void testWithNBytes( int numberOfBytes )
     {
       std::string expected( numberOfBytes, '.' );
       
       std::string input = expected + STREAM_TERMINATOR + "Some Extra Stuff"; 
-      std::string actual = read( input.c_str() );
+      socketApi_.sourceBuffer_ = input.c_str();
+
+      std::string actual = reader_.readToEnd( -1 );
       ASSERT_EQ( expected, actual );
     }
 };
