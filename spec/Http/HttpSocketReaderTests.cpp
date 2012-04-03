@@ -9,62 +9,78 @@ class HttpSocketReaderTests
   protected:
     static const char* const STREAM_TERMINATOR;
 
-    std::string setAndGet( MockSocketReadApi& socketApi, const char* input )
-    {
-      HttpSocketReader reader( socketApi );
+    MockSocketReadApi socketApi_;
+    HttpSocketReader reader_;
 
-      socketApi.sourceBuffer_ = input;
-      std::string result = reader.readToEnd( -1 );
+    HttpSocketReaderTests()
+      : socketApi_()
+      , reader_( socketApi_ )
+    { }
+
+    std::string read( const char* input )
+    {
+      socketApi_.sourceBuffer_ = input;
+      std::string result = reader_.readToEnd( -1 );
 
       return result;
     }
-    std::string setAndGet( const char* input )
-    {
-      MockSocketReadApi socketApi;
-      return setAndGet( socketApi, input );
-    }
-
     void testWithNBytes( int numberOfBytes )
     {
-      std::string expected = std::string( numberOfBytes, '.' );
+      std::string expected( numberOfBytes, '.' );
       
       std::string input = expected + STREAM_TERMINATOR + "Some Extra Stuff"; 
-      std::string actual = setAndGet( input.c_str() );
+      std::string actual = read( input.c_str() );
       ASSERT_EQ( expected, actual );
     }
 };
 
 const char* const HttpSocketReaderTests::STREAM_TERMINATOR = "\r\n\r\n";
 
-TEST_F( HttpSocketReaderTests, ReadsCorrectValues )  
+TEST_F( HttpSocketReaderTests, readsEmpty )  
 {
   testWithNBytes( 0 );
+}
+
+TEST_F( HttpSocketReaderTests, reads1Byte )
+{
   testWithNBytes( 1 );
+}
+
+TEST_F( HttpSocketReaderTests, reads2Bytes )
+{
   testWithNBytes( 2 );
-  testWithNBytes( 3 );
-  testWithNBytes( 254 );
+}
+
+TEST_F( HttpSocketReaderTests, reads255Bytes )
+{
   testWithNBytes( 255 );
+}
+
+TEST_F( HttpSocketReaderTests, reads256Bytes )
+{
   testWithNBytes( 256 );
+}
+
+TEST_F( HttpSocketReaderTests, reads257Bytes )
+{
   testWithNBytes( 257 );
-  testWithNBytes( 258 );
+}
+
+TEST_F( HttpSocketReaderTests, readsALotOfBytes )
+{
   testWithNBytes( 1000 * 1000 );
 }
 
 TEST_F( HttpSocketReaderTests, ThrowsExceptionOnErrorRead )  
 {
-  MockSocketReadApi socketApi;
-  socketApi.returnErrorOnRead_ = true;
-  ASSERT_THROW( setAndGet( socketApi, "" ), SocketReadException );
+  socketApi_.returnErrorOnRead_ = true;
+  ASSERT_THROW( reader_.readToEnd( 0 ), SocketReadException );
 }
 
 TEST_F( HttpSocketReaderTests, ReadsOnSocketItReceives )
 {
-  MockSocketReadApi socketApi;
-  socketApi.sourceBuffer_ = STREAM_TERMINATOR;
-
-  HttpSocketReader reader( socketApi );
-
-  reader.readToEnd( 88 );
-  ASSERT_EQ( 88, socketApi.socketReadOn_ );
+  socketApi_.sourceBuffer_ = STREAM_TERMINATOR;
+  reader_.readToEnd( 88 );
+  ASSERT_EQ( 88, socketApi_.socketReadOn_ );
 }
 
