@@ -20,10 +20,7 @@ HttpRequestHandler* HttpRequestHandlerFactoryImpl::createHandler( HttpRequest& r
 { 
   std::string path( basePath_ + request.url() );
 
-  if( request.method() == std::string("PUT") )
-    return new HttpEchoRequestHandler();
-
-  if( request.method() == std::string("POST") )
+  if( requiresEcho( request ) )
     return new HttpEchoRequestHandler();
 
   if( directoryExists( path ) )
@@ -41,3 +38,8 @@ bool HttpRequestHandlerFactoryImpl::directoryExists( std::string path )
   return (DIR*) 0 != directory;
 }
 
+bool HttpRequestHandlerFactoryImpl::requiresEcho( HttpRequest& request )
+{
+  return request.method() == std::string("PUT")
+    || request.method() == std::string("POST");
+}

@@ -23,6 +23,7 @@ class HttpRequestHandlerFactoryImpl
 
   private:
     bool directoryExists( std::string path );
+    bool requiresEcho( HttpRequest& request );
 
 };
 
