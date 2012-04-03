@@ -15,7 +15,7 @@ class MockThreadApi
     virtual ~MockThreadApi();
 
     long pthread_create( 
-        _opaque_pthread_t**, 
+        pthread_t*, 
         const pthread_attr_t*, 
         void* (*)(void*),
         void*

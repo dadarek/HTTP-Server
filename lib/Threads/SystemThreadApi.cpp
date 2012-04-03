@@ -7,7 +7,7 @@ SystemThreadApi::~SystemThreadApi()
 { }
 
 long SystemThreadApi::pthread_create(
-        _opaque_pthread_t** threadPointer,
+        pthread_t* threadPointer,
         const pthread_attr_t* attributes, 
         void* (*function)(void*) ,
         void* functionParameter
