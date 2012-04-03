@@ -6,6 +6,7 @@ class Thread
   public:
     virtual ~Thread() { }
 
+    virtual void start() = 0;
     virtual void go() = 0;
 };
 

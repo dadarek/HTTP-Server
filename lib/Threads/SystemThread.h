@@ -15,6 +15,7 @@ class SystemThread
     SystemThread( ThreadApi& threadApi );
     virtual ~SystemThread();
 
+    void start();
     void go();
 };
 #endif

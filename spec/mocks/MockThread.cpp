@@ -11,3 +11,8 @@ void MockThread::go()
 {
   goCalled_ = true;
 }
+
+void MockThread::start()
+{
+  throw 0;
+}
