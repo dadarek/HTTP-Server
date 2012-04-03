@@ -71,7 +71,8 @@ TEST_F( HttpRequestParserImplTests, ParsesOutBody )
   std::string body( "Some body\r\n here\r\n\r\nand here" );
   HttpRequest* request = parser_.parse( headers + "\r\n\r\n" + body );
 
-  //int diff = memcmp( body.c_str(), request->body(), body.length() );
+  int diff = memcmp( body.c_str(), request->body(), body.length() );
+  ASSERT_EQ( 0, diff );
   ASSERT_EQ( body.length(), request->bodyLength() );
 }
 
@@ -79,6 +80,10 @@ TEST_F( HttpRequestParserImplTests, ThrowsExceptionOnInvalidHeaders )
 {
   expectInvalidHeaderException( "HTTP/1.1\r\n" );
   expectInvalidHeaderException( " HTTP/1.1\r\n" );
+  expectInvalidHeaderException( "M HTTP/1.1\r\n" );
+  expectInvalidHeaderException( "M  HTTP/1.1\r\n" );
+  expectInvalidHeaderException( "M   HTTP/1.1\r\n" );
+  expectInvalidHeaderException( "GET /url \r\n\r\n" );
   expectInvalidHeaderException( "Some Invalid Header" );
   expectInvalidHeaderException( "GET IncompleteHeader" );
   expectInvalidHeaderException( "GET BuggyHeaderHTTP/1.1\r\nOtherHeaders: Well Formatted\r\n" );

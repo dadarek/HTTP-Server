@@ -16,27 +16,20 @@ HttpRequest* HttpRequestParserImpl::parse( std::string headers )
   if( std::string::npos == httpVersionIndex )
     throw InvalidHttpRequestHeadersException();
 
-  size_t firstSpaceIndex = headers.find( " " );
-  if ( firstSpaceIndex < 1 )
+  const char* firstLine = headers.substr( 0, httpVersionIndex ).c_str();
+
+  char method[5];
+  char url[1024];
+
+  int variablesFilled = sscanf( firstLine, "%s %[^\r]", method, url );
+  printf("Variables filed: %d\n", variablesFilled );
+  if( 2 != variablesFilled )
     throw InvalidHttpRequestHeadersException();
-  
-  //if ( firstSpaceIndex < 1 || httpVersionIndex < firstSpaceIndex )
-  //  throw InvalidHttpRequestHeadersException();
-
-
-  size_t urlStartIndex = firstSpaceIndex + 1;
-  size_t urlEndIndex = httpVersionIndex;
-
-  size_t urlLength = urlEndIndex - urlStartIndex;
-
-  std::string url = headers.substr( urlStartIndex, urlLength );
-  std::string method = headers.substr( 0, urlStartIndex-1 );
-
 
   size_t bodyStartIndex = headers.find("\r\n\r\n") + 4;
   size_t bodyEndIndex = headers.length();
 
-  HttpRequest* result = new HttpRequest( method, url );
+  HttpRequest* result = new HttpRequest( std::string(method), std::string(url) );
 
   if( bodyStartIndex != std::string::npos 
       && bodyStartIndex < bodyEndIndex )
@@ -48,4 +41,3 @@ HttpRequest* HttpRequestParserImpl::parse( std::string headers )
 
   return result;
 }
-
