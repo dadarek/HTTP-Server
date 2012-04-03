@@ -10,6 +10,6 @@ HttpEchoRequestHandler::~HttpEchoRequestHandler()
 
 HttpResponse* HttpEchoRequestHandler::handle( HttpRequest& request )
 {
-  HttpResponse* response = new HttpResponse( request.body(), request.bodyLength(), "" );
+  HttpResponse* response = new HttpResponse( request.body(), request.bodyLength(), "200 OK" );
   return response;
 }
