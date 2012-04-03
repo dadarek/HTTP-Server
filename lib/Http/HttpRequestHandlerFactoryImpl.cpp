@@ -35,7 +35,9 @@ HttpRequestHandler* HttpRequestHandlerFactoryImpl::createHandler( HttpRequest& r
 bool HttpRequestHandlerFactoryImpl::directoryExists( std::string path )
 {
   DIR* directory = directoryApi_.opendir( path.c_str() );
-  return (DIR*) 0 != directory;
+  bool result = (DIR*) 0 != directory;
+  directoryApi_.closedir( directory );
+  return result;
 }
 
 bool HttpRequestHandlerFactoryImpl::requiresEcho( HttpRequest& request )

@@ -64,6 +64,13 @@ TEST_F( HttpRequestHandlerFactoryImplTests, returnsFolderHandlerIfFolderExists )
   assertHandlerType< HttpDirectoryListRequestHandler >();
 }
 
+TEST_F( HttpRequestHandlerFactoryImplTests, closesDirectoryIfOpens )
+{
+  directoryApi_.opendir_returnValue_ = (DIR*) 10;
+  getHandler();
+  ASSERT_EQ( true, directoryApi_.closeDirCalled_ );
+}
+
 TEST_F( HttpRequestHandlerFactoryImplTests, returnsEchoHandlerOnPutRequests )
 {
   HttpRequest request( "PUT", "" );
