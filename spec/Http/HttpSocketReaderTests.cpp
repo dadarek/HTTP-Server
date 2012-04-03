@@ -16,55 +16,20 @@ class HttpSocketReaderTests
       : socketApi_()
       , reader_( socketApi_ )
     { }
-
-    void testWithNBytes( int numberOfBytes )
-    {
-      std::string expected( numberOfBytes, '.' );
-      
-      std::string input = expected + STREAM_TERMINATOR + "Some Extra Stuff"; 
-      socketApi_.sourceBuffer_ = input.c_str();
-
-      std::string actual = reader_.readToEnd( -1 );
-      ASSERT_EQ( expected, actual );
-    }
 };
 
 const char* const HttpSocketReaderTests::STREAM_TERMINATOR = "\r\n\r\n";
 
 TEST_F( HttpSocketReaderTests, readsEmpty )  
 {
-  testWithNBytes( 0 );
-}
+  std::string headers( "HEADERS GO HERE" );
+  
+  std::string input = headers + STREAM_TERMINATOR + "Some Extra Stuff"; 
+  socketApi_.sourceBuffer_ = input.c_str();
 
-TEST_F( HttpSocketReaderTests, reads1Byte )
-{
-  testWithNBytes( 1 );
-}
-
-TEST_F( HttpSocketReaderTests, reads2Bytes )
-{
-  testWithNBytes( 2 );
-}
-
-TEST_F( HttpSocketReaderTests, reads255Bytes )
-{
-  testWithNBytes( 255 );
-}
-
-TEST_F( HttpSocketReaderTests, reads256Bytes )
-{
-  testWithNBytes( 256 );
-}
-
-TEST_F( HttpSocketReaderTests, reads257Bytes )
-{
-  testWithNBytes( 257 );
-}
-
-TEST_F( HttpSocketReaderTests, readsALotOfBytes )
-{
-  testWithNBytes( 1000 * 1000 );
-}
+  std::string actual = reader_.readToEnd( -1 );
+  ASSERT_EQ( headers, actual );
+};
 
 TEST_F( HttpSocketReaderTests, ThrowsExceptionOnErrorRead )  
 {
