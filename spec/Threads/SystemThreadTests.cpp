@@ -3,26 +3,30 @@
 #include "SystemThread.h"
 #include "ThreadLauncher.h"
 
-TEST( SystemThreadTests, PassesTheThreadLauncherStaticMethod )
+class SystemThreadTests
+  : public ::testing::Test
 {
-  MockThreadApi threadApi;
-  SystemThread thread( threadApi );
+  public:
+    MockThreadApi threadApi_;
+    SystemThread thread_;
+    
+    SystemThreadTests()
+      : threadApi_()
+      , thread_( threadApi_ )
+    { }
 
-  thread.start();
+};
 
+TEST_F( SystemThreadTests, PassesTheThreadLauncherStaticMethod )
+{
+  thread_.start();
   void* (*expected)(void*) = ThreadLauncher::launch;
-
-  ASSERT_EQ( expected, threadApi.callBackFunctionPassedIn_ );
+  ASSERT_EQ( expected, threadApi_.callBackFunctionPassedIn_ );
 }
 
-TEST( SystemThreadTests, PassesItselfAsCallbackParameter )
+TEST_F( SystemThreadTests, PassesItselfAsCallbackParameter )
 {
-  MockThreadApi threadApi;
-  SystemThread thread( threadApi );
-
-  thread.start();
-
-  void* expected = &thread;
-
-  ASSERT_EQ( expected, threadApi.callBackParameterPassedIn_ );
+  thread_.start();
+  void* expected = &thread_;
+  ASSERT_EQ( expected, threadApi_.callBackParameterPassedIn_ );
 }
