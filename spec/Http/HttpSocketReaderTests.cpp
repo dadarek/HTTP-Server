@@ -7,8 +7,6 @@ class HttpSocketReaderTests
   : public ::testing::Test
 {
   protected:
-    static const char* const STREAM_TERMINATOR;
-
     MockSocketReadApi socketApi_;
     HttpSocketReader reader_;
 
@@ -18,14 +16,11 @@ class HttpSocketReaderTests
     { }
 };
 
-const char* const HttpSocketReaderTests::STREAM_TERMINATOR = "\r\n\r\n";
 
-TEST_F( HttpSocketReaderTests, readsEmpty )  
+TEST_F( HttpSocketReaderTests, readsSomeHeaders )
 {
-  std::string headers( "HEADERS GO HERE" );
-  
-  std::string input = headers + STREAM_TERMINATOR + "Some Extra Stuff"; 
-  socketApi_.sourceBuffer_ = input.c_str();
+  std::string headers( "HEADERS" );
+  socketApi_.sourceBuffer_ = headers.c_str();
 
   std::string actual = reader_.readToEnd( -1 );
   ASSERT_EQ( headers, actual );
@@ -39,7 +34,7 @@ TEST_F( HttpSocketReaderTests, ThrowsExceptionOnErrorRead )
 
 TEST_F( HttpSocketReaderTests, ReadsOnSocketItReceives )
 {
-  socketApi_.sourceBuffer_ = STREAM_TERMINATOR;
+  socketApi_.sourceBuffer_ = "";
   reader_.readToEnd( 88 );
   ASSERT_EQ( 88, socketApi_.socketReadOn_ );
 }
@@ -47,7 +42,7 @@ TEST_F( HttpSocketReaderTests, ReadsOnSocketItReceives )
 TEST_F( HttpSocketReaderTests, ReadsBodyIfPresent )
 {
   std::string input = "Content-Length: 5";
-  input += STREAM_TERMINATOR;
+  input += "\r\n\r\n";
   input += "12345";
 
   socketApi_.sourceBuffer_ = input.c_str();

@@ -13,24 +13,12 @@ HttpSocketReader::~HttpSocketReader()
 
 std::string HttpSocketReader::readToEnd( int socketFD )
 {
-  std::string result;
-
-  size_t terminatorIndex;
-  std::string bufferData;
-  do
-  {
-    bufferData += getNextChunk( socketFD );
-    terminatorIndex = bufferData.find( STREAM_TERMINATOR );
-  }while( std::string::npos == terminatorIndex );
-
-  result = bufferData.substr( 0, terminatorIndex );
-
-  return result;
+  return getNextChunk( socketFD );
 }
 
 std::string HttpSocketReader::getNextChunk( int socketFD )
 {
-  char buffer[ 1024 ] ;
+  char buffer[ 2048 ] ;
   size_t bufferSize = sizeof( buffer );
 
   memset( buffer, 0, bufferSize );
