@@ -58,8 +58,16 @@ class HttpDirectoryListRequestHandlerTests
 
 TEST_F( HttpDirectoryListRequestHandlerTests, OpensCorrectFolder )
 {
-  handler_.handle(request_);
+  handler_.handle( request_ );
   ASSERT_EQ( basePath_ + url_, directoryApi_.directoryOpened_ );
+}
+
+TEST_F( HttpDirectoryListRequestHandlerTests, closesDirectory )
+{
+  DIR* returnValue = (DIR*) 77;
+  directoryApi_.opendir_returnValue_ = returnValue;
+  handler_.handle( request_ );
+  ASSERT_EQ( returnValue, directoryApi_.closedir_input_ );
 }
 
 TEST_F( HttpDirectoryListRequestHandlerTests, CallsReadDirWithCorrectDIRPointer )

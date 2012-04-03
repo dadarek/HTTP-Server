@@ -24,6 +24,7 @@ std::string HttpDirectoryListRequestHandler::getBody( const char* folder )
   std::string result;
 
   DIR* directory = directoryApi_.opendir( folder );
+  directoryApi_.closedir( directory );
   struct dirent* directoryEntry;
   while( 0 != (directoryEntry = directoryApi_.readdir( directory ) )  )
   {

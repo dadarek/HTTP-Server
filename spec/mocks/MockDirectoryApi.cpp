@@ -3,6 +3,7 @@
 MockDirectoryApi::MockDirectoryApi()
   : opendir_returnValue_( 0 )
   , readdir_input_( 0 )
+  , closedir_input_( 0 )
   , readdir_returnValues_( 0 )
   , timesReaddirCalled_( 0 )
 { }
@@ -27,5 +28,5 @@ struct dirent* MockDirectoryApi::readdir( DIR* directory )
 
 void MockDirectoryApi::closedir( DIR* directory )
 {
-
+  closedir_input_ = directory;
 }
