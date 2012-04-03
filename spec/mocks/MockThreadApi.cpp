@@ -10,7 +10,7 @@ MockThreadApi::~MockThreadApi()
 { }
 
 long MockThreadApi::pthread_create(
-        _opaque_pthread_t**, 
+        _opaque_pthread_t** threadId, 
         const pthread_attr_t*, 
         void* (*callbackFunction)(void*), 
         void* callbackParameter
@@ -18,6 +18,8 @@ long MockThreadApi::pthread_create(
 {
   callBackFunctionPassedIn_ = callbackFunction;
   callBackParameterPassedIn_ = callbackParameter;
+
+  (*threadId) = (_opaque_pthread_t*) 50;
 
   return createReturnValue_;
 }

@@ -17,8 +17,8 @@ void SystemThread::go()
 
 void SystemThread::start()
 {
-  long result = threadApi_.pthread_create( 0, 0, ThreadLauncher::launch, this );
-  
+  pthread_t identifier;
+  long result = threadApi_.pthread_create( &identifier, 0, ThreadLauncher::launch, this );
   if( 0 != result )
     throw ThreadStartException();
 }
