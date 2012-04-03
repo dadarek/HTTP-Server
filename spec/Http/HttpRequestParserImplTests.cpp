@@ -78,6 +78,7 @@ TEST_F( HttpRequestParserImplTests, ParsesOutBody )
 TEST_F( HttpRequestParserImplTests, ThrowsExceptionOnInvalidHeaders )
 {
   expectInvalidHeaderException( "HTTP/1.1\r\n" );
+  expectInvalidHeaderException( " HTTP/1.1\r\n" );
   expectInvalidHeaderException( "Some Invalid Header" );
   expectInvalidHeaderException( "GET IncompleteHeader" );
   expectInvalidHeaderException( "GET BuggyHeaderHTTP/1.1\r\nOtherHeaders: Well Formatted\r\n" );

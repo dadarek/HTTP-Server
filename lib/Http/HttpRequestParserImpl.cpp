@@ -11,12 +11,15 @@ HttpRequestParserImpl::~HttpRequestParserImpl()
 HttpRequest* HttpRequestParserImpl::parse( std::string headers )
 { 
   const char* httpVersion = " HTTP/1.1\r\n";
-  size_t firstSpaceIndex = headers.find(" ");
   size_t httpVersionIndex = headers.find( httpVersion );
 
   if( std::string::npos == httpVersionIndex )
     throw InvalidHttpRequestHeadersException();
 
+  size_t firstSpaceIndex = headers.find( " " );
+  if ( firstSpaceIndex < 1 )
+    throw InvalidHttpRequestHeadersException();
+  
   //if ( firstSpaceIndex < 1 || httpVersionIndex < firstSpaceIndex )
   //  throw InvalidHttpRequestHeadersException();
 
