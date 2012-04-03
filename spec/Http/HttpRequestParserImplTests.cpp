@@ -60,6 +60,16 @@ TEST_F( HttpRequestParserImplTests, ParsesDifferentMethods )
   assertMethod( "PUT /some-url HTTP/1.1\r\n", "PUT" );
 }
 
+TEST_F( HttpRequestParserImplTests, ParsesOutBody )
+{
+  std::string headers( "PUT / HTTP/1.1" );
+  std::string body( "Some body\r\n here\r\n\r\nand here" );
+  HttpRequest* request = parser_.parse( headers + "\r\n\r\n" + body );
+
+  //int diff = memcmp( body.c_str(), request->body(), body.length() );
+  ASSERT_EQ( body.length(), request->bodyLength() );
+}
+
 TEST_F( HttpRequestParserImplTests, ThrowsException )
 {
   EXPECT_THROW( parseOutUrl( "Some Invalid Header" ), InvalidHttpRequestHeadersException );
