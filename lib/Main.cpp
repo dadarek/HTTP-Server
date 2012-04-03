@@ -19,11 +19,6 @@
 
 #define NUM_THREADS 5
 
-void* Other(void* param)
-{
-  pthread_exit(NULL);
-}
-
 void *PrintHello(void *threadid)
 {
    long tid;
@@ -34,22 +29,21 @@ void *PrintHello(void *threadid)
 
 void go()
 {
-   pthread_t threads[NUM_THREADS];
-   int rc;
-   long t;
-   for(t=0; t<NUM_THREADS; t++){
-      printf("In main: creating thread %ld\n", t);
-      //rc = pthread_create(&threads[t], NULL, PrintHello, (void *)t);
-      rc = pthread_create(&threads[t], NULL, Other, (void *)t);
-      if (rc){
-         printf("ERROR; return code from pthread_create() is %d\n", rc);
-         exit(-1);
-      }
-   }
+  pthread_t threads[NUM_THREADS];
+  int rc;
+  long t;
+  for(t=0; t<NUM_THREADS; t++){
+    printf("In main: creating thread %ld\n", t);
+    rc = pthread_create(&threads[t], NULL, PrintHello, (void *)t);
+    if (rc){
+      printf("ERROR; return code from pthread_create() is %d\n", rc);
+      exit(-1);
+    }
+  }
 
-   /* Last thing that main() should do */
-   /* It waits until ALL threads exit */
-   pthread_exit(NULL);
+  /* Last thing that main() should do */
+  /* It waits until ALL threads exit */
+  pthread_exit(NULL);
 }
 
 void G()

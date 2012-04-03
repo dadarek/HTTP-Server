@@ -3,12 +3,6 @@
 #include "MockRequestHandler.h"
 #include "MockConnectionReceiver.h"
 
-class ServerTests
-  : public testing::Test
-{
-
-};
-
 TEST( ServerTests, ListensIndefinitely )
 {
   MockRequestHandler handler;  
