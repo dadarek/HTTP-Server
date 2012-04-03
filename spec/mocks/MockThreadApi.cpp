@@ -6,7 +6,12 @@ MockThreadApi::MockThreadApi()
 MockThreadApi::~MockThreadApi()
 { }
 
-void MockThreadApi::go()
+long MockThreadApi::pthread_create(
+        _opaque_pthread_t**, 
+        const pthread_attr_t*, 
+        void* (*)(void*), 
+        void*
+    )
 {
-
+  throw 0;
 }
