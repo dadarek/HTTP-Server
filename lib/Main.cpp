@@ -15,8 +15,6 @@
 #include <string>
 #include <stdexcept>
 
-#include <vector>
-#include <dirent.h>
 void go()
 {
   RawSocketApi socketApi;
