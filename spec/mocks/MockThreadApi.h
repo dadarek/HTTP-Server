@@ -8,6 +8,7 @@ class MockThreadApi
 {
   public:
     void* (*callBackFunctionPassedIn_)(void*);
+    void* callBackParameterPassedIn_;
 
     MockThreadApi();
     virtual ~MockThreadApi();

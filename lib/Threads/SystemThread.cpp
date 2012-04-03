@@ -16,5 +16,5 @@ void SystemThread::go()
 
 void SystemThread::start()
 {
-  threadApi_.pthread_create( 0, 0, ThreadLauncher::launch, 0 );
+  threadApi_.pthread_create( 0, 0, ThreadLauncher::launch, this );
 }

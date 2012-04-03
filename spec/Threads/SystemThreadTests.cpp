@@ -14,3 +14,15 @@ TEST( SystemThreadTests, PassesTheThreadLauncherStaticMethod )
 
   ASSERT_EQ( expected, threadApi.callBackFunctionPassedIn_ );
 }
+
+TEST( SystemThreadTests, PassesItselfAsCallbackParameter )
+{
+  MockThreadApi threadApi;
+  SystemThread thread( threadApi );
+
+  thread.start();
+
+  void* expected = &thread;
+
+  ASSERT_EQ( expected, threadApi.callBackParameterPassedIn_ );
+}
