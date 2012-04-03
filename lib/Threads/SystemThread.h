@@ -4,15 +4,18 @@
 #include "Thread.h"
 
 class ThreadApi;
+class Runnable;
 
 class SystemThread
   : public Thread
 {
   private:
     ThreadApi& threadApi_;
+    Runnable& runnable_;
+
 
   public:
-    SystemThread( ThreadApi& threadApi );
+    SystemThread( ThreadApi& threadApi, Runnable& runnable );
     virtual ~SystemThread();
 
     void start();

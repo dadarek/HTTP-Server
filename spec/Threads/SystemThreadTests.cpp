@@ -3,17 +3,20 @@
 #include "SystemThread.h"
 #include "ThreadLauncher.h"
 #include "ThreadStartException.h"
+#include "MockRunnable.h"
 
 class SystemThreadTests
   : public ::testing::Test
 {
   public:
+    MockRunnable runnable_;
     MockThreadApi threadApi_;
     SystemThread thread_;
     
     SystemThreadTests()
-      : threadApi_()
-      , thread_( threadApi_ )
+      : runnable_()
+      , threadApi_()
+      , thread_( threadApi_, runnable_ )
     { }
 
 };
@@ -36,4 +39,10 @@ TEST_F( SystemThreadTests, ThrowsExceptionIf_pthread_create_returnsError )
 {
   threadApi_.createReturnValue_ = 1;
   EXPECT_THROW( thread_.start(), ThreadStartException );
+}
+
+TEST_F( SystemThreadTests, RunsTheRunnable )
+{
+  thread_.go();
+  EXPECT_EQ( true, runnable_.ran_ );
 }

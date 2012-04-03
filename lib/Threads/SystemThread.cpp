@@ -2,9 +2,11 @@
 #include "ThreadApi.h"
 #include "ThreadLauncher.h"
 #include "ThreadStartException.h"
+#include "Runnable.h"
 
-SystemThread::SystemThread( ThreadApi& threadApi )
+SystemThread::SystemThread( ThreadApi& threadApi, Runnable& runnable )
   : threadApi_( threadApi )
+  , runnable_( runnable )
 { }
 
 SystemThread::~SystemThread()
@@ -12,7 +14,7 @@ SystemThread::~SystemThread()
 
 void SystemThread::go()
 {
-
+  runnable_.run();
 }
 
 void SystemThread::start()
