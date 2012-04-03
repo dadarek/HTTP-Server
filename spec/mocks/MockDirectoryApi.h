@@ -19,5 +19,6 @@ class MockDirectoryApi
 
     DIR* opendir( const char* path );
     struct dirent* readdir( DIR* directory );
+    void closedir( DIR* directory );
 };
 #endif

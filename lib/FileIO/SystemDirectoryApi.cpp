@@ -15,3 +15,8 @@ struct dirent* SystemDirectoryApi::readdir( DIR* directory )
 {
   return ::readdir( directory );
 }
+
+void SystemDirectoryApi::closedir( DIR* directory )
+{
+  ::closedir( directory );
+}

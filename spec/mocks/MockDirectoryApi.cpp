@@ -25,3 +25,7 @@ struct dirent* MockDirectoryApi::readdir( DIR* directory )
   return 0;
 }
 
+void MockDirectoryApi::closedir( DIR* directory )
+{
+
+}

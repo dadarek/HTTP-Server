@@ -10,6 +10,7 @@ class DirectoryApi
 
     virtual DIR* opendir( const char* path ) = 0;
     virtual struct dirent* readdir( DIR* directory ) = 0;
+    virtual void closedir( DIR* directory ) = 0;
 };
 
 #endif
