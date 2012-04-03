@@ -79,3 +79,14 @@ TEST_F( HttpSocketReaderTests, ReadsOnSocketItReceives )
   ASSERT_EQ( 88, socketApi_.socketReadOn_ );
 }
 
+TEST_F( HttpSocketReaderTests, ReadsBodyIfPresent )
+{
+  std::string input = "Content-Length: 5";
+  input += STREAM_TERMINATOR;
+  input += "12345";
+
+  socketApi_.sourceBuffer_ = input.c_str();
+  std::string result = reader_.readToEnd( -1 );
+
+  ASSERT_EQ( input, result );
+}

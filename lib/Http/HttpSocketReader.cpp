@@ -14,16 +14,17 @@ HttpSocketReader::~HttpSocketReader()
 std::string HttpSocketReader::readToEnd( int socketFD )
 {
   std::string result;
+  std::string bufferData;
 
   bool keepReading = true;
   while( keepReading )
   {
-    result += getNextChunk( socketFD );
+    bufferData += getNextChunk( socketFD );
 
-    int terminatorIndex = result.find( STREAM_TERMINATOR );
-    if( terminatorIndex >= 0 )
+    size_t terminatorIndex = bufferData.find( STREAM_TERMINATOR );
+    if( std::string::npos != terminatorIndex )
     {
-      result = result.substr( 0, terminatorIndex );
+      result = bufferData.substr( 0, terminatorIndex );
       keepReading = false;
     }
   }
