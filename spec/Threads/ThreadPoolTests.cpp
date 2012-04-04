@@ -9,35 +9,45 @@ class ThreadPoolTests
   public:
     MockThreadApi api_;
     MockThreadFactory factory_;
+    ThreadPool* pool_;
+
+    void create()
+    {
+      pool_ = new ThreadPool( api_, factory_, 5 );
+    }
+
+    void destroy()
+    {
+      delete pool_;
+    }
 };
 
 TEST_F( ThreadPoolTests, InitsAValidMutex )
 {
-  ThreadPool pool( api_, factory_ );
+  create();
   ASSERT_NE( (void*) 0, api_.mutexInit_mutex_input_ );
+  destroy();
 }
 
 TEST_F( ThreadPoolTests, DestroysItsMutexInDestructor )
 {
-  {
-    ThreadPool pool( api_, factory_ );
-    ASSERT_EQ( (void*) 0, api_.mutexDestroy_mutex_input_ );
-  }
-
+  create();
+  ASSERT_EQ( (void*) 0, api_.mutexDestroy_mutex_input_ );
+  destroy(); 
   ASSERT_EQ( api_.mutexInit_mutex_input_, api_.mutexDestroy_mutex_input_ );
 }
 
 TEST_F( ThreadPoolTests, InitsAValidConditionVariable )
 {
-  ThreadPool pool( api_, factory_ );
+  create();
   ASSERT_NE( (void*) 0, api_.condInit_cond_input_ );
+  destroy();
 }
 
 TEST_F( ThreadPoolTests, DestroysItsConditionVariable )
 {
-  {
-    ThreadPool pool( api_, factory_ );
-    ASSERT_EQ( (void*) 0, api_.condDestroy_cond_input_ );
-  }
+  create();
+  ASSERT_EQ( (void*) 0, api_.condDestroy_cond_input_ );
+  destroy();
   ASSERT_EQ( api_.condInit_cond_input_, api_.condDestroy_cond_input_ );
 }

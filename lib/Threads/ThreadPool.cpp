@@ -1,8 +1,9 @@
 #include "ThreadPool.h"
 
-ThreadPool::ThreadPool( ThreadApi& api, ThreadFactory& factory )
+ThreadPool::ThreadPool( ThreadApi& api, ThreadFactory& factory, unsigned numberOfThreads )
   : api_( api )
   , factory_( factory )
+  , numberOfThreads_( numberOfThreads )
 {
   api_.pthread_mutex_init( &mutex_, 0 );
   api_.pthread_cond_init( &condition_, 0 );

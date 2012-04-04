@@ -11,11 +11,13 @@ class ThreadPool
     ThreadApi& api_;
     ThreadFactory& factory_;
 
+    unsigned numberOfThreads_;
+
     pthread_mutex_t mutex_;
     pthread_cond_t condition_;
 
   public:
-    ThreadPool( ThreadApi& api, ThreadFactory& factory );
+    ThreadPool( ThreadApi& api, ThreadFactory& factory, unsigned numberOfThreads );
     virtual ~ThreadPool();
 
 };
