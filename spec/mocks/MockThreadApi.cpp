@@ -48,7 +48,8 @@ int MockThreadApi::pthread_mutex_destroy( pthread_mutex_t* mutex )
 
 int MockThreadApi::pthread_mutex_lock( pthread_mutex_t* mutex )
 {
-  throw 0;
+  in_mutexLock_ = mutex;
+  return 0;
 }
 
 int MockThreadApi::pthread_mutex_unlock( pthread_mutex_t* mutex )

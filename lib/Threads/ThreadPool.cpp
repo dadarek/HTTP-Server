@@ -37,3 +37,9 @@ void ThreadPool::deleteThreads()
     delete threads_[ i ];
   }
 }
+
+void ThreadPool::add( void* )
+{
+  api_.pthread_mutex_lock( &mutex_ );
+
+}
