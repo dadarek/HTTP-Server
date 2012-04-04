@@ -20,3 +20,10 @@ TEST( ThreadPoolTests, DestroysItsMutexInDestructor )
 
   ASSERT_EQ( api.mutexInit_mutex_input_, api.mutexDestroy_mutex_input_ );
 }
+
+TEST( ThreadPoolTests, InitsAValidConditionVariable )
+{
+  MockThreadApi api;
+  ThreadPool pool( api );
+  ASSERT_NE( (void*) 0, api.condInit_cond_input_ );
+}
