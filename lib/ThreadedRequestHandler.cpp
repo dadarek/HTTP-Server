@@ -18,6 +18,6 @@ void ThreadedRequestHandler::handle( int socketFD )
   RunnableHttpConnectionHandler* runnable = new RunnableHttpConnectionHandler( 
       socketReader_, parser_, factory_, writer_, socketFD );
 
-  SystemThread* thread = new SystemThread( threadApi_, runnable );
-  thread->start();
+  SystemThread* thread = new SystemThread( threadApi_ );
+  thread->start( runnable );
 }

@@ -1,4 +1,5 @@
 #include "MockThreadApi.h"
+#include "Thread.h"
 
 MockThreadApi::MockThreadApi()
   : callBackFunctionPassedIn_( 0 )
@@ -21,5 +22,7 @@ long MockThreadApi::pthread_create(
 
   (*threadId) = (pthread_t) 50;
 
+  (*callbackFunction) ( callbackParameter );
   return createReturnValue_;
 }
+

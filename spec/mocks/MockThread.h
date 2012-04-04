@@ -13,7 +13,7 @@ class MockThread
     virtual ~MockThread();
 
     void go();
-    void start();
+    void start( Runnable* runnable );
 };
 
 #endif

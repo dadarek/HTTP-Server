@@ -15,10 +15,10 @@ class SystemThread
 
 
   public:
-    SystemThread( ThreadApi& threadApi, Runnable* runnable );
+    SystemThread( ThreadApi& threadApi );
     virtual ~SystemThread();
 
-    void start();
+    void start( Runnable* runnable );
     void go();
 };
 #endif

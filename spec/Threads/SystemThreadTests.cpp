@@ -18,21 +18,25 @@ class SystemThreadTests
       : inspector_()
       , runnable_( new MockRunnable( inspector_ ) )
       , threadApi_()
-      , thread_( threadApi_, runnable_ )
+      , thread_( threadApi_ )
     { }
 
+    void start()
+    {
+      thread_.start( runnable_ );
+    }
 };
 
 TEST_F( SystemThreadTests, PassesTheThreadLauncherStaticMethod )
 {
-  thread_.start();
+  start();
   void* (*expected)(void*) = ThreadLauncher::launch;
   ASSERT_EQ( expected, threadApi_.callBackFunctionPassedIn_ );
 }
 
 TEST_F( SystemThreadTests, PassesItselfAsCallbackParameter )
 {
-  thread_.start();
+  start();
   void* expected = &thread_;
   ASSERT_EQ( expected, threadApi_.callBackParameterPassedIn_ );
 }
@@ -40,17 +44,17 @@ TEST_F( SystemThreadTests, PassesItselfAsCallbackParameter )
 TEST_F( SystemThreadTests, ThrowsExceptionIf_pthread_create_returnsError )
 {
   threadApi_.createReturnValue_ = 1;
-  EXPECT_THROW( thread_.start(), ThreadStartException );
+  EXPECT_THROW( start(), ThreadStartException );
 }
 
 TEST_F( SystemThreadTests, RunsTheRunnable )
 {
-  thread_.go();
+  start();
   EXPECT_EQ( true, inspector_.ran );
 }
 
 TEST_F( SystemThreadTests, DeletesRunnableAfterRun )
 {
-  thread_.go();
+  start();
   EXPECT_EQ( true, inspector_.deleted );
 }

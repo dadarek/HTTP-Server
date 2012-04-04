@@ -13,7 +13,7 @@ void MockThread::go()
   goCalled_ = true;
 }
 
-void MockThread::start()
+void MockThread::start( Runnable* )
 {
   throw 0;
 }
