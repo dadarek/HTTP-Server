@@ -1,5 +1,6 @@
 #include "ThreadPool.h"
 #include "ThreadFactory.h"
+#include "Thread.h"
 
 ThreadPool::ThreadPool( ThreadApi& api, ThreadFactory& factory, unsigned numberOfThreads )
   : api_( api )
@@ -11,7 +12,7 @@ ThreadPool::ThreadPool( ThreadApi& api, ThreadFactory& factory, unsigned numberO
 
   for(unsigned i = 0; i < numberOfThreads_; i++ )
   {
-    factory_.create();
+    delete (factory_.create());
   }
 }
 

@@ -8,6 +8,7 @@ class MockThreadFactory
 {
   public:
     unsigned threadsCreated_;
+    unsigned threadsDeleted_;
 
     MockThreadFactory();
     virtual ~MockThreadFactory();

@@ -67,3 +67,8 @@ TEST_F( ThreadPoolTests, CreatesSpecifiedNumberOfThreads )
 {
   ASSERT_EQ( THREADS_TO_CREATE, factory_.threadsCreated_ );
 }
+
+TEST_F( ThreadPoolTests, DeletesTheThreadsItCreated )
+{
+  ASSERT_EQ( THREADS_TO_CREATE, factory_.threadsDeleted_ );
+}
