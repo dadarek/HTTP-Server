@@ -54,7 +54,8 @@ int MockThreadApi::pthread_mutex_lock( pthread_mutex_t* mutex )
 
 int MockThreadApi::pthread_mutex_unlock( pthread_mutex_t* mutex )
 {
-  throw 0;
+  in_mutexUnlock_ = mutex;
+  return 0;
 }
 
 int MockThreadApi::pthread_cond_init( pthread_cond_t* condition, pthread_condattr_t* attributes )

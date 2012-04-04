@@ -80,3 +80,9 @@ TEST_F( ThreadPoolTests, LocksMutexWhenAddingWorkItems )
   pool_->add( 0 );
   ASSERT_EQ( api_.in_mutexInit_, api_.in_mutexLock_ );
 }
+
+TEST_F( ThreadPoolTests, UnlocksMutexAfterAddingWorkItems )
+{
+  pool_->add( 0 );
+  ASSERT_EQ( api_.in_mutexInit_, api_.in_mutexUnlock_ );
+}
