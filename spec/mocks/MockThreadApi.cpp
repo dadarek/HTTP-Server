@@ -1,5 +1,6 @@
 #include "MockThreadApi.h"
 #include "Thread.h"
+#include <stdexcept>
 
 MockThreadApi::MockThreadApi()
   : callBackFunctionPassedIn_( 0 )
@@ -54,6 +55,9 @@ int MockThreadApi::pthread_mutex_lock( pthread_mutex_t* mutex )
 
 int MockThreadApi::pthread_mutex_unlock( pthread_mutex_t* mutex )
 {
+  if( 0 == in_mutexLock_ )
+    throw std::runtime_error( "Can't unlock a mutex that wasn't locked." );
+
   in_mutexUnlock_ = mutex;
   return 0;
 }
