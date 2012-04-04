@@ -8,6 +8,7 @@ MockThreadApi::MockThreadApi()
   , mutexInit_mutex_input_( 0 )
   , mutexDestroy_mutex_input_( 0 )
   , condInit_cond_input_( 0 )
+  , condDestroy_cond_input_( 0 )
 { }
 
 MockThreadApi::~MockThreadApi()
@@ -59,7 +60,8 @@ int MockThreadApi::pthread_cond_init( pthread_cond_t* condition, pthread_condatt
 
 int MockThreadApi::pthread_cond_destroy( pthread_cond_t* condition )
 {
-  throw 0;
+  condDestroy_cond_input_ = condition;
+  return 0;
 }
 
 int MockThreadApi::pthread_cond_wait( pthread_cond_t* condition, pthread_mutex_t* mutex )

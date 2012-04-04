@@ -15,6 +15,7 @@ class MockThreadApi
     pthread_mutex_t* mutexDestroy_mutex_input_;
 
     pthread_cond_t* condInit_cond_input_;
+    pthread_cond_t* condDestroy_cond_input_;
 
     MockThreadApi();
     virtual ~MockThreadApi();
