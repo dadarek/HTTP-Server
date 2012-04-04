@@ -81,6 +81,12 @@ int MockThreadApi::pthread_cond_wait( pthread_cond_t* condition, pthread_mutex_t
 
 int MockThreadApi::pthread_cond_signal( pthread_cond_t* condition )
 {
+  if( 0 == in_mutexLock_ )
+    throw std::runtime_error( "Can't signal a condition without locking a mutex.");
+
+  if( 0 != in_mutexUnlock_ )
+    throw std::runtime_error( "Can't signal a condition after unlocking a mutex.");
+
   in_condSignal_ = condition;
   return 0;
 }
