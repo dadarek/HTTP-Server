@@ -75,3 +75,8 @@ TEST_F( ThreadPoolTests, DeletesTheThreadsItCreatedInDestructor )
   ASSERT_EQ( THREADS_TO_CREATE, factory_.threadsDeleted_ );
 }
 
+TEST_F( ThreadPoolTests, LocksMutexWhenAddingWorkItems )
+{
+  pool_->add( 0 );
+  ASSERT_EQ( api_.in_mutexInit_, api_.in_mutexLock_ );
+}
