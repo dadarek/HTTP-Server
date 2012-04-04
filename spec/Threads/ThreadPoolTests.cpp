@@ -11,7 +11,10 @@ class ThreadPoolTests
     MockThreadFactory factory_;
     ThreadPool* pool_;
 
+    const unsigned THREADS_TO_CREATE;
+
     ThreadPoolTests()
+      : THREADS_TO_CREATE( 5 )
     {
       create();
     }
@@ -23,7 +26,7 @@ class ThreadPoolTests
 
     void create()
     {
-      pool_ = new ThreadPool( api_, factory_, 5 );
+      pool_ = new ThreadPool( api_, factory_, THREADS_TO_CREATE );
     }
 
     void destroy()
@@ -58,4 +61,9 @@ TEST_F( ThreadPoolTests, DestroysItsConditionVariable )
   ASSERT_EQ( (void*) 0, api_.condDestroy_cond_input_ );
   destroy();
   ASSERT_EQ( api_.condInit_cond_input_, api_.condDestroy_cond_input_ );
+}
+
+TEST_F( ThreadPoolTests, CreatesSpecifiedNumberOfThreads )
+{
+  ASSERT_EQ( THREADS_TO_CREATE, factory_.threadsCreated_ );
 }
