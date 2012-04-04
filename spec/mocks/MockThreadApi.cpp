@@ -5,6 +5,7 @@ MockThreadApi::MockThreadApi()
   : callBackFunctionPassedIn_( 0 )
   , callBackParameterPassedIn_( 0 )
   , createReturnValue_( 0 )
+  , mutexInit_mutex_input_( 0 )
 { }
 
 MockThreadApi::~MockThreadApi()
@@ -28,7 +29,8 @@ long MockThreadApi::pthread_create(
 
 int MockThreadApi::pthread_mutex_init( pthread_mutex_t* mutex, const pthread_mutexattr_t* attributes )
 {
-  throw 0;
+  mutexInit_mutex_input_ = mutex;
+  return 0;
 }
 
 int MockThreadApi::pthread_mutex_destroy( pthread_mutex_t* mutex )

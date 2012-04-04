@@ -11,6 +11,8 @@ class MockThreadApi
     void* callBackParameterPassedIn_;
     long createReturnValue_;
 
+    pthread_mutex_t* mutexInit_mutex_input_;
+
     MockThreadApi();
     virtual ~MockThreadApi();
 
