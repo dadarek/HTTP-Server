@@ -2,7 +2,9 @@
 #define THREAD_POOL_H
 
 #include "ThreadApi.h"
+#include <vector>
 
+class Thread;
 class ThreadFactory;
 
 class ThreadPool
@@ -12,6 +14,7 @@ class ThreadPool
     ThreadFactory& factory_;
 
     unsigned numberOfThreads_;
+    std::vector< Thread* > threads_;
 
     pthread_mutex_t mutex_;
     pthread_cond_t condition_;

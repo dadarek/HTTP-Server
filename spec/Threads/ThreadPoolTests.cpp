@@ -56,7 +56,7 @@ TEST_F( ThreadPoolTests, InitsAValidConditionVariable )
   ASSERT_NE( (void*) 0, api_.condInit_cond_input_ );
 }
 
-TEST_F( ThreadPoolTests, DestroysItsConditionVariable )
+TEST_F( ThreadPoolTests, DestroysItsConditionVariableInDestructor )
 {
   ASSERT_EQ( (void*) 0, api_.condDestroy_cond_input_ );
   destroy();
@@ -68,7 +68,9 @@ TEST_F( ThreadPoolTests, CreatesSpecifiedNumberOfThreads )
   ASSERT_EQ( THREADS_TO_CREATE, factory_.threadsCreated_ );
 }
 
-TEST_F( ThreadPoolTests, DeletesTheThreadsItCreated )
+TEST_F( ThreadPoolTests, DeletesTheThreadsItCreatedInDestructor )
 {
+  ASSERT_EQ( 0U, factory_.threadsDeleted_ );
+  destroy();
   ASSERT_EQ( THREADS_TO_CREATE, factory_.threadsDeleted_ );
 }
