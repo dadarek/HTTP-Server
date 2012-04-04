@@ -16,6 +16,11 @@ class ThreadPoolTests
       create();
     }
 
+    virtual ~ThreadPoolTests()
+    {
+      destroy();
+    }
+
     void create()
     {
       pool_ = new ThreadPool( api_, factory_, 5 );
@@ -23,14 +28,17 @@ class ThreadPoolTests
 
     void destroy()
     {
-      delete pool_;
+      if( pool_ != 0 )
+      {
+        delete pool_;
+        pool_ = 0;
+      }
     }
 };
 
 TEST_F( ThreadPoolTests, InitsAValidMutex )
 {
   ASSERT_NE( (void*) 0, api_.mutexInit_mutex_input_ );
-  destroy();
 }
 
 TEST_F( ThreadPoolTests, DestroysItsMutexInDestructor )
@@ -43,7 +51,6 @@ TEST_F( ThreadPoolTests, DestroysItsMutexInDestructor )
 TEST_F( ThreadPoolTests, InitsAValidConditionVariable )
 {
   ASSERT_NE( (void*) 0, api_.condInit_cond_input_ );
-  destroy();
 }
 
 TEST_F( ThreadPoolTests, DestroysItsConditionVariable )
