@@ -41,26 +41,26 @@ class ThreadPoolTests
 
 TEST_F( ThreadPoolTests, InitsAValidMutex )
 {
-  ASSERT_NE( (void*) 0, api_.mutexInit_mutex_input_ );
+  ASSERT_NE( (void*) 0, api_.in_mutexInit_ );
 }
 
 TEST_F( ThreadPoolTests, DestroysItsMutexInDestructor )
 {
-  ASSERT_EQ( (void*) 0, api_.mutexDestroy_mutex_input_ );
+  ASSERT_EQ( (void*) 0, api_.in_mutexDestroy_ );
   destroy(); 
-  ASSERT_EQ( api_.mutexInit_mutex_input_, api_.mutexDestroy_mutex_input_ );
+  ASSERT_EQ( api_.in_mutexInit_, api_.in_mutexDestroy_ );
 }
 
 TEST_F( ThreadPoolTests, InitsAValidConditionVariable )
 {
-  ASSERT_NE( (void*) 0, api_.condInit_cond_input_ );
+  ASSERT_NE( (void*) 0, api_.in_condInit_ );
 }
 
 TEST_F( ThreadPoolTests, DestroysItsConditionVariableInDestructor )
 {
-  ASSERT_EQ( (void*) 0, api_.condDestroy_cond_input_ );
+  ASSERT_EQ( (void*) 0, api_.in_condDestroy_ );
   destroy();
-  ASSERT_EQ( api_.condInit_cond_input_, api_.condDestroy_cond_input_ );
+  ASSERT_EQ( api_.in_condInit_, api_.in_condDestroy_ );
 }
 
 TEST_F( ThreadPoolTests, CreatesSpecifiedNumberOfThreads )
@@ -74,3 +74,4 @@ TEST_F( ThreadPoolTests, DeletesTheThreadsItCreatedInDestructor )
   destroy();
   ASSERT_EQ( THREADS_TO_CREATE, factory_.threadsDeleted_ );
 }
+

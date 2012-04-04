@@ -5,10 +5,14 @@ MockThreadApi::MockThreadApi()
   : callBackFunctionPassedIn_( 0 )
   , callBackParameterPassedIn_( 0 )
   , createReturnValue_( 0 )
-  , mutexInit_mutex_input_( 0 )
-  , mutexDestroy_mutex_input_( 0 )
-  , condInit_cond_input_( 0 )
-  , condDestroy_cond_input_( 0 )
+  , in_mutexInit_( 0 )
+  , in_mutexDestroy_( 0 )
+  , in_mutexLock_( 0 )
+  , in_mutexUnlock_( 0 )
+  , in_condInit_( 0 )
+  , in_condDestroy_( 0 )
+  , in_condSignal_( 0 )
+  , in_condWait_( 0 )
 { }
 
 MockThreadApi::~MockThreadApi()
@@ -32,13 +36,13 @@ long MockThreadApi::pthread_create(
 
 int MockThreadApi::pthread_mutex_init( pthread_mutex_t* mutex, const pthread_mutexattr_t* attributes )
 {
-  mutexInit_mutex_input_ = mutex;
+  in_mutexInit_ = mutex;
   return 0;
 }
 
 int MockThreadApi::pthread_mutex_destroy( pthread_mutex_t* mutex )
 {
-  mutexDestroy_mutex_input_ = mutex;
+  in_mutexDestroy_ = mutex;
   return 0;
 }
 
@@ -54,13 +58,13 @@ int MockThreadApi::pthread_mutex_unlock( pthread_mutex_t* mutex )
 
 int MockThreadApi::pthread_cond_init( pthread_cond_t* condition, pthread_condattr_t* attributes )
 {
-  condInit_cond_input_ = condition;
+  in_condInit_ = condition;
   return 0;
 }
 
 int MockThreadApi::pthread_cond_destroy( pthread_cond_t* condition )
 {
-  condDestroy_cond_input_ = condition;
+  in_condDestroy_ = condition;
   return 0;
 }
 

@@ -11,11 +11,15 @@ class MockThreadApi
     void* callBackParameterPassedIn_;
     long createReturnValue_;
 
-    pthread_mutex_t* mutexInit_mutex_input_;
-    pthread_mutex_t* mutexDestroy_mutex_input_;
+    pthread_mutex_t* in_mutexInit_;
+    pthread_mutex_t* in_mutexDestroy_;
+    pthread_mutex_t* in_mutexLock_;
+    pthread_mutex_t* in_mutexUnlock_;
 
-    pthread_cond_t* condInit_cond_input_;
-    pthread_cond_t* condDestroy_cond_input_;
+    pthread_cond_t* in_condInit_;
+    pthread_cond_t* in_condDestroy_;
+    pthread_cond_t* in_condSignal_;
+    pthread_cond_t* in_condWait_;
 
     MockThreadApi();
     virtual ~MockThreadApi();
