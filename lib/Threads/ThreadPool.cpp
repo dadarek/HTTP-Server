@@ -3,6 +3,7 @@
 ThreadPool::ThreadPool( ThreadApi& api )
   : api_( api )
 {
+  api_.pthread_mutex_destroy( &mutex_ );
   api_.pthread_mutex_init( &mutex_, 0 );
 }
 

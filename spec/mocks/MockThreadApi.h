@@ -12,6 +12,7 @@ class MockThreadApi
     long createReturnValue_;
 
     pthread_mutex_t* mutexInit_mutex_input_;
+    pthread_mutex_t* mutexDestroy_mutex_input_;
 
     MockThreadApi();
     virtual ~MockThreadApi();
