@@ -48,6 +48,7 @@ void ThreadPool::add( void* )
 void* ThreadPool::remove()
 {
   api_.pthread_mutex_lock( &mutex_ );
+  api_.pthread_mutex_unlock( &mutex_ );
   return 0;
 
 }
