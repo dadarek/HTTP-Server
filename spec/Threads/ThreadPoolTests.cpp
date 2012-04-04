@@ -92,3 +92,9 @@ TEST_F( ThreadPoolTests, SignalsConditionVariableWhenAddingItems )
   pool_->add( 0 );
   ASSERT_EQ( api_.in_condInit_, api_.in_condSignal_ );
 }
+
+TEST_F( ThreadPoolTests, LocksMutexWhenRemovingItems )
+{
+  pool_->remove();
+  ASSERT_EQ( api_.in_mutexInit_, api_.in_mutexLock_ );
+}

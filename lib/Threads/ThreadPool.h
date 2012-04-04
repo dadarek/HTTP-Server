@@ -24,6 +24,7 @@ class ThreadPool
     virtual ~ThreadPool();
 
     void add( void* );
+    void* remove();
 
   private:
     void createThreads();

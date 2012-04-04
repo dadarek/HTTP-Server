@@ -44,3 +44,10 @@ void ThreadPool::add( void* )
   api_.pthread_cond_signal( &condition_ );
   api_.pthread_mutex_unlock( &mutex_ );
 }
+
+void* ThreadPool::remove()
+{
+  api_.pthread_mutex_lock( &mutex_ );
+  return 0;
+
+}
