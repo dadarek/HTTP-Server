@@ -40,6 +40,7 @@ void ThreadPool::deleteThreads()
 
 void ThreadPool::add( void* )
 {
+  api_.pthread_cond_signal( &condition_ );
   api_.pthread_mutex_lock( &mutex_ );
   api_.pthread_mutex_unlock( &mutex_ );
 }
