@@ -3,42 +3,41 @@
 #include "MockThreadApi.h"
 #include "MockThreadFactory.h"
 
-TEST( ThreadPoolTests, InitsAValidMutex )
+class ThreadPoolTests
+  : public ::testing::Test
 {
-  MockThreadApi api;
-  MockThreadFactory factory;
-  ThreadPool pool( api, factory );
+  public:
+    MockThreadApi api_;
+    MockThreadFactory factory_;
+};
 
-  ASSERT_NE( (void*) 0, api.mutexInit_mutex_input_ );
+TEST_F( ThreadPoolTests, InitsAValidMutex )
+{
+  ThreadPool pool( api_, factory_ );
+  ASSERT_NE( (void*) 0, api_.mutexInit_mutex_input_ );
 }
 
-TEST( ThreadPoolTests, DestroysItsMutexInDestructor )
+TEST_F( ThreadPoolTests, DestroysItsMutexInDestructor )
 {
-  MockThreadApi api;
-  MockThreadFactory factory;
   {
-    ThreadPool pool( api, factory );
-    ASSERT_EQ( (void*) 0, api.mutexDestroy_mutex_input_ );
+    ThreadPool pool( api_, factory_ );
+    ASSERT_EQ( (void*) 0, api_.mutexDestroy_mutex_input_ );
   }
 
-  ASSERT_EQ( api.mutexInit_mutex_input_, api.mutexDestroy_mutex_input_ );
+  ASSERT_EQ( api_.mutexInit_mutex_input_, api_.mutexDestroy_mutex_input_ );
 }
 
-TEST( ThreadPoolTests, InitsAValidConditionVariable )
+TEST_F( ThreadPoolTests, InitsAValidConditionVariable )
 {
-  MockThreadApi api;
-  MockThreadFactory factory;
-  ThreadPool pool( api, factory );
-  ASSERT_NE( (void*) 0, api.condInit_cond_input_ );
+  ThreadPool pool( api_, factory_ );
+  ASSERT_NE( (void*) 0, api_.condInit_cond_input_ );
 }
 
-TEST( ThreadPoolTests, DestroysItsConditionVariable )
+TEST_F( ThreadPoolTests, DestroysItsConditionVariable )
 {
-  MockThreadApi api;
-  MockThreadFactory factory;
   {
-    ThreadPool pool( api, factory );
-    ASSERT_EQ( (void*) 0, api.condDestroy_cond_input_ );
+    ThreadPool pool( api_, factory_ );
+    ASSERT_EQ( (void*) 0, api_.condDestroy_cond_input_ );
   }
-  ASSERT_EQ( api.condInit_cond_input_, api.condDestroy_cond_input_ );
+  ASSERT_EQ( api_.condInit_cond_input_, api_.condDestroy_cond_input_ );
 }
