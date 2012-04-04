@@ -33,6 +33,7 @@ TEST( ThreadPoolTests, DestroysItsConditionVariable )
   MockThreadApi api;
   {
     ThreadPool pool( api );
+    ASSERT_EQ( (void*) 0, api.condDestroy_cond_input_ );
   }
   ASSERT_EQ( api.condInit_cond_input_, api.condDestroy_cond_input_ );
 }
