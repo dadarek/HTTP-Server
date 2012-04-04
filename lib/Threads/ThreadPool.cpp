@@ -11,10 +11,7 @@ ThreadPool::ThreadPool( ThreadApi& api, ThreadFactory& factory, unsigned numberO
   api_.pthread_mutex_init( &mutex_, 0 );
   api_.pthread_cond_init( &condition_, 0 );
 
-  for(unsigned i = 0; i < numberOfThreads_; i++ )
-  {
-    threads_[ i ] = factory_.create();
-  }
+  createThreads();
 }
 
 ThreadPool::~ThreadPool()
@@ -22,9 +19,21 @@ ThreadPool::~ThreadPool()
   api_.pthread_mutex_destroy( &mutex_ );
   api_.pthread_cond_destroy( &condition_ );
 
+  deleteThreads();
+}
+
+void ThreadPool::createThreads()
+{
+  for(unsigned i = 0; i < numberOfThreads_; i++ )
+  {
+    threads_[ i ] = factory_.create();
+  }
+}
+
+void ThreadPool::deleteThreads()
+{
   for(unsigned i = 0; i < numberOfThreads_; i++ )
   {
     delete threads_[ i ];
   }
 }
-

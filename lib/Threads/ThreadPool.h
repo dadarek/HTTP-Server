@@ -23,5 +23,9 @@ class ThreadPool
     ThreadPool( ThreadApi& api, ThreadFactory& factory, unsigned numberOfThreads );
     virtual ~ThreadPool();
 
+  private:
+    void createThreads();
+    void deleteThreads();
+
 };
 #endif
