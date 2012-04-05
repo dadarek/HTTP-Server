@@ -7,7 +7,7 @@ class SocketReader;
 class HttpRequestParser;
 class HttpRequestHandlerFactory;
 class HttpResponseWriter;
-class ThreadApi;
+class ThreadPool;
 
 class ThreadedRequestHandler
   : public RequestHandler
@@ -17,10 +17,10 @@ class ThreadedRequestHandler
     HttpRequestParser& parser_;
     HttpRequestHandlerFactory& factory_;
     HttpResponseWriter& writer_;
-    ThreadApi& threadApi_;
+    ThreadPool& threadPool_;
 
   public:
-    ThreadedRequestHandler( SocketReader& socketReader, HttpRequestParser& parser, HttpRequestHandlerFactory& factory, HttpResponseWriter& writer, ThreadApi& threadApi );
+    ThreadedRequestHandler( SocketReader& socketReader, HttpRequestParser& parser, HttpRequestHandlerFactory& factory, HttpResponseWriter& writer, ThreadPool& threadPool );
     virtual ~ThreadedRequestHandler();
 
     void handle( int socketFD );

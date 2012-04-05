@@ -1,13 +1,14 @@
 #include "ThreadedRequestHandler.h"
 #include "HttpConnectionHandlerWorkItem.h"
 #include "SystemSlaveThread.h"
+#include "ThreadPool.h"
 
-ThreadedRequestHandler::ThreadedRequestHandler( SocketReader& socketReader, HttpRequestParser& parser, HttpRequestHandlerFactory& factory, HttpResponseWriter& writer, ThreadApi& threadApi )
+ThreadedRequestHandler::ThreadedRequestHandler( SocketReader& socketReader, HttpRequestParser& parser, HttpRequestHandlerFactory& factory, HttpResponseWriter& writer, ThreadPool& threadPool )
   : socketReader_( socketReader )
   , parser_( parser )
   , factory_( factory )
   , writer_( writer )
-  , threadApi_( threadApi )
+  , threadPool_( threadPool )
 { }
 
 ThreadedRequestHandler::~ThreadedRequestHandler()
@@ -15,9 +16,8 @@ ThreadedRequestHandler::~ThreadedRequestHandler()
 
 void ThreadedRequestHandler::handle( int socketFD )
 {
-//HttpConnectionHandlerWorkItem* runnable = new HttpConnectionHandlerWorkItem( 
- //     socketReader_, parser_, factory_, writer_, socketFD );
+  HttpConnectionHandlerWorkItem* workItem = new HttpConnectionHandlerWorkItem( 
+      socketReader_, parser_, factory_, writer_, socketFD );
 
- // SystemSlaveThread* thread = new SystemSlaveThread( threadApi_ );
- // thread->start( runnable );
+  threadPool_.add( workItem );
 }
