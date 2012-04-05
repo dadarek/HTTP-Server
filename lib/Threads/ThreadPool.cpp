@@ -42,16 +42,16 @@ void ThreadPool::deleteThreads()
 
 void ThreadPool::add( WorkItem* item )
 {
-  workItems_.push( item );
   api_.pthread_mutex_lock( &mutex_ );
   api_.pthread_cond_signal( &condition_ );
+  workItems_.push( item );
   api_.pthread_mutex_unlock( &mutex_ );
 }
 
 WorkItem* ThreadPool::next()
 {
-  api_.pthread_mutex_lock( &mutex_ );
   WorkItem* result = popWorkItem();
+  api_.pthread_mutex_lock( &mutex_ );
   api_.pthread_mutex_unlock( &mutex_ );
 
   return result;
