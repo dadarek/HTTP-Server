@@ -1,6 +1,8 @@
 #include "MockWorkItemQueue.h"
+#include "MockThreadApi.h"
 
-MockWorkItemQueue::MockWorkItemQueue()
+MockWorkItemQueue::MockWorkItemQueue( MockThreadApi& threadApi )
+  : threadApi_( threadApi )
 { }
 
 MockWorkItemQueue::~MockWorkItemQueue()

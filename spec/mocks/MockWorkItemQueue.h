@@ -5,15 +5,17 @@
 #include <queue>
 
 class WorkItem;
+class MockThreadApi;
 
 class MockWorkItemQueue
   : public WorkItemQueue
 {
   private:
     std::queue< WorkItem* > queue_;
+    MockThreadApi& threadApi_;
 
   public:
-    MockWorkItemQueue();
+    MockWorkItemQueue( MockThreadApi& );
     virtual ~MockWorkItemQueue();
 
     void push( WorkItem* );

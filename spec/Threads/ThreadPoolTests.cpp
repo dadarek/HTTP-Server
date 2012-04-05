@@ -17,6 +17,7 @@ class ThreadPoolTests
 
     ThreadPoolTests()
       : THREADS_TO_CREATE( 5 )
+      , queue_( api_ )
     {
       create();
     }
