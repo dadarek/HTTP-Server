@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "ThreadPool.h"
+#include "MockThreadPool.h"
 #include "MockThreadApi.h"
 #include "MockThreadFactory.h"
 
@@ -9,7 +9,7 @@ class ThreadPoolTests
   public:
     MockThreadApi api_;
     MockThreadFactory factory_;
-    ThreadPool* pool_;
+    MockThreadPool* pool_;
 
     const unsigned THREADS_TO_CREATE;
 
@@ -26,7 +26,7 @@ class ThreadPoolTests
 
     void create()
     {
-      pool_ = new ThreadPool( api_, factory_, THREADS_TO_CREATE );
+      pool_ = new MockThreadPool( api_, factory_, THREADS_TO_CREATE );
     }
 
     void destroy()
