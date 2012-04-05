@@ -11,6 +11,7 @@ class MockSlaveThread
   public:
     MockSlaveThreadFactory* factory_;
     bool goCalled_;
+    bool startCalled_;
 
     MockSlaveThread();
     MockSlaveThread( MockSlaveThreadFactory* factory );

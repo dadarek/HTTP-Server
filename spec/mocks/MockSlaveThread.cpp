@@ -4,6 +4,7 @@
 MockSlaveThread::MockSlaveThread()
   : factory_( 0 )
   , goCalled_( false )
+  , startCalled_( false )
 { }
 
 MockSlaveThread::MockSlaveThread( MockSlaveThreadFactory* factory )
@@ -24,6 +25,8 @@ void MockSlaveThread::go()
 
 void MockSlaveThread::start( MasterThread& )
 {
-  throw 0;
+  if( 0 != factory_ )
+    factory_->threadsStarted_++;
+  startCalled_ = true;
 }
 

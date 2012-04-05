@@ -14,6 +14,7 @@ ThreadPool::ThreadPool( ThreadApi& api, SlaveThreadFactory& factory, WorkItemQue
   api_.pthread_cond_init( &condition_, 0 );
 
   createThreads();
+  startThreads();
 }
 
 ThreadPool::~ThreadPool()
@@ -27,17 +28,19 @@ ThreadPool::~ThreadPool()
 void ThreadPool::createThreads()
 {
   for(unsigned i = 0; i < numberOfThreads_; i++ )
-  {
     threads_[ i ] = factory_.create();
-  }
+}
+
+void ThreadPool::startThreads()
+{
+  for(unsigned i = 0; i < numberOfThreads_; i++ )
+    threads_[ i ]->start( *this );
 }
 
 void ThreadPool::deleteThreads()
 {
   for(unsigned i = 0; i < numberOfThreads_; i++ )
-  {
     delete threads_[ i ];
-  }
 }
 
 void ThreadPool::add( WorkItem* item )

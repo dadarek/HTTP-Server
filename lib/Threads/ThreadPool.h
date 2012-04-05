@@ -35,6 +35,7 @@ class ThreadPool
   private:
     void createThreads();
     void deleteThreads();
+    void startThreads();
 
     WorkItem* getWorkItem();
 };

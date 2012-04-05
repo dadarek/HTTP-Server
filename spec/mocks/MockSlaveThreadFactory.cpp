@@ -4,6 +4,7 @@
 MockSlaveThreadFactory::MockSlaveThreadFactory()
   : threadsCreated_( 0 )
   , threadsDeleted_( 0 )
+  , threadsStarted_( 0 )
 { }
 
 MockSlaveThreadFactory::~MockSlaveThreadFactory()
