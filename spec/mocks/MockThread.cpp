@@ -1,12 +1,12 @@
 #include "MockThread.h"
-#include "MockThreadFactory.h"
+#include "MockSlaveThreadFactory.h"
 
 MockThread::MockThread()
   : factory_( 0 )
   , goCalled_( false )
 { }
 
-MockThread::MockThread( MockThreadFactory* factory )
+MockThread::MockThread( MockSlaveThreadFactory* factory )
   : factory_( factory )
   , goCalled_( false )
 { }

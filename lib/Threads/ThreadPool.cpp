@@ -1,9 +1,9 @@
 #include "ThreadPool.h"
-#include "ThreadFactory.h"
+#include "SlaveThreadFactory.h"
 #include "SlaveThread.h"
 #include "WorkItemQueue.h"
 
-ThreadPool::ThreadPool( ThreadApi& api, ThreadFactory& factory, WorkItemQueue& workItems, unsigned numberOfThreads )
+ThreadPool::ThreadPool( ThreadApi& api, SlaveThreadFactory& factory, WorkItemQueue& workItems, unsigned numberOfThreads )
   : api_( api )
   , factory_( factory )
   , workItems_( workItems )

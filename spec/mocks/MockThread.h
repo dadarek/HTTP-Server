@@ -3,17 +3,17 @@
 
 #include "SlaveThread.h"
 
-class MockThreadFactory;
+class MockSlaveThreadFactory;
 
 class MockThread
   : public SlaveThread
 {
   public:
-    MockThreadFactory* factory_;
+    MockSlaveThreadFactory* factory_;
     bool goCalled_;
 
     MockThread();
-    MockThread( MockThreadFactory* factory );
+    MockThread( MockSlaveThreadFactory* factory );
     virtual ~MockThread();
 
     void go();

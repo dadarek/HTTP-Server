@@ -1,17 +1,17 @@
 #ifndef MOCK_THREAD_FACTORY_H
 #define MOCK_THREAD_FACTORY_H
 
-#include "ThreadFactory.h"
+#include "SlaveThreadFactory.h"
 
-class MockThreadFactory
-  : public ThreadFactory
+class MockSlaveThreadFactory
+  : public SlaveThreadFactory
 {
   public:
     unsigned threadsCreated_;
     unsigned threadsDeleted_;
 
-    MockThreadFactory();
-    virtual ~MockThreadFactory();
+    MockSlaveThreadFactory();
+    virtual ~MockSlaveThreadFactory();
 
     SlaveThread* create();
 };

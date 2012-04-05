@@ -3,10 +3,10 @@
 
 class SlaveThread;
 
-class ThreadFactory
+class SlaveThreadFactory
 {
   public:
-    virtual ~ThreadFactory(){ }
+    virtual ~SlaveThreadFactory(){ }
 
     virtual SlaveThread* create() = 0;
 };

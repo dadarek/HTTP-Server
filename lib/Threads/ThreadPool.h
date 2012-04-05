@@ -6,7 +6,7 @@
 #include <vector>
 
 class SlaveThread;
-class ThreadFactory;
+class SlaveThreadFactory;
 class WorkItemQueue;
 
 class ThreadPool
@@ -14,7 +14,7 @@ class ThreadPool
 {
   private:
     ThreadApi& api_;
-    ThreadFactory& factory_;
+    SlaveThreadFactory& factory_;
 
     WorkItemQueue& workItems_;
 
@@ -26,7 +26,7 @@ class ThreadPool
     pthread_cond_t condition_;
 
   public:
-    ThreadPool( ThreadApi& api, ThreadFactory& factory, WorkItemQueue& workItem, unsigned numberOfThreads );
+    ThreadPool( ThreadApi& api, SlaveThreadFactory& factory, WorkItemQueue& workItem, unsigned numberOfThreads );
     virtual ~ThreadPool();
 
     void add( WorkItem* );

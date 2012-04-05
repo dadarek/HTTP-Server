@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 #include "ThreadPool.h"
 #include "MockThreadApi.h"
-#include "MockThreadFactory.h"
+#include "MockSlaveThreadFactory.h"
 #include "MockWorkItemQueue.h"
 
 class ThreadPoolTests
@@ -9,7 +9,7 @@ class ThreadPoolTests
 {
   public:
     MockThreadApi api_;
-    MockThreadFactory factory_;
+    MockSlaveThreadFactory factory_;
     MockWorkItemQueue queue_;
     ThreadPool* pool_;
 
