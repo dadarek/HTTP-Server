@@ -45,6 +45,3 @@
 
 - cleanup HttpRequestParserImpl
 
-- does anyone use the MockThread?
-
-- delete MockWorkItem if nobody uses it.
