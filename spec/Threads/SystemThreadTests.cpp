@@ -57,7 +57,7 @@ TEST_F( SystemThreadTests, RunsWorkItemFromMaster )
   EXPECT_EQ( true, executed );
 }
 
-TEST_F( SystemThreadTests, DeletesRunnableAfterRun )
+TEST_F( SystemThreadTests, DeletesWorkItemAfterRun )
 {
   bool deleted = false;
   workItem_->deleted_ = &deleted;

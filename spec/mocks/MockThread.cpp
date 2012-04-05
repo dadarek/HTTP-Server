@@ -22,11 +22,6 @@ void MockThread::go()
   goCalled_ = true;
 }
 
-void MockThread::start( Runnable* )
-{
-  throw 0;
-}
-
 void MockThread::start( MasterThread& )
 {
   throw 0;

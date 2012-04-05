@@ -2,7 +2,6 @@
 #define THREAD_H
 
 class MasterThread;
-class Runnable;
 
 class Thread
 {
@@ -10,7 +9,6 @@ class Thread
     virtual ~Thread() { }
 
     virtual void start( MasterThread& ) = 0;
-    virtual void start( Runnable* runnable ) = 0;
     virtual void go() = 0;
 };
 

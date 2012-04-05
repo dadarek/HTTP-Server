@@ -4,7 +4,6 @@
 #include "Thread.h"
 
 class ThreadApi;
-class Runnable;
 
 class SystemThread
   : public Thread
@@ -12,7 +11,6 @@ class SystemThread
   private:
     MasterThread* master_;
     ThreadApi& threadApi_;
-    Runnable* runnable_;
 
 
   public:
@@ -20,7 +18,6 @@ class SystemThread
     virtual ~SystemThread();
 
     void start( MasterThread& );
-    void start( Runnable* runnable );
     void go();
 };
 #endif

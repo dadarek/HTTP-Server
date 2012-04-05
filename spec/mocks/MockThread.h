@@ -17,7 +17,6 @@ class MockThread
     virtual ~MockThread();
 
     void go();
-    void start( Runnable* runnable );
     void start( MasterThread& );
 };
 

@@ -1,5 +1,5 @@
 #include "ThreadedRequestHandler.h"
-#include "RunnableHttpConnectionHandler.h"
+#include "HttpConnectionHandlerWorkItem.h"
 #include "SystemThread.h"
 
 ThreadedRequestHandler::ThreadedRequestHandler( SocketReader& socketReader, HttpRequestParser& parser, HttpRequestHandlerFactory& factory, HttpResponseWriter& writer, ThreadApi& threadApi )
@@ -15,9 +15,9 @@ ThreadedRequestHandler::~ThreadedRequestHandler()
 
 void ThreadedRequestHandler::handle( int socketFD )
 {
-  RunnableHttpConnectionHandler* runnable = new RunnableHttpConnectionHandler( 
-      socketReader_, parser_, factory_, writer_, socketFD );
+//HttpConnectionHandlerWorkItem* runnable = new HttpConnectionHandlerWorkItem( 
+ //     socketReader_, parser_, factory_, writer_, socketFD );
 
-  SystemThread* thread = new SystemThread( threadApi_ );
-  thread->start( runnable );
+ // SystemThread* thread = new SystemThread( threadApi_ );
+ // thread->start( runnable );
 }
