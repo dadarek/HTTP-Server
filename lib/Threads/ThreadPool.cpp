@@ -49,9 +49,9 @@ void ThreadPool::add( WorkItem* item )
 WorkItem* ThreadPool::next()
 {
   api_.pthread_mutex_lock( &mutex_ );
+  WorkItem* result = popWorkItem();
   api_.pthread_mutex_unlock( &mutex_ );
 
-  WorkItem* result = popWorkItem();
   return result;
 }
 
