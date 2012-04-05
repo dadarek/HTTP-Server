@@ -7,6 +7,8 @@ class MockMasterThread
   : public MasterThread
 {
   public:
+    WorkItem* workItem_;
+
     MockMasterThread();
     virtual ~MockMasterThread();
 

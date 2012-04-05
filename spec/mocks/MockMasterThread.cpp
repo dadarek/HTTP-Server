@@ -1,6 +1,7 @@
 #include "MockMasterThread.h"
 
 MockMasterThread::MockMasterThread()
+  : workItem_( 0 )
 { }
 
 MockMasterThread::~MockMasterThread()
@@ -8,5 +9,5 @@ MockMasterThread::~MockMasterThread()
 
 WorkItem* MockMasterThread::next()
 {
-  throw 0;
+  return workItem_;
 }

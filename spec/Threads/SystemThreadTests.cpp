@@ -3,29 +3,28 @@
 #include "SystemThread.h"
 #include "ThreadLauncher.h"
 #include "ThreadStartException.h"
-#include "MockRunnable.h"
 #include "MockMasterThread.h"
+#include "MockWorkItem.h"
 
 class SystemThreadTests
   : public ::testing::Test
 {
   public:
-    MockRunnableInspector inspector_;
-    MockRunnable* runnable_;
     MockThreadApi threadApi_;
-    SystemThread thread_;
     MockMasterThread master_;
+    MockWorkItem* workItem_;
+    SystemThread thread_;
     
     SystemThreadTests()
-      : inspector_()
-      , runnable_( new MockRunnable( inspector_ ) )
-      , threadApi_()
-      , thread_( threadApi_ )
+      : threadApi_()
       , master_()
+      , workItem_( new MockWorkItem() )
+      , thread_( threadApi_ )
     { }
 
     void start()
     {
+      master_.workItem_ = workItem_;
       thread_.start( master_ );
     }
 };
@@ -50,14 +49,18 @@ TEST_F( SystemThreadTests, ThrowsExceptionIf_pthread_create_returnsError )
   EXPECT_THROW( start(), ThreadStartException );
 }
 
-TEST_F( SystemThreadTests, PollsMasterThread )
+TEST_F( SystemThreadTests, RunsWorkItemFromMaster )
 {
+  bool executed = false;
+  workItem_->executed_ = &executed;
   start();
-  EXPECT_EQ( true, inspector_.ran );
+  EXPECT_EQ( true, executed );
 }
 
 TEST_F( SystemThreadTests, DeletesRunnableAfterRun )
 {
+  bool deleted = false;
+  workItem_->deleted_ = &deleted;
   start();
-  EXPECT_EQ( true, inspector_.deleted );
+  EXPECT_EQ( true, deleted );
 }
