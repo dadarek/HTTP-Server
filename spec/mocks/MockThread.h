@@ -1,12 +1,12 @@
 #ifndef MOCK_THREAD_H
 #define MOCK_THREAD_H
 
-#include "Thread.h"
+#include "SlaveThread.h"
 
 class MockThreadFactory;
 
 class MockThread
-  : public Thread
+  : public SlaveThread
 {
   public:
     MockThreadFactory* factory_;

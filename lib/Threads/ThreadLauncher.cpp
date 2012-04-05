@@ -1,9 +1,9 @@
 #include "ThreadLauncher.h"
-#include "Thread.h"
+#include "SlaveThread.h"
 
 #include <iostream>
 void* ThreadLauncher::launch( void* thread )
 {
-  ( (Thread*) thread )->go();
+  ( (SlaveThread*) thread )->go();
   return 0;
 }

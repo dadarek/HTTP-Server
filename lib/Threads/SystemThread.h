@@ -1,12 +1,12 @@
 #ifndef SYSTEM_THREAD_H
 #define SYSTEM_THREAD_H
 
-#include "Thread.h"
+#include "SlaveThread.h"
 
 class ThreadApi;
 
 class SystemThread
-  : public Thread
+  : public SlaveThread
 {
   private:
     MasterThread* master_;

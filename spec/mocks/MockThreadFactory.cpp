@@ -9,7 +9,7 @@ MockThreadFactory::MockThreadFactory()
 MockThreadFactory::~MockThreadFactory()
 { }
 
-Thread* MockThreadFactory::create()
+SlaveThread* MockThreadFactory::create()
 {
   threadsCreated_++;
   return new MockThread( this );

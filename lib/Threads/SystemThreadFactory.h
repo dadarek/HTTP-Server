@@ -15,7 +15,7 @@ class SystemThreadFactory
     SystemThreadFactory( ThreadApi& api );
     virtual ~SystemThreadFactory();
 
-    Thread* create();
+    SlaveThread* create();
 };
 
 #endif

@@ -13,7 +13,7 @@ class MockThreadFactory
     MockThreadFactory();
     virtual ~MockThreadFactory();
 
-    Thread* create();
+    SlaveThread* create();
 };
 
 #endif

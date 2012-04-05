@@ -5,7 +5,7 @@
 #include "ThreadApi.h"
 #include <vector>
 
-class Thread;
+class SlaveThread;
 class ThreadFactory;
 class WorkItemQueue;
 
@@ -19,7 +19,7 @@ class ThreadPool
     WorkItemQueue& workItems_;
 
     unsigned numberOfThreads_;
-    std::vector< Thread* > threads_;
+    std::vector< SlaveThread* > threads_;
 
 
     pthread_mutex_t mutex_;

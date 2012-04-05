@@ -8,7 +8,7 @@ SystemThreadFactory::SystemThreadFactory( ThreadApi& api )
 SystemThreadFactory::~SystemThreadFactory()
 { }
 
-Thread* SystemThreadFactory::create()
+SlaveThread* SystemThreadFactory::create()
 {
   return new SystemThread( api_ );
 }

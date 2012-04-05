@@ -1,6 +1,6 @@
 #include "ThreadPool.h"
 #include "ThreadFactory.h"
-#include "Thread.h"
+#include "SlaveThread.h"
 #include "WorkItemQueue.h"
 
 ThreadPool::ThreadPool( ThreadApi& api, ThreadFactory& factory, WorkItemQueue& workItems, unsigned numberOfThreads )

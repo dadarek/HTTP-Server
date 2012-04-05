@@ -1,5 +1,4 @@
 #include "MockThreadApi.h"
-#include "Thread.h"
 #include <stdexcept>
 
 MockThreadApi::MockThreadApi()
