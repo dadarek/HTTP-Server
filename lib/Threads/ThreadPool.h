@@ -4,10 +4,10 @@
 #include "MasterThread.h"
 #include "ThreadApi.h"
 #include <vector>
-#include <queue>
 
 class Thread;
 class ThreadFactory;
+class WorkItemQueue;
 
 class ThreadPool
   : public MasterThread
@@ -16,16 +16,17 @@ class ThreadPool
     ThreadApi& api_;
     ThreadFactory& factory_;
 
+    WorkItemQueue& workItems_;
+
     unsigned numberOfThreads_;
     std::vector< Thread* > threads_;
+
 
     pthread_mutex_t mutex_;
     pthread_cond_t condition_;
 
-    std::queue< WorkItem* > workItems_;
-
   public:
-    ThreadPool( ThreadApi& api, ThreadFactory& factory, unsigned numberOfThreads );
+    ThreadPool( ThreadApi& api, ThreadFactory& factory, WorkItemQueue& workItem, unsigned numberOfThreads );
     virtual ~ThreadPool();
 
     void add( WorkItem* );

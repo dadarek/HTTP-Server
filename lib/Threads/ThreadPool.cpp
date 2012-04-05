@@ -1,10 +1,12 @@
 #include "ThreadPool.h"
 #include "ThreadFactory.h"
 #include "Thread.h"
+#include "WorkItemQueue.h"
 
-ThreadPool::ThreadPool( ThreadApi& api, ThreadFactory& factory, unsigned numberOfThreads )
+ThreadPool::ThreadPool( ThreadApi& api, ThreadFactory& factory, WorkItemQueue& workItems, unsigned numberOfThreads )
   : api_( api )
   , factory_( factory )
+  , workItems_( workItems )
   , numberOfThreads_( numberOfThreads )
   , threads_( numberOfThreads_ )
 {

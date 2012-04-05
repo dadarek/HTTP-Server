@@ -2,6 +2,7 @@
 #include "ThreadPool.h"
 #include "MockThreadApi.h"
 #include "MockThreadFactory.h"
+#include "MockWorkItemQueue.h"
 
 class ThreadPoolTests
   : public ::testing::Test
@@ -9,6 +10,7 @@ class ThreadPoolTests
   public:
     MockThreadApi api_;
     MockThreadFactory factory_;
+    MockWorkItemQueue queue_;
     ThreadPool* pool_;
 
     const unsigned THREADS_TO_CREATE;
@@ -26,7 +28,7 @@ class ThreadPoolTests
 
     void create()
     {
-      pool_ = new ThreadPool( api_, factory_, THREADS_TO_CREATE );
+      pool_ = new ThreadPool( api_, factory_, queue_, THREADS_TO_CREATE );
     }
 
     void destroy()
