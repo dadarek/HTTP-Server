@@ -50,19 +50,20 @@ void ThreadPool::add( WorkItem* item )
 
 WorkItem* ThreadPool::next()
 {
-
-  WorkItem* result = 0;
-
   api_.pthread_mutex_lock( &mutex_ );
-
-  if( !workItems_.empty() )
-  {
-    result = workItems_.front();
-    workItems_.pop();
-  }
-
+  WorkItem* result = getWorkItem();
   api_.pthread_mutex_unlock( &mutex_ );
 
   return result;
 }
 
+WorkItem* ThreadPool::getWorkItem()
+{
+  WorkItem* result = 0;
+  if( !workItems_.empty() )
+  {
+    result = workItems_.front();
+    workItems_.pop();
+  }
+  return result;
+}
