@@ -25,7 +25,13 @@ class SystemSlaveThreadTests
     void start()
     {
       master_.workItem_ = workItem_;
-      thread_.start( master_ );
+      try
+      {
+        thread_.start( master_ );
+      }
+      catch( MockMasterThreadStopException& e )
+      { 
+      }
     }
 };
 
@@ -63,4 +69,12 @@ TEST_F( SystemSlaveThreadTests, DeletesWorkItemAfterRun )
   workItem_->deleted_ = &deleted;
   start();
   EXPECT_EQ( true, deleted );
+}
+
+TEST_F( SystemSlaveThreadTests, PollsMasterIndefinitely )
+{
+  master_.returnDummies_ = true;
+  master_.throwAfter_ = 5;
+  start();
+  EXPECT_EQ( 5U, master_.timesNextCalled_ );
 }

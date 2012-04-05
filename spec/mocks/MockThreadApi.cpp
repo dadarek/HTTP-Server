@@ -28,12 +28,16 @@ long MockThreadApi::pthread_create(
         void* callbackParameter
     )
 {
-  callBackFunctionPassedIn_ = callbackFunction;
-  callBackParameterPassedIn_ = callbackParameter;
+  if( 0 == createReturnValue_ )
+  {
+    callBackFunctionPassedIn_ = callbackFunction;
+    callBackParameterPassedIn_ = callbackParameter;
 
-  (*threadId) = (pthread_t) 50;
+    (*threadId) = (pthread_t) 50;
 
-  (*callbackFunction) ( callbackParameter );
+    (*callbackFunction) ( callbackParameter );
+  }
+
   return createReturnValue_;
 }
 

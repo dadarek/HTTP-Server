@@ -1,5 +1,6 @@
 #include "MockWorkItem.h"
 
+#include <iostream>
 MockWorkItem::MockWorkItem()
   : executed_( 0 )
   , deleted_( 0 )

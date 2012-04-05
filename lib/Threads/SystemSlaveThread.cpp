@@ -15,9 +15,12 @@ SystemSlaveThread::~SystemSlaveThread()
 
 void SystemSlaveThread::go()
 {
-  WorkItem* work = master_->next();
-  work->execute();
-  delete work;
+  for(;;)
+  {
+    WorkItem* work = master_->next();
+    work->execute();
+    delete work;
+  }
 }
 
 void SystemSlaveThread::start( MasterThread& master )
@@ -26,6 +29,7 @@ void SystemSlaveThread::start( MasterThread& master )
 
   pthread_t identifier;
   long result = threadApi_.pthread_create( &identifier, 0, ThreadLauncher::launch, this );
+
   if( 0 != result )
     throw ThreadStartException();
 }
