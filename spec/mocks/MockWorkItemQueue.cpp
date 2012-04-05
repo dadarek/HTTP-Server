@@ -30,10 +30,16 @@ void MockWorkItemQueue::pop()
 
 WorkItem* MockWorkItemQueue::front()
 {
+  if( !threadApi_.isLocked_ )
+    throw std::runtime_error( "Cannot call front without locking." );
+
   return queue_.front();
 }
 
 bool MockWorkItemQueue::empty()
 {
+  if( !threadApi_.isLocked_ )
+    throw std::runtime_error( "Cannot call empty without locking." );
+
   return queue_.empty();
 }

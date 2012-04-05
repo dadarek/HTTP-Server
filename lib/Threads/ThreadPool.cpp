@@ -63,10 +63,6 @@ WorkItem* ThreadPool::next()
 
   api_.pthread_mutex_unlock( &mutex_ );
 
-  if( !workItems_.empty() )
-  {
-  }
-
   return result;
 }
 
