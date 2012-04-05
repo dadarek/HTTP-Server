@@ -7,4 +7,8 @@ MockThreadPool::MockThreadPool( ThreadApi& api, ThreadFactory& factory, unsigned
 MockThreadPool::~MockThreadPool()
 { }
 
+WorkItem* MockThreadPool::popWorkItem()
+{
+  return ThreadPool::popWorkItem();
+}
 

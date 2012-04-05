@@ -9,6 +9,9 @@ class MockThreadPool
   public:
     MockThreadPool( ThreadApi& api, ThreadFactory& factory, unsigned numberOfThreads );
     virtual ~MockThreadPool();
+
+  protected:
+    WorkItem* popWorkItem();
 };
 
 #endif
