@@ -4,6 +4,7 @@
 #include "MasterThread.h"
 #include "ThreadApi.h"
 #include <vector>
+#include <queue>
 
 class Thread;
 class ThreadFactory;
@@ -21,7 +22,7 @@ class ThreadPool
     pthread_mutex_t mutex_;
     pthread_cond_t condition_;
 
-    WorkItem* item_;
+    std::queue< WorkItem* > workItems_;
 
   public:
     ThreadPool( ThreadApi& api, ThreadFactory& factory, unsigned numberOfThreads );

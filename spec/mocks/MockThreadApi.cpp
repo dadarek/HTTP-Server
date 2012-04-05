@@ -6,6 +6,7 @@ MockThreadApi::MockThreadApi()
   : callBackFunctionPassedIn_( 0 )
   , callBackParameterPassedIn_( 0 )
   , createReturnValue_( 0 )
+  , isLocked_( false )
   , in_mutexInit_( 0 )
   , in_mutexDestroy_( 0 )
   , in_mutexLock_( 0 )
@@ -49,15 +50,20 @@ int MockThreadApi::pthread_mutex_destroy( pthread_mutex_t* mutex )
 
 int MockThreadApi::pthread_mutex_lock( pthread_mutex_t* mutex )
 {
+  if( isLocked_ )
+    throw std::runtime_error( "Can't lock an already locked mutex." );
+
+  isLocked_ = true;
   in_mutexLock_ = mutex;
   return 0;
 }
 
 int MockThreadApi::pthread_mutex_unlock( pthread_mutex_t* mutex )
 {
-  if( 0 == in_mutexLock_ )
+  if( !isLocked_ )
     throw std::runtime_error( "Can't unlock a mutex that wasn't locked." );
 
+  isLocked_ = false;
   in_mutexUnlock_ = mutex;
   return 0;
 }
@@ -81,11 +87,8 @@ int MockThreadApi::pthread_cond_wait( pthread_cond_t* condition, pthread_mutex_t
 
 int MockThreadApi::pthread_cond_signal( pthread_cond_t* condition )
 {
-  if( 0 == in_mutexLock_ )
+  if( !isLocked_ )
     throw std::runtime_error( "Can't signal a condition without locking a mutex.");
-
-  if( 0 != in_mutexUnlock_ )
-    throw std::runtime_error( "Can't signal a condition after unlocking a mutex.");
 
   in_condSignal_ = condition;
   return 0;

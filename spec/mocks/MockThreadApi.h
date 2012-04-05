@@ -11,6 +11,8 @@ class MockThreadApi
     void* callBackParameterPassedIn_;
     long createReturnValue_;
 
+    bool isLocked_;
+
     pthread_mutex_t* in_mutexInit_;
     pthread_mutex_t* in_mutexDestroy_;
     pthread_mutex_t* in_mutexLock_;
