@@ -45,14 +45,9 @@ void ThreadPool::add( WorkItem* )
   api_.pthread_mutex_unlock( &mutex_ );
 }
 
-void* ThreadPool::remove()
+WorkItem* ThreadPool::next()
 {
   api_.pthread_mutex_lock( &mutex_ );
   api_.pthread_mutex_unlock( &mutex_ );
   return 0;
-}
-
-WorkItem* ThreadPool::next()
-{
-  throw 0;
 }

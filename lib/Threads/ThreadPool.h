@@ -26,8 +26,6 @@ class ThreadPool
     virtual ~ThreadPool();
 
     void add( WorkItem* );
-    void* remove();
-
     WorkItem* next();
 
   private:
