@@ -38,8 +38,9 @@ void ThreadPool::deleteThreads()
   }
 }
 
-void ThreadPool::add( WorkItem* )
+void ThreadPool::add( WorkItem* item )
 {
+  item_ = item;
   api_.pthread_mutex_lock( &mutex_ );
   api_.pthread_cond_signal( &condition_ );
   api_.pthread_mutex_unlock( &mutex_ );
@@ -49,5 +50,5 @@ WorkItem* ThreadPool::next()
 {
   api_.pthread_mutex_lock( &mutex_ );
   api_.pthread_mutex_unlock( &mutex_ );
-  return 0;
+  return item_;
 }

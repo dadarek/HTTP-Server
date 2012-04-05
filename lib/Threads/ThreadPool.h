@@ -21,6 +21,8 @@ class ThreadPool
     pthread_mutex_t mutex_;
     pthread_cond_t condition_;
 
+    WorkItem* item_;
+
   public:
     ThreadPool( ThreadApi& api, ThreadFactory& factory, unsigned numberOfThreads );
     virtual ~ThreadPool();

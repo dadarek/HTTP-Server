@@ -104,3 +104,11 @@ TEST_F( ThreadPoolTests, UnlocksMutexWhenRemovingItems )
   pool_->next();
   ASSERT_EQ( api_.in_mutexInit_, api_.in_mutexUnlock_ );
 }
+
+TEST_F( ThreadPoolTests, ReturnsItemsThatItReceives )
+{
+  WorkItem* expected = (WorkItem*) 55;
+  pool_->add( expected );
+  WorkItem* actual = pool_->next();
+  ASSERT_EQ( expected, actual );
+}
