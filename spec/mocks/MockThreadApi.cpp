@@ -16,6 +16,7 @@ MockThreadApi::MockThreadApi()
   , in_condDestroy_( 0 )
   , in_condSignal_( 0 )
   , in_condWait_( 0 )
+  , times_condWait_called_( 0 )
 { }
 
 MockThreadApi::~MockThreadApi()
@@ -85,6 +86,7 @@ int MockThreadApi::pthread_cond_wait( pthread_cond_t* condition, pthread_mutex_t
 {
   in_condWait_ = condition;
   in_condWait_mutex_ = mutex;
+  times_condWait_called_++;
   return 0;
 }
 

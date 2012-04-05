@@ -15,6 +15,10 @@ class MockWorkItemQueue
     MockThreadApi& threadApi_;
 
   public:
+    unsigned addFakeItemAfterNCalls_;
+    unsigned times_empty_called_;
+
+  public:
     MockWorkItemQueue( MockThreadApi& );
     virtual ~MockWorkItemQueue();
 

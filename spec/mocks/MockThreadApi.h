@@ -25,6 +25,8 @@ class MockThreadApi
     pthread_cond_t* in_condWait_;
     pthread_mutex_t* in_condWait_mutex_;
 
+    unsigned times_condWait_called_;
+
     MockThreadApi();
     virtual ~MockThreadApi();
 

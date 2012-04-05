@@ -4,6 +4,8 @@
 
 MockWorkItemQueue::MockWorkItemQueue( MockThreadApi& threadApi )
   : threadApi_( threadApi )
+  , addFakeItemAfterNCalls_( 0 )
+  , times_empty_called_( 0 )
 { }
 
 MockWorkItemQueue::~MockWorkItemQueue()
@@ -40,6 +42,11 @@ bool MockWorkItemQueue::empty()
 {
   if( !threadApi_.isLocked_ )
     throw std::runtime_error( "Cannot call empty without locking." );
+
+  if( times_empty_called_ == addFakeItemAfterNCalls_ )
+    queue_.push( (WorkItem*) 77 );
+
+  times_empty_called_ ++;
 
   return queue_.empty();
 }

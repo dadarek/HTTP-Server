@@ -59,15 +59,13 @@ WorkItem* ThreadPool::next()
 
 WorkItem* ThreadPool::getWorkItem()
 {
-  WorkItem* result = 0;
-  if( !workItems_.empty() )
-  {
-    result = workItems_.front();
-    workItems_.pop();
-  }
-  else
+  while( workItems_.empty() )
   {
     api_.pthread_cond_wait( &condition_, &mutex_ );
   }
+
+  WorkItem* result = workItems_.front();
+  workItems_.pop();
+
   return result;
 }

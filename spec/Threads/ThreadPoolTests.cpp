@@ -98,12 +98,14 @@ TEST_F( ThreadPoolTests, SignalsConditionVariableWhenAddingItems )
 
 TEST_F( ThreadPoolTests, LocksMutexWhenRemovingItems )
 {
+  pool_->add( (WorkItem*) 77 );
   pool_->next();
   ASSERT_EQ( api_.in_mutexInit_, api_.in_mutexLock_ );
 }
 
 TEST_F( ThreadPoolTests, UnlocksMutexWhenRemovingItems )
 {
+  pool_->add( (WorkItem*) 77 );
   pool_->next();
   ASSERT_EQ( api_.in_mutexInit_, api_.in_mutexUnlock_ );
 }
@@ -118,12 +120,14 @@ TEST_F( ThreadPoolTests, RemembersWorkItems )
 
 TEST_F( ThreadPoolTests, WaitsOnConditionVariableIfQueueIsEmpty )
 {
+  queue_.addFakeItemAfterNCalls_ = 1;
   pool_->next();
   ASSERT_EQ( api_.in_condInit_, api_.in_condWait_ );
 }
 
 TEST_F( ThreadPoolTests, WaitsOnConditionVariableWithCorrectMutex )
 {
+  queue_.addFakeItemAfterNCalls_ = 1;
   pool_->next();
   ASSERT_EQ( api_.in_mutexInit_, api_.in_condWait_mutex_ );
 }
@@ -134,3 +138,11 @@ TEST_F( ThreadPoolTests, DoesNotWaitOnConditionVariableIfQueueIsEmpty )
   pool_->next();
   ASSERT_EQ( (void*) 0, api_.in_condWait_ );
 }
+
+TEST_F( ThreadPoolTests, WaitsOnConditionUntilNewWorkItemsAreAdded )
+{
+  queue_.addFakeItemAfterNCalls_ = 4;
+  pool_->next();
+  ASSERT_EQ( 4U, api_.times_condWait_called_ );
+}
+
