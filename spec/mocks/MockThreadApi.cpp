@@ -83,7 +83,8 @@ int MockThreadApi::pthread_cond_destroy( pthread_cond_t* condition )
 
 int MockThreadApi::pthread_cond_wait( pthread_cond_t* condition, pthread_mutex_t* mutex )
 {
-  throw 0;
+  in_condWait_ = condition;
+  return 0;
 }
 
 int MockThreadApi::pthread_cond_signal( pthread_cond_t* condition )

@@ -116,3 +116,8 @@ TEST_F( ThreadPoolTests, RemembersWorkItems )
   ASSERT_EQ( expected, actual );
 }
 
+TEST_F( ThreadPoolTests, WaitsOnConditionVariableIfQueueIsEmpty )
+{
+  pool_->next();
+  ASSERT_EQ( api_.in_condInit_, api_.in_condWait_ );
+}
