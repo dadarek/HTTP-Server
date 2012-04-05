@@ -1,5 +1,5 @@
 #include "SystemSlaveThreadFactory.h"
-#include "SystemThread.h"
+#include "SystemSlaveThread.h"
 
 SystemSlaveThreadFactory::SystemSlaveThreadFactory( ThreadApi& api )
   : api_( api )
@@ -10,5 +10,5 @@ SystemSlaveThreadFactory::~SystemSlaveThreadFactory()
 
 SlaveThread* SystemSlaveThreadFactory::create()
 {
-  return new SystemThread( api_ );
+  return new SystemSlaveThread( api_ );
 }

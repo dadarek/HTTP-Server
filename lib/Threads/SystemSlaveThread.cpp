@@ -1,26 +1,26 @@
-#include "SystemThread.h"
+#include "SystemSlaveThread.h"
 #include "ThreadApi.h"
 #include "ThreadLauncher.h"
 #include "ThreadStartException.h"
 #include "WorkItem.h"
 #include "MasterThread.h"
 
-SystemThread::SystemThread( ThreadApi& threadApi )
+SystemSlaveThread::SystemSlaveThread( ThreadApi& threadApi )
   : master_( 0 )
   , threadApi_( threadApi )
 { }
 
-SystemThread::~SystemThread()
+SystemSlaveThread::~SystemSlaveThread()
 { }
 
-void SystemThread::go()
+void SystemSlaveThread::go()
 {
   WorkItem* work = master_->next();
   work->execute();
   delete work;
 }
 
-void SystemThread::start( MasterThread& master )
+void SystemSlaveThread::start( MasterThread& master )
 {
   master_ = &master;
 

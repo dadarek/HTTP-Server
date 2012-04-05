@@ -5,7 +5,7 @@
 
 class ThreadApi;
 
-class SystemThread
+class SystemSlaveThread
   : public SlaveThread
 {
   private:
@@ -14,8 +14,8 @@ class SystemThread
 
 
   public:
-    SystemThread( ThreadApi& threadApi );
-    virtual ~SystemThread();
+    SystemSlaveThread( ThreadApi& threadApi );
+    virtual ~SystemSlaveThread();
 
     void start( MasterThread& );
     void go();

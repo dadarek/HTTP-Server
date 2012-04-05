@@ -1,21 +1,21 @@
 #include "gtest/gtest.h"
 #include "MockThreadApi.h"
-#include "SystemThread.h"
+#include "SystemSlaveThread.h"
 #include "ThreadLauncher.h"
 #include "ThreadStartException.h"
 #include "MockMasterThread.h"
 #include "MockWorkItem.h"
 
-class SystemThreadTests
+class SystemSlaveThreadTests
   : public ::testing::Test
 {
   public:
     MockThreadApi threadApi_;
     MockMasterThread master_;
     MockWorkItem* workItem_;
-    SystemThread thread_;
+    SystemSlaveThread thread_;
     
-    SystemThreadTests()
+    SystemSlaveThreadTests()
       : threadApi_()
       , master_()
       , workItem_( new MockWorkItem() )
@@ -29,27 +29,27 @@ class SystemThreadTests
     }
 };
 
-TEST_F( SystemThreadTests, PassesTheThreadLauncherStaticMethod )
+TEST_F( SystemSlaveThreadTests, PassesTheThreadLauncherStaticMethod )
 {
   start();
   void* (*expected)(void*) = ThreadLauncher::launch;
   ASSERT_EQ( expected, threadApi_.callBackFunctionPassedIn_ );
 }
 
-TEST_F( SystemThreadTests, PassesItselfAsCallbackParameter )
+TEST_F( SystemSlaveThreadTests, PassesItselfAsCallbackParameter )
 {
   start();
   void* expected = &thread_;
   ASSERT_EQ( expected, threadApi_.callBackParameterPassedIn_ );
 }
 
-TEST_F( SystemThreadTests, ThrowsExceptionIf_pthread_create_returnsError )
+TEST_F( SystemSlaveThreadTests, ThrowsExceptionIf_pthread_create_returnsError )
 {
   threadApi_.createReturnValue_ = 1;
   EXPECT_THROW( start(), ThreadStartException );
 }
 
-TEST_F( SystemThreadTests, RunsWorkItemFromMaster )
+TEST_F( SystemSlaveThreadTests, RunsWorkItemFromMaster )
 {
   bool executed = false;
   workItem_->executed_ = &executed;
@@ -57,7 +57,7 @@ TEST_F( SystemThreadTests, RunsWorkItemFromMaster )
   EXPECT_EQ( true, executed );
 }
 
-TEST_F( SystemThreadTests, DeletesWorkItemAfterRun )
+TEST_F( SystemSlaveThreadTests, DeletesWorkItemAfterRun )
 {
   bool deleted = false;
   workItem_->deleted_ = &deleted;
