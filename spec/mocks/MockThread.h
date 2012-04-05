@@ -18,6 +18,7 @@ class MockThread
 
     void go();
     void start( Runnable* runnable );
+    void start( MasterThread& );
 };
 
 #endif

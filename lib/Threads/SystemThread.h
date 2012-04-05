@@ -10,6 +10,7 @@ class SystemThread
   : public Thread
 {
   private:
+    MasterThread* master_;
     ThreadApi& threadApi_;
     Runnable* runnable_;
 
@@ -18,6 +19,7 @@ class SystemThread
     SystemThread( ThreadApi& threadApi );
     virtual ~SystemThread();
 
+    void start( MasterThread& );
     void start( Runnable* runnable );
     void go();
 };

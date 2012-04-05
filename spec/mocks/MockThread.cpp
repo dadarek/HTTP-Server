@@ -26,3 +26,9 @@ void MockThread::start( Runnable* )
 {
   throw 0;
 }
+
+void MockThread::start( MasterThread& )
+{
+  throw 0;
+}
+

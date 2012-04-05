@@ -4,6 +4,7 @@
 #include "ThreadLauncher.h"
 #include "ThreadStartException.h"
 #include "MockRunnable.h"
+#include "MockMasterThread.h"
 
 class SystemThreadTests
   : public ::testing::Test
@@ -13,17 +14,19 @@ class SystemThreadTests
     MockRunnable* runnable_;
     MockThreadApi threadApi_;
     SystemThread thread_;
+    MockMasterThread master_;
     
     SystemThreadTests()
       : inspector_()
       , runnable_( new MockRunnable( inspector_ ) )
       , threadApi_()
       , thread_( threadApi_ )
+      , master_()
     { }
 
     void start()
     {
-      thread_.start( runnable_ );
+      thread_.start( master_ );
     }
 };
 
@@ -47,7 +50,7 @@ TEST_F( SystemThreadTests, ThrowsExceptionIf_pthread_create_returnsError )
   EXPECT_THROW( start(), ThreadStartException );
 }
 
-TEST_F( SystemThreadTests, RunsTheRunnable )
+TEST_F( SystemThreadTests, PollsMasterThread )
 {
   start();
   EXPECT_EQ( true, inspector_.ran );

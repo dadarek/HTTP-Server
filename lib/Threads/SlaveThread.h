@@ -9,6 +9,7 @@ class SlaveThread
     virtual ~SlaveThread() { }
 
     virtual void start( MasterThread& ) = 0;
+    virtual void go() = 0;
 };
 
 #endif
