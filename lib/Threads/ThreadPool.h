@@ -1,6 +1,7 @@
 #ifndef THREAD_POOL_H
 #define THREAD_POOL_H
 
+#include "MasterThread.h"
 #include "ThreadApi.h"
 #include <vector>
 
@@ -8,6 +9,7 @@ class Thread;
 class ThreadFactory;
 
 class ThreadPool
+  : public MasterThread
 {
   private:
     ThreadApi& api_;
@@ -25,6 +27,8 @@ class ThreadPool
 
     void add( void* );
     void* remove();
+
+    WorkItem* next();
 
   private:
     void createThreads();
