@@ -84,6 +84,7 @@ int MockThreadApi::pthread_cond_destroy( pthread_cond_t* condition )
 int MockThreadApi::pthread_cond_wait( pthread_cond_t* condition, pthread_mutex_t* mutex )
 {
   in_condWait_ = condition;
+  in_condWait_mutex_ = mutex;
   return 0;
 }
 

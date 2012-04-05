@@ -67,7 +67,7 @@ WorkItem* ThreadPool::getWorkItem()
   }
   else
   {
-    api_.pthread_cond_wait( &condition_, 0 );
+    api_.pthread_cond_wait( &condition_, &mutex_ );
   }
   return result;
 }
