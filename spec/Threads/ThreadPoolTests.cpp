@@ -121,3 +121,10 @@ TEST_F( ThreadPoolTests, WaitsOnConditionVariableIfQueueIsEmpty )
   pool_->next();
   ASSERT_EQ( api_.in_condInit_, api_.in_condWait_ );
 }
+
+TEST_F( ThreadPoolTests, DoesNotWaitOnConditionVariableIfQueueIsEmpty )
+{
+  pool_->add( (WorkItem*) 77 );
+  pool_->next();
+  ASSERT_EQ( (void*) 0, api_.in_condWait_ );
+}

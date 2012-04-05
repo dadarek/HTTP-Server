@@ -50,7 +50,6 @@ void ThreadPool::add( WorkItem* item )
 
 WorkItem* ThreadPool::next()
 {
-  api_.pthread_cond_wait( &condition_, 0 );
   api_.pthread_mutex_lock( &mutex_ );
   WorkItem* result = getWorkItem();
   api_.pthread_mutex_unlock( &mutex_ );
@@ -65,6 +64,10 @@ WorkItem* ThreadPool::getWorkItem()
   {
     result = workItems_.front();
     workItems_.pop();
+  }
+  else
+  {
+    api_.pthread_cond_wait( &condition_, 0 );
   }
   return result;
 }
