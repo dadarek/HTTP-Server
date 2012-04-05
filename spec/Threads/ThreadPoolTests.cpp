@@ -16,8 +16,8 @@ class ThreadPoolTests
     const unsigned THREADS_TO_CREATE;
 
     ThreadPoolTests()
-      : THREADS_TO_CREATE( 5 )
-      , queue_( api_ )
+      : queue_( api_ )
+      , THREADS_TO_CREATE( 5 )
     {
       create();
     }
@@ -116,13 +116,3 @@ TEST_F( ThreadPoolTests, RemembersWorkItems )
   ASSERT_EQ( expected, actual );
 }
 
-TEST_F( ThreadPoolTests, RemembersSeveralWorkItems )
-{
-  WorkItem* item1 = (WorkItem*) 55;
-  WorkItem* item2 = (WorkItem*) 88;
-  pool_->add( item1 );
-  pool_->add( item2 );
-
-  ASSERT_EQ( item1, pool_->next() );
-  ASSERT_EQ( item2, pool_->next() );
-}

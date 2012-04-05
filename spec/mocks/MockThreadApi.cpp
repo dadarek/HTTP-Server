@@ -7,6 +7,7 @@ MockThreadApi::MockThreadApi()
   , callBackParameterPassedIn_( 0 )
   , createReturnValue_( 0 )
   , isLocked_( false )
+  , isSignaled_( false )
   , in_mutexInit_( 0 )
   , in_mutexDestroy_( 0 )
   , in_mutexLock_( 0 )
@@ -90,6 +91,7 @@ int MockThreadApi::pthread_cond_signal( pthread_cond_t* condition )
   if( !isLocked_ )
     throw std::runtime_error( "Can't signal a condition without locking a mutex.");
 
+  isSignaled_ = true;
   in_condSignal_ = condition;
   return 0;
 }

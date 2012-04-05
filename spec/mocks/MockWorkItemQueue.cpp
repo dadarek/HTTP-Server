@@ -14,6 +14,9 @@ void MockWorkItemQueue::push( WorkItem* item )
   if( !threadApi_.isLocked_ )
     throw std::runtime_error( "Cannot push work item without locking." );
 
+  if( threadApi_.isSignaled_ )
+    throw std::runtime_error( "Don't signal before adding work items." );
+
   queue_.push( item );
 }
 

@@ -12,6 +12,7 @@ class MockThreadApi
     long createReturnValue_;
 
     bool isLocked_;
+    bool isSignaled_;
 
     pthread_mutex_t* in_mutexInit_;
     pthread_mutex_t* in_mutexDestroy_;
