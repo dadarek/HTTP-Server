@@ -37,7 +37,7 @@ long MockThreadApi::pthread_create(
   return createReturnValue_;
 }
 
-int MockThreadApi::pthread_mutex_init( pthread_mutex_t* mutex, const pthread_mutexattr_t* attributes )
+int MockThreadApi::pthread_mutex_init( pthread_mutex_t* mutex, const pthread_mutexattr_t* )
 {
   in_mutexInit_ = mutex;
   return 0;
@@ -69,7 +69,7 @@ int MockThreadApi::pthread_mutex_unlock( pthread_mutex_t* mutex )
   return 0;
 }
 
-int MockThreadApi::pthread_cond_init( pthread_cond_t* condition, pthread_condattr_t* attributes )
+int MockThreadApi::pthread_cond_init( pthread_cond_t* condition, pthread_condattr_t* )
 {
   in_condInit_ = condition;
   return 0;
