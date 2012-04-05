@@ -22,6 +22,9 @@ void MockWorkItemQueue::push( WorkItem* item )
 
 void MockWorkItemQueue::pop()
 {
+  if( !threadApi_.isLocked_ )
+    throw std::runtime_error( "Cannot pop work item without locking." );
+
   queue_.pop();
 }
 

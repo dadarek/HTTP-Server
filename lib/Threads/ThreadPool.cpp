@@ -50,16 +50,10 @@ void ThreadPool::add( WorkItem* item )
 
 WorkItem* ThreadPool::next()
 {
-  WorkItem* result = popWorkItem();
-  api_.pthread_mutex_lock( &mutex_ );
-  api_.pthread_mutex_unlock( &mutex_ );
 
-  return result;
-}
-
-WorkItem* ThreadPool::popWorkItem()
-{
   WorkItem* result = 0;
+
+  api_.pthread_mutex_lock( &mutex_ );
 
   if( !workItems_.empty() )
   {
@@ -67,5 +61,12 @@ WorkItem* ThreadPool::popWorkItem()
     workItems_.pop();
   }
 
+  api_.pthread_mutex_unlock( &mutex_ );
+
+  if( !workItems_.empty() )
+  {
+  }
+
   return result;
 }
+

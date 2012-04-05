@@ -35,7 +35,5 @@ class ThreadPool
   private:
     void createThreads();
     void deleteThreads();
-
-    virtual WorkItem* popWorkItem();
 };
 #endif
