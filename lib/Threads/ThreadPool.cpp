@@ -51,6 +51,12 @@ WorkItem* ThreadPool::next()
   api_.pthread_mutex_lock( &mutex_ );
   api_.pthread_mutex_unlock( &mutex_ );
 
+  WorkItem* result = popWorkItem();
+  return result;
+}
+
+WorkItem* ThreadPool::popWorkItem()
+{
   WorkItem* result = 0;
 
   if( !workItems_.empty() )
