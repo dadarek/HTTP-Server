@@ -1,5 +1,5 @@
-#ifndef MOCK_THREAD_FACTORY_H
-#define MOCK_THREAD_FACTORY_H
+#ifndef MOCK_SLAVE_THREAD_FACTORY_H
+#define MOCK_SLAVE_THREAD_FACTORY_H
 
 #include "SlaveThreadFactory.h"
 

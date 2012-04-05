@@ -1,20 +1,20 @@
-#ifndef MOCK_THREAD_H
-#define MOCK_THREAD_H
+#ifndef MOCK_SLAVE_THREAD_H
+#define MOCK_SLAVE_THREAD_H
 
 #include "SlaveThread.h"
 
 class MockSlaveThreadFactory;
 
-class MockThread
+class MockSlaveThread
   : public SlaveThread
 {
   public:
     MockSlaveThreadFactory* factory_;
     bool goCalled_;
 
-    MockThread();
-    MockThread( MockSlaveThreadFactory* factory );
-    virtual ~MockThread();
+    MockSlaveThread();
+    MockSlaveThread( MockSlaveThreadFactory* factory );
+    virtual ~MockSlaveThread();
 
     void go();
     void start( MasterThread& );

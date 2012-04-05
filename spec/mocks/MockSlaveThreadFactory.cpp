@@ -1,5 +1,5 @@
 #include "MockSlaveThreadFactory.h"
-#include "MockThread.h"
+#include "MockSlaveThread.h"
 
 MockSlaveThreadFactory::MockSlaveThreadFactory()
   : threadsCreated_( 0 )
@@ -12,5 +12,5 @@ MockSlaveThreadFactory::~MockSlaveThreadFactory()
 SlaveThread* MockSlaveThreadFactory::create()
 {
   threadsCreated_++;
-  return new MockThread( this );
+  return new MockSlaveThread( this );
 }

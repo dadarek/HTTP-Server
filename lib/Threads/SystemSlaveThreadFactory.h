@@ -1,5 +1,5 @@
-#ifndef SYSTEM_THREAD_FACTORY
-#define SYSTEM_THREAD_FACTORY
+#ifndef SYSTEM_SLAVE_THREAD_FACTORY
+#define SYSTEM_SLAVE_THREAD_FACTORY
 
 #include "SlaveThreadFactory.h"
 

@@ -1,5 +1,5 @@
-#ifndef THREAD_FACTORY_H
-#define THREAD_FACTORY_H
+#ifndef SLAVE_THREAD_FACTORY_H
+#define SLAVE_THREAD_FACTORY_H
 
 class SlaveThread;
 

@@ -1,5 +1,5 @@
-#ifndef SYSTEM_THREAD_H
-#define SYSTEM_THREAD_H
+#ifndef SYSTEM_SLAVE_THREAD_H
+#define SYSTEM_SLAVE_THREAD_H
 
 #include "SlaveThread.h"
 
