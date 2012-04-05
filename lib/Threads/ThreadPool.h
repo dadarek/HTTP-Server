@@ -25,7 +25,7 @@ class ThreadPool
     ThreadPool( ThreadApi& api, ThreadFactory& factory, unsigned numberOfThreads );
     virtual ~ThreadPool();
 
-    void add( void* );
+    void add( WorkItem* );
     void* remove();
 
     WorkItem* next();
