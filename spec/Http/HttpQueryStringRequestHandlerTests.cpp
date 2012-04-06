@@ -18,7 +18,15 @@ class HttpQueryStringRequestHandlerTests
 
 };
 
-TEST_F( HttpQueryStringRequestHandlerTests, Compiles )
+TEST_F( HttpQueryStringRequestHandlerTests, BodyContainsOneQueryString )
 {
-  ASSERT_EQ( true, true );
+  const char* url = "/some-script?x=1";
+  HttpRequest request( url, "" );
+
+  HttpResponse* response = handler_.handle( request );
+
+  char* index = strstr( response->body(), "x = 1" );
+  ASSERT_NE( (char*) 0, index );
+  
+  delete response;
 }
