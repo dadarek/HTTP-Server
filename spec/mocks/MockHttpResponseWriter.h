@@ -4,7 +4,7 @@
 #include "HttpResponseWriter.h"
 
 class HttpResponse;
-class HttpConnectionHandlerInspector;
+struct HttpConnectionHandlerInspector;
 
 class MockHttpResponseWriter
   : public HttpResponseWriter
