@@ -13,18 +13,21 @@ class HttpQueryStringRequestHandlerTests
       : handler_()
     { }
 
-    virtual ~HttpQueryStringRequestHandlerTests()
-    { }
+    HttpResponse* getResponse( const char* url )
+    {
+      HttpRequest request( "", url );
+      return handler_.handle( request );
+    }
+    void assertResponseContains( const char* value )
+    {
+
+    }
 
 };
 
 TEST_F( HttpQueryStringRequestHandlerTests, BodyContainsOneQueryString )
 {
-  const char* url = "/some-script?x=1";
-  HttpRequest request( "", url );
-
-  HttpResponse* response = handler_.handle( request );
-
+  HttpResponse* response = getResponse( "/some-script?x=1" );
   char* index = strstr( response->body(), "x = 1" );
   ASSERT_NE( (char*) 0, index );
   
@@ -33,10 +36,7 @@ TEST_F( HttpQueryStringRequestHandlerTests, BodyContainsOneQueryString )
 
 TEST_F( HttpQueryStringRequestHandlerTests, BodyContainsTwoQueryStrings )
 {
-  const char* url = "/another-script?x=4&y=7";
-  HttpRequest request( "", url );
-
-  HttpResponse* response = handler_.handle( request );
+  HttpResponse* response = getResponse( "/another-script?x=4&y=7" );
 
   char* index = strstr( response->body(), "x = 4" );
   ASSERT_NE( (char*) 0, index );
