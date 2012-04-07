@@ -11,7 +11,6 @@ class HttpQueryStringRequestHandler
     virtual ~HttpQueryStringRequestHandler();
 
     HttpResponse* handle( HttpRequest& request );
-
 };
 
 #endif
