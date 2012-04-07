@@ -50,3 +50,8 @@ TEST_F( HttpQueryStringRequestHandlerTests, BodyContainsThreeQueryStrings )
   delete response;
 }
 
+TEST_F( HttpQueryStringRequestHandlerTests, Sets200OKStatus )
+{
+  HttpResponse* response = getResponse( "/some-url?x=y" );
+  ASSERT_EQ( std::string("200 OK"), response->status() );
+}

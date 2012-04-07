@@ -19,6 +19,6 @@ HttpResponse* HttpQueryStringRequestHandler::handle( HttpRequest& request )
     equalsSign = copy.find( '=', equalsSign + 2 );
   }
 
-  HttpResponse* result = new HttpResponse( copy.c_str(), copy.length(), "" );
+  HttpResponse* result = new HttpResponse( copy.c_str(), copy.length(), "200 OK" );
   return result;
 }
