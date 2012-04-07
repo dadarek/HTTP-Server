@@ -13,12 +13,10 @@ HttpResponse* HttpQueryStringRequestHandler::handle( HttpRequest& request )
   std::string copy = request.url();
 
   size_t equalsSign = copy.find('=');
-  copy.replace( equalsSign, 1, " = " );
-
-  equalsSign = copy.find( '=', equalsSign + 2 );
-  if( std::string::npos != equalsSign )
+  while( std::string::npos !=  equalsSign )
   {
     copy.replace( equalsSign, 1, " = " );
+    equalsSign = copy.find( '=', equalsSign + 2 );
   }
 
   HttpResponse* result = new HttpResponse( copy.c_str(), copy.length(), "" );

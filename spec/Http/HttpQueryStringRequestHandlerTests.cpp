@@ -40,3 +40,12 @@ TEST_F( HttpQueryStringRequestHandlerTests, BodyContainsTwoQueryStrings )
   assertResponseContains( response, "y = 7" );
   delete response;
 }
+
+TEST_F( HttpQueryStringRequestHandlerTests, BodyContainsThreeQueryStrings )
+{
+  HttpResponse* response = getResponse( "/z?name=Darek&id=77&remember=false" );
+  assertResponseContains( response, "name = Darek" );
+  assertResponseContains( response, "id = 77" );
+  assertResponseContains( response, "remember = false" );
+  delete response;
+}
