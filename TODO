@@ -46,3 +46,10 @@
 - cleanup HttpRequestParserImpl
 
 - merge HttpRequestHandler Tests (echo with QS )
+
+- cleanup tests so that ASSERT is always in the fixture.
+
+- create somekind of HttpResponseStatus class with hardcoded status strings
+
+- maybe the request handlers should derive from some base handler?
+

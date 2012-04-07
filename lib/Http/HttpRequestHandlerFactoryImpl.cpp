@@ -3,6 +3,7 @@
 #include "HttpRequestFileHandler.h"
 #include "HttpDirectoryListRequestHandler.h"
 #include "HttpEchoRequestHandler.h"
+#include "HttpQueryStringRequestHandler.h"
 #include "FileApi.h"
 #include "DirectoryApi.h"
 #include "HttpRequest.h"
@@ -22,6 +23,9 @@ HttpRequestHandler* HttpRequestHandlerFactoryImpl::createHandler( HttpRequest& r
 
   if( requiresEcho( request ) )
     return new HttpEchoRequestHandler();
+
+  if( containsQueryString( request ) )
+    return new HttpQueryStringRequestHandler();
 
   if( directoryExists( path ) )
     return new HttpDirectoryListRequestHandler( basePath_, directoryApi_ );
@@ -45,4 +49,9 @@ bool HttpRequestHandlerFactoryImpl::requiresEcho( HttpRequest& request )
 {
   return request.method() == std::string("PUT")
     || request.method() == std::string("POST");
+}
+
+bool HttpRequestHandlerFactoryImpl::containsQueryString( HttpRequest& request )
+{
+  return std::string::npos != request.url().find('?');
 }

@@ -24,7 +24,7 @@ class HttpRequestHandlerFactoryImpl
   private:
     bool directoryExists( std::string path );
     bool requiresEcho( HttpRequest& request );
-
+    bool containsQueryString( HttpRequest& request );
 };
 
 #endif

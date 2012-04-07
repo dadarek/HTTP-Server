@@ -6,6 +6,7 @@
 #include "HttpRequestFileHandler.h"
 #include "HttpDirectoryListRequestHandler.h"
 #include "HttpEchoRequestHandler.h"
+#include "HttpQueryStringRequestHandler.h"
 #include "HttpRequest.h"
 
 #include <dirent.h>
@@ -84,6 +85,13 @@ TEST_F( HttpRequestHandlerFactoryImplTests, returnsEchoHandlerOnPostRequests )
   HttpRequest request( "POST", "" );
   HttpRequestHandler* handler = factory_.createHandler( request );
   ASSERT_EQ( handler, dynamic_cast < HttpEchoRequestHandler* > ( handler ) );
+}
+
+TEST_F( HttpRequestHandlerFactoryImplTests, returnsQueryStringHandlerIfPresent )
+{
+  HttpRequest request( "GET", "/some-get?x=1" );
+  HttpRequestHandler* handler = factory_.createHandler( request );
+  ASSERT_EQ( handler, dynamic_cast < HttpQueryStringRequestHandler* > ( handler ) );
 }
 
 TEST_F( HttpRequestHandlerFactoryImplTests, fileHandlerHasCorrectBasePath)
