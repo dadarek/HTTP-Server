@@ -66,26 +66,26 @@ void ensureParameterCount( int argc )
   }
 }
 
-void ensureDirectoryTrailingSlash( const char* directory )
+void ensureDirectoryTrailingSlash( char* directory )
 {
   int directoryLength = strlen( directory );
   char lastCharacter = directory[ directoryLength - 1 ];
   if( '/' !=  lastCharacter )
   {
-    printf("Help us protect the environment - please enter a trailing backslash on your directory.\n\n");
-    exit( -1 );
+    directory[ directoryLength ] = '/';
+    directory[ directoryLength + 1 ] = '\0';
   }
 }
 
 int main( int argc, char** argv )
 {
-
   ensureParameterCount( argc );
-  ensureDirectoryTrailingSlash( argv[2] );
 
   int port = atoi( argv[1] );
-  const char* directory = argv[2];
-  
+
+  char directory[256];
+  strcpy( directory, argv[2] );
+  ensureDirectoryTrailingSlash( directory );
 
   try
   {
