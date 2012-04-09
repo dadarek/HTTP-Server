@@ -59,9 +59,9 @@ void go( int portNumber, const char* directory )
 
 void ensureParameterCount( int argc )
 {
-  if( 3 != argc )
+  if( 5 != argc )
   {
-    printf("Usage: ./main [port] [directory]\n\n");
+    printf("Usage: ./main -p [port] -d [directory]\n\n");
     exit( -1 );
   }
 }
@@ -81,10 +81,10 @@ int main( int argc, char** argv )
 {
   ensureParameterCount( argc );
 
-  int port = atoi( argv[1] );
+  int port = atoi( argv[2] );
 
   char directory[256];
-  strcpy( directory, argv[2] );
+  strcpy( directory, argv[4] );
   ensureDirectoryTrailingSlash( directory );
 
   try
