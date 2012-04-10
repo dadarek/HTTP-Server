@@ -141,7 +141,7 @@ TEST_F( ThreadPoolTests, DoesNotWaitOnConditionVariableIfQueueIsEmpty )
 {
   pool_->add( (WorkItem*) 77 );
   pool_->next();
-  ASSERT_EQ( (void*) 0, api_.inputTo_condWait_ );
+  ASSERT_EQ( false, api_.conditionVariableWasWaitedOn() );
 }
 
 TEST_F( ThreadPoolTests, WaitsOnConditionUntilNewWorkItemsAreAdded )
