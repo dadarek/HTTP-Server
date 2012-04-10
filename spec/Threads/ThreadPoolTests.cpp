@@ -49,9 +49,9 @@ TEST_F( ThreadPoolTests, InitsAValidMutex )
 
 TEST_F( ThreadPoolTests, DestroysItsMutexInDestructor )
 {
-  ASSERT_EQ( (void*) 0, api_.in_mutexDestroy_ );
+  ASSERT_EQ( false, api_.mutexWasDestroyed() );
   destroy(); 
-  ASSERT_EQ( api_.in_mutexInit_, api_.in_mutexDestroy_ );
+  ASSERT_EQ( true, api_.mutexWasDestroyed() );
 }
 
 TEST_F( ThreadPoolTests, InitsAValidConditionVariable )

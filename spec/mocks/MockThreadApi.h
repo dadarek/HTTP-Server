@@ -43,6 +43,7 @@ class MockThreadApi
     int pthread_cond_signal( pthread_cond_t* );
 
     bool mutexWasInitialized();
+    bool mutexWasDestroyed();
 };
 
 #endif

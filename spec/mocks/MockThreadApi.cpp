@@ -108,3 +108,8 @@ bool MockThreadApi::mutexWasInitialized()
   return (void*) 0 != in_mutexInit_;
 }
 
+bool MockThreadApi::mutexWasDestroyed()
+{
+  return (void*) 0 != in_mutexDestroy_;
+}
+
