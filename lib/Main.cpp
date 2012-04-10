@@ -24,6 +24,7 @@
 
 void go( int portNumber, const char* directory )
 {
+  printf("Creating objects ...\n");
   SystemThreadApi threadApi;
 
   RawSocketApi socketApi;
@@ -52,8 +53,10 @@ void go( int portNumber, const char* directory )
 
   SocketConnectionReceiver receiver( socketApi, portNumber );
 
+  printf("Creating server...\n");
   Server server( receiver, connectionhandler );
 
+  printf("Starting server (you won't see a Server Started message :) )...\n");
   server.start();
 }
 
