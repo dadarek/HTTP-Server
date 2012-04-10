@@ -133,3 +133,7 @@ bool MockThreadApi::mutexWasUnlocked()
   return (void*) 0 != inputTo_mutexUnlock_;
 }
 
+bool MockThreadApi::conditionVariableWasSignalled()
+{
+  return (void*) 0 != inputTo_condSignal_;
+}

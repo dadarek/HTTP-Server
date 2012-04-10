@@ -50,6 +50,8 @@ class MockThreadApi
 
     bool mutexWasLocked();
     bool mutexWasUnlocked();
+
+    bool conditionVariableWasSignalled();
 };
 
 #endif
