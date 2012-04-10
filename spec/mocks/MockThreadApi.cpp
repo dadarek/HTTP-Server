@@ -110,7 +110,7 @@ bool MockThreadApi::mutexWasInitialized()
 
 bool MockThreadApi::mutexWasDestroyed()
 {
-  return (void*) 0 != inputTo_mutexDestroy_;
+  return inputTo_mutexInit_ == inputTo_mutexDestroy_;
 }
 
 bool MockThreadApi::conditionVariableWasInitialized()
@@ -120,20 +120,20 @@ bool MockThreadApi::conditionVariableWasInitialized()
 
 bool MockThreadApi::conditionVariableWasDestroyed()
 {
-  return (void*) 0 != inputTo_condDestroy_;
+  return inputTo_condInit_ == inputTo_condDestroy_;
 }
 
 bool MockThreadApi::mutexWasLocked()
 {
-  return (void*) 0 != inputTo_mutexLock_;
+  return inputTo_mutexInit_ == inputTo_mutexLock_;
 }
 
 bool MockThreadApi::mutexWasUnlocked()
 {
-  return (void*) 0 != inputTo_mutexUnlock_;
+  return inputTo_mutexInit_ == inputTo_mutexUnlock_;
 }
 
 bool MockThreadApi::conditionVariableWasSignalled()
 {
-  return (void*) 0 != inputTo_condSignal_;
+  return inputTo_condInit_ == inputTo_condSignal_;
 }
