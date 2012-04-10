@@ -7,14 +7,14 @@ MockThreadApi::MockThreadApi()
   , createReturnValue_( 0 )
   , isLocked_( false )
   , isSignaled_( false )
-  , in_mutexInit_( 0 )
-  , in_mutexDestroy_( 0 )
-  , in_mutexLock_( 0 )
-  , in_mutexUnlock_( 0 )
-  , in_condInit_( 0 )
-  , in_condDestroy_( 0 )
-  , in_condSignal_( 0 )
-  , in_condWait_( 0 )
+  , inputTo_mutexInit_( 0 )
+  , inputTo_mutexDestroy_( 0 )
+  , inputTo_mutexLock_( 0 )
+  , inputTo_mutexUnlock_( 0 )
+  , inputTo_condInit_( 0 )
+  , inputTo_condDestroy_( 0 )
+  , inputTo_condSignal_( 0 )
+  , inputTo_condWait_( 0 )
   , times_condWait_called_( 0 )
 { }
 
@@ -43,13 +43,13 @@ long MockThreadApi::pthread_create(
 
 int MockThreadApi::pthread_mutex_init( pthread_mutex_t* mutex, const pthread_mutexattr_t* )
 {
-  in_mutexInit_ = mutex;
+  inputTo_mutexInit_ = mutex;
   return 0;
 }
 
 int MockThreadApi::pthread_mutex_destroy( pthread_mutex_t* mutex )
 {
-  in_mutexDestroy_ = mutex;
+  inputTo_mutexDestroy_ = mutex;
   return 0;
 }
 
@@ -59,7 +59,7 @@ int MockThreadApi::pthread_mutex_lock( pthread_mutex_t* mutex )
     throw std::runtime_error( "Can't lock an already locked mutex." );
 
   isLocked_ = true;
-  in_mutexLock_ = mutex;
+  inputTo_mutexLock_ = mutex;
   return 0;
 }
 
@@ -69,26 +69,26 @@ int MockThreadApi::pthread_mutex_unlock( pthread_mutex_t* mutex )
     throw std::runtime_error( "Can't unlock a mutex that wasn't locked." );
 
   isLocked_ = false;
-  in_mutexUnlock_ = mutex;
+  inputTo_mutexUnlock_ = mutex;
   return 0;
 }
 
 int MockThreadApi::pthread_cond_init( pthread_cond_t* condition, pthread_condattr_t* )
 {
-  in_condInit_ = condition;
+  inputTo_condInit_ = condition;
   return 0;
 }
 
 int MockThreadApi::pthread_cond_destroy( pthread_cond_t* condition )
 {
-  in_condDestroy_ = condition;
+  inputTo_condDestroy_ = condition;
   return 0;
 }
 
 int MockThreadApi::pthread_cond_wait( pthread_cond_t* condition, pthread_mutex_t* mutex )
 {
-  in_condWait_ = condition;
-  in_condWait_mutex_ = mutex;
+  inputTo_condWait_ = condition;
+  inputTo_condWait_mutex_ = mutex;
   times_condWait_called_++;
   return 0;
 }
@@ -99,17 +99,17 @@ int MockThreadApi::pthread_cond_signal( pthread_cond_t* condition )
     throw std::runtime_error( "Can't signal a condition without locking a mutex.");
 
   isSignaled_ = true;
-  in_condSignal_ = condition;
+  inputTo_condSignal_ = condition;
   return 0;
 }
 
 bool MockThreadApi::mutexWasInitialized()
 {
-  return (void*) 0 != in_mutexInit_;
+  return (void*) 0 != inputTo_mutexInit_;
 }
 
 bool MockThreadApi::mutexWasDestroyed()
 {
-  return (void*) 0 != in_mutexDestroy_;
+  return (void*) 0 != inputTo_mutexDestroy_;
 }
 

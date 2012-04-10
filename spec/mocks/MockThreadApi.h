@@ -14,16 +14,16 @@ class MockThreadApi
     bool isLocked_;
     bool isSignaled_;
 
-    pthread_mutex_t* in_mutexInit_;
-    pthread_mutex_t* in_mutexDestroy_;
-    pthread_mutex_t* in_mutexLock_;
-    pthread_mutex_t* in_mutexUnlock_;
+    pthread_mutex_t* inputTo_mutexInit_;
+    pthread_mutex_t* inputTo_mutexDestroy_;
+    pthread_mutex_t* inputTo_mutexLock_;
+    pthread_mutex_t* inputTo_mutexUnlock_;
 
-    pthread_cond_t* in_condInit_;
-    pthread_cond_t* in_condDestroy_;
-    pthread_cond_t* in_condSignal_;
-    pthread_cond_t* in_condWait_;
-    pthread_mutex_t* in_condWait_mutex_;
+    pthread_cond_t* inputTo_condInit_;
+    pthread_cond_t* inputTo_condDestroy_;
+    pthread_cond_t* inputTo_condSignal_;
+    pthread_cond_t* inputTo_condWait_;
+    pthread_mutex_t* inputTo_condWait_mutex_;
 
     unsigned times_condWait_called_;
 
