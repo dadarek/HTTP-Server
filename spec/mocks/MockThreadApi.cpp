@@ -137,3 +137,13 @@ bool MockThreadApi::conditionVariableWasSignalled()
 {
   return inputTo_condInit_ == inputTo_condSignal_;
 }
+
+bool MockThreadApi::conditionVariableWasWaitedOn()
+{
+  return inputTo_condInit_ == inputTo_condWait_;
+}
+
+bool MockThreadApi::conditionVariableWasWaitedOnWithInitializedMutex()
+{
+  return inputTo_condWait_mutex_ == inputTo_mutexInit_;
+}

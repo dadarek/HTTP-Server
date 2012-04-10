@@ -127,14 +127,14 @@ TEST_F( ThreadPoolTests, WaitsOnConditionVariableIfQueueIsEmpty )
 {
   queue_.addFakeItemAfterNCalls_ = 1;
   pool_->next();
-  ASSERT_EQ( api_.inputTo_condInit_, api_.inputTo_condWait_ );
+  ASSERT_EQ( true, api_.conditionVariableWasWaitedOn() );
 }
 
 TEST_F( ThreadPoolTests, WaitsOnConditionVariableWithCorrectMutex )
 {
   queue_.addFakeItemAfterNCalls_ = 1;
   pool_->next();
-  ASSERT_EQ( api_.inputTo_mutexInit_, api_.inputTo_condWait_mutex_ );
+  ASSERT_EQ( true, api_.conditionVariableWasWaitedOnWithInitializedMutex() );
 }
 
 TEST_F( ThreadPoolTests, DoesNotWaitOnConditionVariableIfQueueIsEmpty )
