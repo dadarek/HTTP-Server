@@ -105,14 +105,14 @@ TEST_F( ThreadPoolTests, LocksMutexWhenRemovingItems )
 {
   pool_->add( (WorkItem*) 77 );
   pool_->next();
-  ASSERT_EQ( api_.inputTo_mutexInit_, api_.inputTo_mutexLock_ );
+  ASSERT_EQ( true, api_.mutexWasLocked() );
 }
 
 TEST_F( ThreadPoolTests, UnlocksMutexWhenRemovingItems )
 {
   pool_->add( (WorkItem*) 77 );
   pool_->next();
-  ASSERT_EQ( api_.inputTo_mutexInit_, api_.inputTo_mutexUnlock_ );
+  ASSERT_EQ( true, api_.mutexWasUnlocked() );
 }
 
 TEST_F( ThreadPoolTests, RemembersWorkItems )
