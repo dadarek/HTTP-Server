@@ -113,3 +113,13 @@ bool MockThreadApi::mutexWasDestroyed()
   return (void*) 0 != inputTo_mutexDestroy_;
 }
 
+bool MockThreadApi::conditionVariableWasInitialized()
+{
+  return (void*) 0 != inputTo_condInit_;
+}
+
+bool MockThreadApi::conditionVariableWasDestroyed()
+{
+  return (void*) 0 != inputTo_condDestroy_;
+}
+

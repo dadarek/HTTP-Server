@@ -56,7 +56,7 @@ TEST_F( ThreadPoolTests, DestroysItsMutexInDestructor )
 
 TEST_F( ThreadPoolTests, InitsAValidConditionVariable )
 {
-  ASSERT_NE( (void*) 0, api_.inputTo_condInit_ );
+  ASSERT_EQ( true, api_.conditionVariableWasInitialized() );
 }
 
 TEST_F( ThreadPoolTests, DestroysItsConditionVariableInDestructor )
