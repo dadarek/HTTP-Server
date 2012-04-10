@@ -61,9 +61,9 @@ TEST_F( ThreadPoolTests, InitsAValidConditionVariable )
 
 TEST_F( ThreadPoolTests, DestroysItsConditionVariableInDestructor )
 {
-  ASSERT_EQ( (void*) 0, api_.inputTo_condDestroy_ );
+  ASSERT_EQ( false, api_.conditionVariableWasDestroyed() );
   destroy();
-  ASSERT_EQ( api_.inputTo_condInit_, api_.inputTo_condDestroy_ );
+  ASSERT_EQ( true, api_.conditionVariableWasDestroyed() );
 }
 
 TEST_F( ThreadPoolTests, CreatesSpecifiedNumberOfThreads )
