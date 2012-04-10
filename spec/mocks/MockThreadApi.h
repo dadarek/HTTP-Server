@@ -14,6 +14,7 @@ class MockThreadApi
     bool isLocked_;
     bool isSignaled_;
 
+  private:
     pthread_mutex_t* inputTo_mutexInit_;
     pthread_mutex_t* inputTo_mutexDestroy_;
     pthread_mutex_t* inputTo_mutexLock_;
@@ -25,6 +26,7 @@ class MockThreadApi
     pthread_cond_t* inputTo_condWait_;
     pthread_mutex_t* inputTo_condWait_mutex_;
 
+  public:
     unsigned times_condWait_called_;
 
     MockThreadApi();
