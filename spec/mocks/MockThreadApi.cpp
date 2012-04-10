@@ -103,3 +103,8 @@ int MockThreadApi::pthread_cond_signal( pthread_cond_t* condition )
   return 0;
 }
 
+bool MockThreadApi::mutexWasInitialized()
+{
+  return (void*) 0 != in_mutexInit_;
+}
+

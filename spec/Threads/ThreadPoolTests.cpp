@@ -44,7 +44,7 @@ class ThreadPoolTests
 
 TEST_F( ThreadPoolTests, InitsAValidMutex )
 {
-  ASSERT_NE( (void*) 0, api_.in_mutexInit_ );
+  ASSERT_EQ( true, api_.mutexWasInitialized() );
 }
 
 TEST_F( ThreadPoolTests, DestroysItsMutexInDestructor )
