@@ -123,3 +123,13 @@ bool MockThreadApi::conditionVariableWasDestroyed()
   return (void*) 0 != inputTo_condDestroy_;
 }
 
+bool MockThreadApi::mutexWasLocked()
+{
+  return (void*) 0 != inputTo_mutexLock_;
+}
+
+bool MockThreadApi::mutexWasUnlocked()
+{
+  return (void*) 0 != inputTo_mutexUnlock_;
+}
+
