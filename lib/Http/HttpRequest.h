@@ -2,6 +2,7 @@
 #define HTTP_REQUEST_H
 
 #include <string>
+#include <cstring>
 
 class HttpRequest
 {

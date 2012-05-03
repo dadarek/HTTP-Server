@@ -1,6 +1,7 @@
 #include "SocketApi.h"
 #include "HttpSocketReader.h"
 #include "SocketReadException.h"
+#include <cstring>
 
 const char* const HttpSocketReader::STREAM_TERMINATOR = "\r\n\r\n";
 

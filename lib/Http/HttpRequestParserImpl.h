@@ -1,6 +1,8 @@
 #ifndef HTTP_REQUEST_PARSER_IMPL_H
 #define HTTP_REQUEST_PARSER_IMPL_H
 
+#include <string>
+#include <cstdio>
 #include "HttpRequestParser.h"
 
 class HttpRequestParserImpl
