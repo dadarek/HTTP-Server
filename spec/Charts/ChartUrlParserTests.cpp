@@ -50,6 +50,6 @@ TEST_F( ChartUrlParserTests, DecodesMultipleCharacters )
 
 TEST_F( ChartUrlParserTests, DecodesMixedCodes )
 {
-  std::string code("%7B8%7Dt%7Bhlight%7B%22");
+  std::string code = OPEN_BRACE + "8" + CLOSE_BRACE + "t" + OPEN_BRACE + "hlight" + OPEN_BRACE + QUOTE;
   ASSERT_EQ("{8}t{hlight{\"", parser.urlDecode(code));
 }
