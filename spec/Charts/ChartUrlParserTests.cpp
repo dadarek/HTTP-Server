@@ -22,6 +22,6 @@ TEST( ChartUrlParserTests, parsesOneLog )
     closing_brace +
     "]";
   ChartUrlParser parser;
-  std::string parsedDate = parser.parseDate(json);
-  ASSERT_EQ(date_ran, parsedDate);
+  ASSERT_EQ(date_ran, parser.parseDate(json));
+  ASSERT_EQ(time_ran, parser.parseTime(json));
 }

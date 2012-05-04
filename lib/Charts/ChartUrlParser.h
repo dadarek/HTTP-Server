@@ -10,6 +10,7 @@ class ChartUrlParser
     virtual ~ChartUrlParser();
 
     std::string parseDate( std::string json );
+    std::string parseTime( std::string json );
 };
 
 #endif

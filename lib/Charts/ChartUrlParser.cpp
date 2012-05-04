@@ -10,3 +10,8 @@ std::string ChartUrlParser::parseDate( std::string json )
 {
   return "2012-04-15";
 }
+
+std::string ChartUrlParser::parseTime( std::string json )
+{
+  return "30";
+}
