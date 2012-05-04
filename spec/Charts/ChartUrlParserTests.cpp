@@ -40,3 +40,10 @@ TEST( ChartUrlParserTests, DecodesMultipleCharacters )
   std::string code("%7B%7D%7B%7B%22");
   ASSERT_EQ("{}{{\"", parser.urlDecode(code));
 }
+
+TEST( ChartUrlParserTests, DecodesMixedCodes )
+{
+  ChartUrlParser parser;
+  std::string code("%7B8%7Dt%7Bhlight%7B%22");
+  ASSERT_EQ("{8}t{hlight{\"", parser.urlDecode(code));
+}
