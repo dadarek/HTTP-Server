@@ -26,11 +26,7 @@ std::string ChartUrlParser::urlDecode( std::string json )
   {
     if( isEncoded( cJson[i] ) )
     {
-      std::string nextChar(cJson, i, 3);
-      if(nextChar == "%7B") result += "{";
-      if(nextChar == "%7D") result += "}";
-      if(nextChar == "%22") result += "\"";
-
+      result += decode(cJson + i);
       i += 3;
     }
     else
@@ -47,7 +43,7 @@ bool ChartUrlParser::isEncoded( char c )
   return c == '%';
 }
 
-std::string decode( const char* encoded )
+std::string ChartUrlParser::decode( const char* encoded )
 {
   std::string nextChar(encoded, 3);
   if(nextChar == "%7B") return "{";
