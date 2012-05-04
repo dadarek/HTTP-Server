@@ -1,12 +1,5 @@
 #include "ChartRequestHandlerFactory.h"
-#include "Http404RequestHandler.h"
-#include "HttpRequestFileHandler.h"
-#include "HttpDirectoryListRequestHandler.h"
-#include "HttpEchoRequestHandler.h"
-#include "HttpQueryStringRequestHandler.h"
-#include "FileApi.h"
-#include "DirectoryApi.h"
-#include "HttpRequest.h"
+#include "ChartRequestHandler.h"
 
 ChartRequestHandlerFactory::ChartRequestHandlerFactory()
 { }
@@ -14,8 +7,8 @@ ChartRequestHandlerFactory::ChartRequestHandlerFactory()
 ChartRequestHandlerFactory::~ChartRequestHandlerFactory()
 { }
 
-HttpRequestHandler* ChartRequestHandlerFactory::createHandler( HttpRequest& request )
+HttpRequestHandler* ChartRequestHandlerFactory::createHandler( HttpRequest& )
 { 
-  return 0;
+  return new ChartRequestHandler();
 }
 
