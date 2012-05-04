@@ -25,3 +25,11 @@ TEST( ChartUrlParserTests, parsesOneLog )
   ASSERT_EQ(date_ran, parser.parseDate(json));
   ASSERT_EQ(time_ran, parser.parseTime(json));
 }
+
+TEST( ChartUrlParserTests, DecodesUrlEncoding )
+{
+  ChartUrlParser parser;
+  ASSERT_EQ("{", parser.urlDecode("%7B"));
+  ASSERT_EQ("}", parser.urlDecode("%7D"));
+  ASSERT_EQ("\"", parser.urlDecode("%22"));
+}

@@ -11,6 +11,8 @@ class ChartUrlParser
 
     std::string parseDate( std::string json );
     std::string parseTime( std::string json );
+
+    std::string urlDecode( std::string json );
 };
 
 #endif
