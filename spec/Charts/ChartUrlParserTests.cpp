@@ -18,53 +18,53 @@ std::string ChartUrlParserTests::QUOTE= "%22";
 
 TEST_F( ChartUrlParserTests, parsesOneLog )
 {
-  std::string date_ran = "2012-04-15";
-  std::string time_ran = "30";
+  std::string dateRan = "2012-04-15";
+  std::string timeRan = "30";
 
   std::string json = 
     "[" + 
     OPEN_BRACE + 
     QUOTE + "date_ran" + QUOTE + 
     ":" + 
-    QUOTE + date_ran + QUOTE +
+    QUOTE + dateRan + QUOTE +
     QUOTE + "time_ran" + QUOTE + 
     ":" + 
-    QUOTE + time_ran + QUOTE +
+    QUOTE + timeRan + QUOTE +
     CLOSE_BRACE +
     "]";
 
   const RunLog& log = parser.parse(json);
 
-  ASSERT_EQ(date_ran, log.dateRan);
-  ASSERT_EQ(time_ran, log.timeRan);
+  ASSERT_EQ(dateRan, log.dateRan);
+  ASSERT_EQ(timeRan, log.timeRan);
 }
 
 TEST_F( ChartUrlParserTests, Parses2Logs )
 {
-  std::string date_ran1 = "2012-04-15";
-  std::string time_ran1 = "30";
+  std::string dateRan1 = "2012-04-15";
+  std::string timeRan1 = "30";
 
-  std::string date_ran2 = "2012-03-30";
-  std::string time_ran2 = "15";
+  std::string dateRan2 = "2012-03-30";
+  std::string timeRan2 = "15";
 
   std::string json = 
     "[" + 
     OPEN_BRACE + 
     QUOTE + "date_ran" + QUOTE + 
     ":" + 
-    QUOTE + date_ran1 + QUOTE +
+    QUOTE + dateRan1 + QUOTE +
     QUOTE + "time_ran" + QUOTE + 
     ":" + 
-    QUOTE + time_ran1 + QUOTE +
+    QUOTE + timeRan1 + QUOTE +
     CLOSE_BRACE +
     "," +
     OPEN_BRACE + 
     QUOTE + "date_ran" + QUOTE + 
     ":" + 
-    QUOTE + date_ran2 + QUOTE +
+    QUOTE + dateRan2 + QUOTE +
     QUOTE + "time_ran" + QUOTE + 
     ":" + 
-    QUOTE + time_ran2 + QUOTE +
+    QUOTE + timeRan2 + QUOTE +
     CLOSE_BRACE +
     "]";
 
