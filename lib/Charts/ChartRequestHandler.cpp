@@ -9,7 +9,7 @@ ChartRequestHandler::ChartRequestHandler()
 ChartRequestHandler::~ChartRequestHandler()
 { }
 
-HttpResponse* ChartRequestHandler::handle( HttpRequest& request )
+HttpResponse* ChartRequestHandler::handle( HttpRequest& )
 {
   throw 0;
 }
