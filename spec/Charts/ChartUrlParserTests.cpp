@@ -1,7 +1,14 @@
 #include "gtest/gtest.h"
 #include "ChartUrlParser.h"
 
-TEST( ChartUrlParserTests, parsesOneLog )
+class ChartUrlParserTests
+  : public ::testing::Test
+{
+  public:
+    ChartUrlParser parser;
+};
+
+TEST_F( ChartUrlParserTests, parsesOneLog )
 {
   std::string opening_brace = "%7B";
   std::string closing_brace = "%7D";
@@ -21,29 +28,25 @@ TEST( ChartUrlParserTests, parsesOneLog )
     quote + time_ran + quote +
     closing_brace +
     "]";
-  ChartUrlParser parser;
   ASSERT_EQ(date_ran, parser.parseDate(json));
   ASSERT_EQ(time_ran, parser.parseTime(json));
 }
 
-TEST( ChartUrlParserTests, DecodesSingleCharacters )
+TEST_F( ChartUrlParserTests, DecodesSingleCharacters )
 {
-  ChartUrlParser parser;
   ASSERT_EQ("{", parser.urlDecode("%7B"));
   ASSERT_EQ("}", parser.urlDecode("%7D"));
   ASSERT_EQ("\"", parser.urlDecode("%22"));
 }
 
-TEST( ChartUrlParserTests, DecodesMultipleCharacters )
+TEST_F( ChartUrlParserTests, DecodesMultipleCharacters )
 {
-  ChartUrlParser parser;
   std::string code("%7B%7D%7B%7B%22");
   ASSERT_EQ("{}{{\"", parser.urlDecode(code));
 }
 
-TEST( ChartUrlParserTests, DecodesMixedCodes )
+TEST_F( ChartUrlParserTests, DecodesMixedCodes )
 {
-  ChartUrlParser parser;
   std::string code("%7B8%7Dt%7Bhlight%7B%22");
   ASSERT_EQ("{8}t{hlight{\"", parser.urlDecode(code));
 }
