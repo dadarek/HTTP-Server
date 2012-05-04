@@ -1,7 +1,27 @@
 #include "gtest/gtest.h"
 #include "ChartUrlParser.h"
 
-TEST( ChartUrlParserTests, compiles )
+TEST( ChartUrlParserTests, parsesOneLog )
 {
+  std::string opening_brace = "%7B";
+  std::string closing_brace = "%7D";
+  std::string quote = "%22";
+
+  std::string date_ran = "2012-04-15";
+  std::string time_ran = "30";
+
+  std::string json = 
+    "[" + 
+    opening_brace + 
+    quote + "date_ran" + quote + 
+    ":" + 
+    quote + date_ran + quote +
+    quote + "time_ran" + quote + 
+    ":" + 
+    quote + time_ran + quote +
+    closing_brace +
+    "]";
   ChartUrlParser parser;
+  std::string parsedDate = parser.parseDate(json);
+  ASSERT_EQ(date_ran, parsedDate);
 }
