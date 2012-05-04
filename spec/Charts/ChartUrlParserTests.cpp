@@ -26,10 +26,17 @@ TEST( ChartUrlParserTests, parsesOneLog )
   ASSERT_EQ(time_ran, parser.parseTime(json));
 }
 
-TEST( ChartUrlParserTests, DecodesUrlEncoding )
+TEST( ChartUrlParserTests, DecodesSingleCharacters )
 {
   ChartUrlParser parser;
   ASSERT_EQ("{", parser.urlDecode("%7B"));
   ASSERT_EQ("}", parser.urlDecode("%7D"));
   ASSERT_EQ("\"", parser.urlDecode("%22"));
+}
+
+TEST( ChartUrlParserTests, DecodesMultipleCharacters )
+{
+  ChartUrlParser parser;
+  std::string code("%7B%7D%7B%7B%22");
+  ASSERT_EQ("{}{{\"", parser.urlDecode(code));
 }

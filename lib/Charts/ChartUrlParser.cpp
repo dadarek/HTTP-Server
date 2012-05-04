@@ -18,8 +18,15 @@ std::string ChartUrlParser::parseTime( std::string json )
 
 std::string ChartUrlParser::urlDecode( std::string json )
 {
-  if(json == "%7B") return "{";
-  if(json == "%7D") return "}";
-  if(json == "%22") return "\"";
-  throw 0;
+  std::string result;
+
+  for(size_t i = 0; i < json.length(); i += 3)
+  {
+    std::string nextChar = json.substr(i, 3);
+
+    if(nextChar == "%7B") result += "{";
+    if(nextChar == "%7D") result += "}";
+    if(nextChar == "%22") result += "\"";
+  }
+  return result;
 }
