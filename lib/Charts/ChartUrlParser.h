@@ -12,9 +12,6 @@ class ChartUrlParser
     virtual ~ChartUrlParser();
 
     RunLog parse( std::string json );
-    std::string parseDate( std::string json );
-    std::string parseTime( std::string json );
-
     std::string urlDecode( std::string json );
 
   private:

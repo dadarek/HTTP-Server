@@ -16,16 +16,6 @@ RunLog ChartUrlParser::parse( std::string )
   return result;
 }
 
-std::string ChartUrlParser::parseDate( std::string )
-{
-  return "2012-04-15";
-}
-
-std::string ChartUrlParser::parseTime( std::string )
-{
-  return "30";
-}
-
 std::string ChartUrlParser::urlDecode( std::string json )
 {
   std::string result;
