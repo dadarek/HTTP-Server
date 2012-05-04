@@ -8,17 +8,20 @@ HTTP_HEADERS_DIR = ${HEADERS_DIR}/Http
 FILE_IO_HEADERS_DIR = ${HEADERS_DIR}/FileIO
 EXCEPTIONS_HEADERS_DIR = ${HEADERS_DIR}/Exceptions
 THREADS_HEADERS_DIR = ${HEADERS_DIR}/Threads
+CHARTS_HEADERS_DIR = ${HEADERS_DIR}/Charts
 
 LIB_DIR = ${PROJECT_ROOT}/lib
 HTTP_LIB_DIR = ${LIB_DIR}/Http
 FILE_IO_LIB_DIR = ${LIB_DIR}/FileIO
 EXCEPTIONS_LIB_DIR = ${LIB_DIR}/Exceptions
 THREADS_LIB_DIR = ${LIB_DIR}/Threads
+CHARTS_LIB_DIR = ${LIB_DIR}/Charts
 
 SPECS_DIR = ${PROJECT_ROOT}/spec
 HTTP_SPECS_DIR = ${SPECS_DIR}/Http
 EXCEPTIONS_SPECS_DIR = ${SPECS_DIR}/Exceptions
 THREADS_SPECS_DIR = ${SPECS_DIR}/Threads
+CHARTS_SPECS_DIR = ${SPECS_DIR}/Charts
 MOCKS_DIR = ${SPECS_DIR}/mocks
 
 
@@ -32,8 +35,8 @@ GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
 CPPFLAGS += -I$(GTEST_DIR)/include -Wreorder
 CXXFLAGS += -g -Wall -Wextra
 
-HEADER_INCLUDES = -I${HEADERS_DIR} -I${HTTP_HEADERS_DIR} -I${MOCKS_DIR} -I${FILE_IO_HEADERS_DIR} -I${EXCEPTIONS_HEADERS_DIR} -I${THREADS_HEADERS_DIR}
-CPP_TO_COMPILE = ${LIB_DIR}/*.cpp ${HTTP_LIB_DIR}/*.cpp ${FILE_IO_LIB_DIR}/*.cpp ${EXCEPTIONS_LIB_DIR}/*.cpp ${THREADS_LIB_DIR}/*.cpp
+HEADER_INCLUDES = -I${HEADERS_DIR} -I${HTTP_HEADERS_DIR} -I${MOCKS_DIR} -I${FILE_IO_HEADERS_DIR} -I${EXCEPTIONS_HEADERS_DIR} -I${THREADS_HEADERS_DIR} -I${CHARTS_HEADERS_DIR}
+CPP_TO_COMPILE = ${LIB_DIR}/*.cpp ${HTTP_LIB_DIR}/*.cpp ${FILE_IO_LIB_DIR}/*.cpp ${EXCEPTIONS_LIB_DIR}/*.cpp ${THREADS_LIB_DIR}/*.cpp ${CHARTS_LIB_DIR}/*.cpp
 
 # Targets
 tests : all-tests
@@ -82,7 +85,10 @@ http-libs :
 thread-libs : 
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_INCLUDES} -c ${THREADS_LIB_DIR}/*.cpp
 
-all-libs : libs file-libs http-libs exception-libs thread-libs
+chart_libs :
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_INCLUDES} -c ${CHARTS_LIB_DIR}/*.cpp
+
+all-libs : libs file-libs http-libs exception-libs thread-libs chart-libs
 
 specs : 
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_INCLUDES} -c ${SPECS_DIR}/*.cpp
@@ -96,7 +102,10 @@ exception-specs :
 thread-specs : 
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_INCLUDES} -c ${THREADS_SPECS_DIR}/*.cpp
 
-all-specs : specs http-specs exception-specs thread-specs
+chart-specs :
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_INCLUDES} -c ${CHARTS_SPECS_DIR}/*.cpp
+
+all-specs : specs http-specs exception-specs thread-specs chart-specs
 
 mocks :
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_INCLUDES} -c ${MOCKS_DIR}/*.cpp 
