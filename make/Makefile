@@ -85,7 +85,7 @@ http-libs :
 thread-libs : 
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_INCLUDES} -c ${THREADS_LIB_DIR}/*.cpp
 
-chart_libs :
+chart-libs :
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} ${HEADER_INCLUDES} -c ${CHARTS_LIB_DIR}/*.cpp
 
 all-libs : libs file-libs http-libs exception-libs thread-libs chart-libs
