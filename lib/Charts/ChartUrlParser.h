@@ -3,12 +3,15 @@
 
 #include <string>
 
+class RunLog;
+
 class ChartUrlParser
 {
   public:
     ChartUrlParser();
     virtual ~ChartUrlParser();
 
+    RunLog parse( std::string json );
     std::string parseDate( std::string json );
     std::string parseTime( std::string json );
 

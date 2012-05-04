@@ -1,4 +1,5 @@
 #include "ChartUrlParser.h"
+#include "RunLog.h"
 
 ChartUrlParser::ChartUrlParser()
 { }
@@ -6,12 +7,21 @@ ChartUrlParser::ChartUrlParser()
 ChartUrlParser::~ChartUrlParser()
 { }
 
-std::string ChartUrlParser::parseDate( std::string json )
+RunLog ChartUrlParser::parse( std::string )
+{
+  RunLog result;
+  result.dateRan = "2012-04-15";
+  result.timeRan = "30";
+
+  return result;
+}
+
+std::string ChartUrlParser::parseDate( std::string )
 {
   return "2012-04-15";
 }
 
-std::string ChartUrlParser::parseTime( std::string json )
+std::string ChartUrlParser::parseTime( std::string )
 {
   return "30";
 }

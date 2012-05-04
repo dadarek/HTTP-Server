@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "ChartUrlParser.h"
+#include "RunLog.h"
 
 class ChartUrlParserTests
   : public ::testing::Test
@@ -31,8 +32,42 @@ TEST_F( ChartUrlParserTests, parsesOneLog )
     QUOTE + time_ran + QUOTE +
     CLOSE_BRACE +
     "]";
-  ASSERT_EQ(date_ran, parser.parseDate(json));
-  ASSERT_EQ(time_ran, parser.parseTime(json));
+
+  const RunLog& log = parser.parse(json);
+
+  ASSERT_EQ(date_ran, log.dateRan);
+  ASSERT_EQ(time_ran, log.timeRan);
+}
+
+TEST_F( ChartUrlParserTests, Parses2Logs )
+{
+  std::string date_ran1 = "2012-04-15";
+  std::string time_ran1 = "30";
+
+  std::string date_ran2 = "2012-03-30";
+  std::string time_ran2 = "15";
+
+  std::string json = 
+    "[" + 
+    OPEN_BRACE + 
+    QUOTE + "date_ran" + QUOTE + 
+    ":" + 
+    QUOTE + date_ran1 + QUOTE +
+    QUOTE + "time_ran" + QUOTE + 
+    ":" + 
+    QUOTE + time_ran1 + QUOTE +
+    CLOSE_BRACE +
+    "," +
+    OPEN_BRACE + 
+    QUOTE + "date_ran" + QUOTE + 
+    ":" + 
+    QUOTE + date_ran2 + QUOTE +
+    QUOTE + "time_ran" + QUOTE + 
+    ":" + 
+    QUOTE + time_ran2 + QUOTE +
+    CLOSE_BRACE +
+    "]";
+
 }
 
 TEST_F( ChartUrlParserTests, DecodesSingleCharacters )
