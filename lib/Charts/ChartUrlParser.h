@@ -13,6 +13,10 @@ class ChartUrlParser
     std::string parseTime( std::string json );
 
     std::string urlDecode( std::string json );
+
+  private:
+    bool isEncoded( char );
+    std::string decode( const char* );
 };
 
 #endif
