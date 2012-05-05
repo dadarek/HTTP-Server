@@ -12,8 +12,6 @@ class ChartUrlParserTests
     std::string createLogJson(const char* dateRan, int timeRan)
     {
       char json[100];
-      memset( json, 0, 100 );
-
       sprintf( json, "{\"date_ran\":\"%s\",\"time_ran\":\"%d\"}", dateRan, timeRan );
 
       return UrlUtilities::encode( json );
