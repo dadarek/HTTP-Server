@@ -11,28 +11,31 @@ std::vector<RunLog> ChartUrlParser::parse( std::string json )
 {
   std::vector<RunLog> result;
 
-  char dateRan[11];
-  int timeRan;
-  memset(dateRan, 0, 11);
-
   const std::string& decodedJson = urlDecode( json );
   const char* nextBracket = strchr(decodedJson.c_str(), '{');
 
   while( 0 != nextBracket )
   {
-    const char* pattern = "{\"date_ran\":\"%10s\",\"time_ran\":\"%d\"}";
-    sscanf(nextBracket, pattern, dateRan, &timeRan);
-
-    RunLog log;
-    log.dateRan = std::string(dateRan);
-    log.timeRan = timeRan;
-
-    result.push_back(log);
-
+    result.push_back( parseNextLog( nextBracket ) );
     nextBracket = strchr(nextBracket + 1, '{');
   }
 
   return result;
+}
+
+RunLog ChartUrlParser::parseNextLog( const char* bracket )
+{
+    char dateRan[11];
+    int timeRan;
+    memset(dateRan, 0, 11);
+
+    const char* pattern = "{\"date_ran\":\"%10s\",\"time_ran\":\"%d\"}";
+    sscanf(bracket, pattern, dateRan, &timeRan);
+
+    RunLog log;
+    log.dateRan = std::string(dateRan);
+    log.timeRan = timeRan;
+    return log;
 }
 
 std::string ChartUrlParser::urlDecode( std::string json )

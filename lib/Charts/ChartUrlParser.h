@@ -18,6 +18,7 @@ class ChartUrlParser
   private:
     bool isEncoded( char );
     std::string decode( const char* );
+    RunLog parseNextLog( const char* );
 };
 
 #endif
