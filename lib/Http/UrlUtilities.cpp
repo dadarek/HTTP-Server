@@ -7,20 +7,23 @@ const char* UrlUtilities::QUOTE = "%22";
 std::string UrlUtilities::encode( const char* value )
 {
   std::string result;
-  switch( value[0] )
+  for( size_t i = 0; i < strlen(value); i++ )
   {
-    case '{':
-      result += OPEN_BRACE;
-      break;
-    case '}':
-      result += CLOSE_BRACE;
-      break;
-    case '"':
-      result += QUOTE;
-      break;
-    default:
-      result += value[0];
-      break;
+    switch( value[i] )
+    {
+      case '{':
+        result += OPEN_BRACE;
+        break;
+      case '}':
+        result += CLOSE_BRACE;
+        break;
+      case '"':
+        result += QUOTE;
+        break;
+      default:
+        result += value[i];
+        break;
+    }
   }
 
   return result;

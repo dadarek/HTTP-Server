@@ -43,3 +43,17 @@ TEST_F( UrlUtilitiesTests, EncodesSingleCharacters )
   ASSERT_STREQ( CLOSE_BRACE, UrlUtilities::encode("}").c_str() );
   ASSERT_STREQ( QUOTE, UrlUtilities::encode("\"").c_str() );
 }
+
+TEST_F( UrlUtilitiesTests, EncodesMultipleCharacters )
+{
+  char expected[100];
+  sprintf(expected, "%s%s%s%s", OPEN_BRACE, CLOSE_BRACE, OPEN_BRACE, QUOTE);
+  ASSERT_STREQ( expected, UrlUtilities::encode("{}{\"").c_str() );
+}
+
+TEST_F( UrlUtilitiesTests, EncodesMixedCharacters )
+{
+  char expected[100];
+  sprintf(expected, "He%sl%slo W%s%s", OPEN_BRACE, CLOSE_BRACE, OPEN_BRACE, QUOTE);
+  ASSERT_STREQ( expected, UrlUtilities::encode("He{l}lo W{\"").c_str() );
+}
