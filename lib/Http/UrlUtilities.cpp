@@ -1,8 +1,27 @@
 #include "UrlUtilities.h"
 
+const char* UrlUtilities::OPEN_BRACE = "%7B";
+const char* UrlUtilities::CLOSE_BRACE = "%7D";
+const char* UrlUtilities::QUOTE = "%22";
+
 std::string UrlUtilities::encode( const char* value )
 {
   std::string result;
+  switch( value[0] )
+  {
+    case '{':
+      result += OPEN_BRACE;
+      break;
+    case '}':
+      result += CLOSE_BRACE;
+      break;
+    case '"':
+      result += QUOTE;
+      break;
+    default:
+      result += value[0];
+      break;
+  }
 
   return result;
 }
@@ -35,8 +54,8 @@ bool UrlUtilities::isEncoded( char c )
 char UrlUtilities::translate( const char* encoded )
 {
   std::string nextChar(encoded, 3);
-  if(nextChar == "%7B") return '{';
-  if(nextChar == "%7D") return '}';
-  if(nextChar == "%22") return '"';
+  if(nextChar == OPEN_BRACE) return '{';
+  if(nextChar == CLOSE_BRACE) return '}';
+  if(nextChar == QUOTE) return '"';
   throw 0;
 }

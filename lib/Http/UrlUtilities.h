@@ -6,6 +6,10 @@
 class UrlUtilities
 {
   private:
+    static const char* OPEN_BRACE;
+    static const char* CLOSE_BRACE;
+    static const char* QUOTE;
+
     UrlUtilities();
     virtual ~UrlUtilities();
 

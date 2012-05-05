@@ -36,3 +36,10 @@ TEST_F( UrlUtilitiesTests, DecodesMixedCodes )
   sprintf( code, "%s8%st%shlight%s%s", OPEN_BRACE, CLOSE_BRACE, OPEN_BRACE, OPEN_BRACE, QUOTE );
   ASSERT_STREQ("{8}t{hlight{\"", UrlUtilities::decode(code).c_str());
 }
+
+TEST_F( UrlUtilitiesTests, EncodesSingleCharacters )
+{
+  ASSERT_STREQ( OPEN_BRACE, UrlUtilities::encode("{").c_str() );
+  ASSERT_STREQ( CLOSE_BRACE, UrlUtilities::encode("}").c_str() );
+  ASSERT_STREQ( QUOTE, UrlUtilities::encode("\"").c_str() );
+}
