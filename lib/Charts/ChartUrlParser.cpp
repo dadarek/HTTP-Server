@@ -7,11 +7,14 @@ ChartUrlParser::ChartUrlParser()
 ChartUrlParser::~ChartUrlParser()
 { }
 
-RunLog ChartUrlParser::parse( std::string )
+std::vector<RunLog> ChartUrlParser::parse( std::string )
 {
-  RunLog result;
-  result.dateRan = "2012-04-15";
-  result.timeRan = "30";
+  RunLog log;
+  log.dateRan = "2012-04-15";
+  log.timeRan = "30";
+
+  std::vector<RunLog> result;
+  result.push_back(log);
 
   return result;
 }

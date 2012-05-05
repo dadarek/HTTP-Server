@@ -33,10 +33,10 @@ TEST_F( ChartUrlParserTests, parsesOneLog )
     CLOSE_BRACE +
     "]";
 
-  const RunLog& log = parser.parse(json);
+  const std::vector<RunLog>& logs = parser.parse(json);
 
-  ASSERT_EQ(dateRan, log.dateRan);
-  ASSERT_EQ(timeRan, log.timeRan);
+  ASSERT_EQ(dateRan, logs.back().dateRan);
+  ASSERT_EQ(timeRan, logs.back().timeRan);
 }
 
 TEST_F( ChartUrlParserTests, Parses2Logs )

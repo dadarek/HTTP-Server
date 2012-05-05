@@ -2,6 +2,7 @@
 #define CHART_URL_PARSER_H
 
 #include <string>
+#include <vector>
 
 class RunLog;
 
@@ -11,7 +12,7 @@ class ChartUrlParser
     ChartUrlParser();
     virtual ~ChartUrlParser();
 
-    RunLog parse( std::string json );
+    std::vector<RunLog> parse( std::string json );
     std::string urlDecode( std::string json );
 
   private:
