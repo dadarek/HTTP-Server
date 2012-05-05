@@ -89,22 +89,3 @@ TEST_F( ChartUrlParserTests, Parses2Logs )
   assertLogEquals( logs.front(), dateRan1, timeRan1 );
   assertLogEquals( logs.back(), dateRan2, timeRan2 );
 }
-
-TEST_F( ChartUrlParserTests, DecodesSingleCharacters )
-{
-  ASSERT_EQ("{", parser.urlDecode(OPEN_BRACE));
-  ASSERT_EQ("}", parser.urlDecode(CLOSE_BRACE));
-  ASSERT_EQ("\"", parser.urlDecode(QUOTE));
-}
-
-TEST_F( ChartUrlParserTests, DecodesMultipleCharacters )
-{
-  std::string code = OPEN_BRACE + CLOSE_BRACE + OPEN_BRACE + QUOTE;
-  ASSERT_EQ("{}{\"", parser.urlDecode(code));
-}
-
-TEST_F( ChartUrlParserTests, DecodesMixedCodes )
-{
-  std::string code = OPEN_BRACE + "8" + CLOSE_BRACE + "t" + OPEN_BRACE + "hlight" + OPEN_BRACE + QUOTE;
-  ASSERT_EQ("{8}t{hlight{\"", parser.urlDecode(code));
-}

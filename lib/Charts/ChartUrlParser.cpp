@@ -1,4 +1,5 @@
 #include "ChartUrlParser.h"
+#include "UrlUtilities.h"
 #include "RunLog.h"
 
 ChartUrlParser::ChartUrlParser()
@@ -11,7 +12,7 @@ std::vector<RunLog> ChartUrlParser::parse( std::string json )
 {
   std::vector<RunLog> result;
 
-  const std::string& decodedJson = urlDecode( json );
+  const std::string& decodedJson = UrlUtilities::decode( json.c_str() );
   const char* nextBracket = strchr(decodedJson.c_str(), '{');
 
   while( 0 != nextBracket )
@@ -38,38 +39,3 @@ RunLog ChartUrlParser::parseNextLog( const char* bracket )
     return log;
 }
 
-std::string ChartUrlParser::urlDecode( std::string json )
-{
-  std::string result;
-
-  const char* cJson = json.c_str();
-
-  for(size_t i = 0; i < json.length(); )
-  {
-    if( isEncoded( cJson[i] ) )
-    {
-      result += decode(cJson + i);
-      i += 3;
-    }
-    else
-    {
-      result += cJson[i];
-      i++;
-    }
-  }
-  return result;
-}
-
-bool ChartUrlParser::isEncoded( char c )
-{
-  return c == '%';
-}
-
-std::string ChartUrlParser::decode( const char* encoded )
-{
-  std::string nextChar(encoded, 3);
-  if(nextChar == "%7B") return "{";
-  if(nextChar == "%7D") return "}";
-  if(nextChar == "%22") return "\"";
-  throw 0;
-}

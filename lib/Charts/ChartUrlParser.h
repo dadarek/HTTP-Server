@@ -13,11 +13,8 @@ class ChartUrlParser
     virtual ~ChartUrlParser();
 
     std::vector<RunLog> parse( std::string json );
-    std::string urlDecode( std::string json );
 
   private:
-    bool isEncoded( char );
-    std::string decode( const char* );
     RunLog parseNextLog( const char* );
 };
 
