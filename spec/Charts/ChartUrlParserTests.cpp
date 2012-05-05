@@ -10,6 +10,41 @@ class ChartUrlParserTests
     static std::string CLOSE_BRACE;
     static std::string QUOTE;
     ChartUrlParser parser;
+
+    std::string urlEncode( const char* value )
+    {
+      std::string result;
+
+      for( size_t i = 0; i < strlen(value); i++ )
+      {
+        switch( value[i] )
+        {
+          case '{':
+            result += OPEN_BRACE;
+            break;
+          case '}':
+            result += CLOSE_BRACE;
+            break;
+          case '"':
+            result += QUOTE;
+            break;
+          default:
+            result += value[i];
+            break;
+        }
+      }
+
+      return result;
+    }
+    std::string createLogJson(const char* dateRan, int timeRan)
+    {
+      char json[100];
+      memset( json, 0, 100 );
+
+      sprintf( json, "{\"date_ran\":\"%s\",\"time_ran\":\"%d\"}", dateRan, timeRan );
+
+      return urlEncode( json );
+    }
 };
 
 std::string ChartUrlParserTests::OPEN_BRACE = "%7B";
@@ -18,26 +53,15 @@ std::string ChartUrlParserTests::QUOTE= "%22";
 
 TEST_F( ChartUrlParserTests, parsesOneLog )
 {
-  std::string dateRan = "2012-04-15";
-  std::string timeRan = "30";
+  const char* dateRan = "2012-04-15";
+  int timeRan = 30;
 
-  std::string json = 
-    "[" + 
-    OPEN_BRACE + 
-    QUOTE + "date_ran" + QUOTE + 
-    ":" + 
-    QUOTE + dateRan + QUOTE +
-    "," +
-    QUOTE + "time_ran" + QUOTE + 
-    ":" + 
-    QUOTE + timeRan + QUOTE +
-    CLOSE_BRACE +
-    "]";
+  std::string json = "[" + createLogJson( dateRan, timeRan ) + "]";
 
   const std::vector<RunLog>& logs = parser.parse(json);
 
-  ASSERT_EQ(dateRan, logs.back().dateRan);
-  ASSERT_EQ(atoi(timeRan.c_str()), logs.back().timeRan);
+  ASSERT_STREQ(dateRan, logs.back().dateRan.c_str());
+  ASSERT_EQ(timeRan, logs.back().timeRan);
 }
 
 TEST_F( ChartUrlParserTests, Parses2Logs )
