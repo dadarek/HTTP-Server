@@ -45,6 +45,12 @@ class ChartUrlParserTests
 
       return urlEncode( json );
     }
+
+    void assertLogEquals( const RunLog& log, const char* dateRan, int timeRan )
+    {
+      ASSERT_STREQ(dateRan, log.dateRan.c_str());
+      ASSERT_EQ(timeRan, log.timeRan);
+    }
 };
 
 std::string ChartUrlParserTests::OPEN_BRACE = "%7B";
@@ -60,8 +66,7 @@ TEST_F( ChartUrlParserTests, parsesOneLog )
 
   const std::vector<RunLog>& logs = parser.parse(json);
 
-  ASSERT_STREQ(dateRan, logs.back().dateRan.c_str());
-  ASSERT_EQ(timeRan, logs.back().timeRan);
+  assertLogEquals( logs.back(), dateRan, timeRan );
 }
 
 TEST_F( ChartUrlParserTests, Parses2Logs )
@@ -81,12 +86,8 @@ TEST_F( ChartUrlParserTests, Parses2Logs )
 
   const std::vector<RunLog>& logs = parser.parse(json);
 
-  ASSERT_STREQ(dateRan1, logs.front().dateRan.c_str());
-  ASSERT_EQ(timeRan1, logs.front().timeRan);
-
-  ASSERT_STREQ(dateRan2, logs.back().dateRan.c_str());
-  ASSERT_EQ(timeRan2, logs.back().timeRan);
-
+  assertLogEquals( logs.front(), dateRan1, timeRan1 );
+  assertLogEquals( logs.back(), dateRan2, timeRan2 );
 }
 
 TEST_F( ChartUrlParserTests, DecodesSingleCharacters )
