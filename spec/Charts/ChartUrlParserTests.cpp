@@ -66,42 +66,26 @@ TEST_F( ChartUrlParserTests, parsesOneLog )
 
 TEST_F( ChartUrlParserTests, Parses2Logs )
 {
-  std::string dateRan1 = "2012-04-15";
-  std::string timeRan1 = "30";
+  const char* dateRan1 = "2012-04-15";
+  int timeRan1 = 30;
 
-  std::string dateRan2 = "2012-03-30";
-  std::string timeRan2 = "15";
+  const char* dateRan2 = "2012-03-30";
+  int timeRan2 = 15;
 
   std::string json = 
     "[" + 
-    OPEN_BRACE + 
-    QUOTE + "date_ran" + QUOTE + 
-    ":" + 
-    QUOTE + dateRan1 + QUOTE +
+    createLogJson( dateRan1, timeRan1 ) +
     "," +
-    QUOTE + "time_ran" + QUOTE + 
-    ":" + 
-    QUOTE + timeRan1 + QUOTE +
-    CLOSE_BRACE +
-    "," +
-    OPEN_BRACE + 
-    QUOTE + "date_ran" + QUOTE + 
-    ":" + 
-    QUOTE + dateRan2 + QUOTE +
-    "," +
-    QUOTE + "time_ran" + QUOTE + 
-    ":" + 
-    QUOTE + timeRan2 + QUOTE +
-    CLOSE_BRACE +
+    createLogJson( dateRan2, timeRan2 ) +
     "]";
 
   const std::vector<RunLog>& logs = parser.parse(json);
 
-  ASSERT_EQ(dateRan1, logs.front().dateRan);
-  ASSERT_EQ(atoi(timeRan1.c_str()), logs.front().timeRan);
+  ASSERT_STREQ(dateRan1, logs.front().dateRan.c_str());
+  ASSERT_EQ(timeRan1, logs.front().timeRan);
 
-  ASSERT_EQ(dateRan2, logs.back().dateRan);
-  ASSERT_EQ(atoi(timeRan2.c_str()), logs.back().timeRan);
+  ASSERT_STREQ(dateRan2, logs.back().dateRan.c_str());
+  ASSERT_EQ(timeRan2, logs.back().timeRan);
 
 }
 
