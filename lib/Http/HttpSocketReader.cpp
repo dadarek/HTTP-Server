@@ -19,7 +19,7 @@ std::string HttpSocketReader::readToEnd( int socketFD )
 
 std::string HttpSocketReader::getNextChunk( int socketFD )
 {
-  char buffer[ 2048 ] ;
+  char buffer[ 4048 ] ;
   size_t bufferSize = sizeof( buffer );
 
   memset( buffer, 0, bufferSize );
