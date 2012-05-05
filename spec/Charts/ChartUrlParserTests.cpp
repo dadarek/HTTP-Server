@@ -1,41 +1,14 @@
 #include "gtest/gtest.h"
 #include "ChartUrlParser.h"
+#include "UrlUtilities.h"
 #include "RunLog.h"
 
 class ChartUrlParserTests
   : public ::testing::Test
 {
   public:
-    static std::string OPEN_BRACE;
-    static std::string CLOSE_BRACE;
-    static std::string QUOTE;
     ChartUrlParser parser;
 
-    std::string urlEncode( const char* value )
-    {
-      std::string result;
-
-      for( size_t i = 0; i < strlen(value); i++ )
-      {
-        switch( value[i] )
-        {
-          case '{':
-            result += OPEN_BRACE;
-            break;
-          case '}':
-            result += CLOSE_BRACE;
-            break;
-          case '"':
-            result += QUOTE;
-            break;
-          default:
-            result += value[i];
-            break;
-        }
-      }
-
-      return result;
-    }
     std::string createLogJson(const char* dateRan, int timeRan)
     {
       char json[100];
@@ -43,7 +16,7 @@ class ChartUrlParserTests
 
       sprintf( json, "{\"date_ran\":\"%s\",\"time_ran\":\"%d\"}", dateRan, timeRan );
 
-      return urlEncode( json );
+      return UrlUtilities::encode( json );
     }
 
     void assertLogEquals( const RunLog& log, const char* dateRan, int timeRan )
@@ -52,10 +25,6 @@ class ChartUrlParserTests
       ASSERT_EQ(timeRan, log.timeRan);
     }
 };
-
-std::string ChartUrlParserTests::OPEN_BRACE = "%7B";
-std::string ChartUrlParserTests::CLOSE_BRACE = "%7D";
-std::string ChartUrlParserTests::QUOTE= "%22";
 
 TEST_F( ChartUrlParserTests, parsesOneLog )
 {
