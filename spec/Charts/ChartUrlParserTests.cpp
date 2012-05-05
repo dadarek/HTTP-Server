@@ -27,6 +27,7 @@ TEST_F( ChartUrlParserTests, parsesOneLog )
     QUOTE + "date_ran" + QUOTE + 
     ":" + 
     QUOTE + dateRan + QUOTE +
+    "," +
     QUOTE + "time_ran" + QUOTE + 
     ":" + 
     QUOTE + timeRan + QUOTE +
@@ -36,7 +37,7 @@ TEST_F( ChartUrlParserTests, parsesOneLog )
   const std::vector<RunLog>& logs = parser.parse(json);
 
   ASSERT_EQ(dateRan, logs.back().dateRan);
-  ASSERT_EQ(timeRan, logs.back().timeRan);
+  ASSERT_EQ(atoi(timeRan.c_str()), logs.back().timeRan);
 }
 
 TEST_F( ChartUrlParserTests, Parses2Logs )
@@ -53,6 +54,7 @@ TEST_F( ChartUrlParserTests, Parses2Logs )
     QUOTE + "date_ran" + QUOTE + 
     ":" + 
     QUOTE + dateRan1 + QUOTE +
+    "," +
     QUOTE + "time_ran" + QUOTE + 
     ":" + 
     QUOTE + timeRan1 + QUOTE +
@@ -62,11 +64,20 @@ TEST_F( ChartUrlParserTests, Parses2Logs )
     QUOTE + "date_ran" + QUOTE + 
     ":" + 
     QUOTE + dateRan2 + QUOTE +
+    "," +
     QUOTE + "time_ran" + QUOTE + 
     ":" + 
     QUOTE + timeRan2 + QUOTE +
     CLOSE_BRACE +
     "]";
+
+  const std::vector<RunLog>& logs = parser.parse(json);
+
+  ASSERT_EQ(dateRan1, logs.front().dateRan);
+  ASSERT_EQ(atoi(timeRan1.c_str()), logs.front().timeRan);
+
+  ASSERT_EQ(dateRan2, logs.back().dateRan);
+  ASSERT_EQ(atoi(timeRan2.c_str()), logs.back().timeRan);
 
 }
 

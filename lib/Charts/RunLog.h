@@ -3,7 +3,7 @@
 
 struct RunLog
 {
-  std::string timeRan;
+  int timeRan;
   std::string dateRan;
 };
 

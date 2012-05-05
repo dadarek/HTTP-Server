@@ -7,14 +7,30 @@ ChartUrlParser::ChartUrlParser()
 ChartUrlParser::~ChartUrlParser()
 { }
 
-std::vector<RunLog> ChartUrlParser::parse( std::string )
+std::vector<RunLog> ChartUrlParser::parse( std::string json )
 {
-  RunLog log;
-  log.dateRan = "2012-04-15";
-  log.timeRan = "30";
-
   std::vector<RunLog> result;
-  result.push_back(log);
+
+  char dateRan[11];
+  int timeRan;
+  memset(dateRan, 0, 11);
+
+  const std::string& decodedJson = urlDecode( json );
+  const char* nextBracket = strchr(decodedJson.c_str(), '{');
+
+  while( 0 != nextBracket )
+  {
+    const char* pattern = "{\"date_ran\":\"%10s\",\"time_ran\":\"%d\"}";
+    sscanf(nextBracket, pattern, dateRan, &timeRan);
+
+    RunLog log;
+    log.dateRan = std::string(dateRan);
+    log.timeRan = timeRan;
+
+    result.push_back(log);
+
+    nextBracket = strchr(nextBracket + 1, '{');
+  }
 
   return result;
 }
