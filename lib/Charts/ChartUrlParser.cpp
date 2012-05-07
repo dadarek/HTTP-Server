@@ -1,6 +1,8 @@
 #include "ChartUrlParser.h"
 #include "UrlUtilities.h"
 #include "RunLog.h"
+#include <cstring>
+#include <cstdio>
 
 ChartUrlParser::ChartUrlParser()
 { }

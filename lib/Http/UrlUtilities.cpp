@@ -1,4 +1,5 @@
 #include "UrlUtilities.h"
+#include <cstring>
 
 const char* UrlUtilities::OPEN_BRACE = "%7B";
 const char* UrlUtilities::CLOSE_BRACE = "%7D";
