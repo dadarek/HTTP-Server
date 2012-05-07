@@ -1,10 +1,8 @@
-//#include "HttpConnectionHandler.h"
 #include "stdio.h"
 #include "cstdlib"
 #include "string.h"
 #include "cstring"
 #include "unistd.h"
-#include "HttpRequestHandlerFactoryImpl.h"
 #include "HttpRequestParserImpl.h"
 #include "HttpResponseSocketWriter.h"
 #include "HttpSocketReader.h"
@@ -16,10 +14,6 @@
 
 #include "StlWorkItemQueue.h"
 
-#include "SystemDirectoryApi.h"
-#include "SystemFileFactory.h"
-#include "SystemFileApi.h"
-
 #include "SystemSlaveThreadFactory.h"
 #include "SystemThreadApi.h"
 #include "ThreadPool.h"
@@ -29,7 +23,7 @@
 
 #include <stdexcept>
 
-void go( int portNumber, const char* )
+void go( int portNumber, unsigned threads, const char* )
 {
   printf("Creating objects ...\n");
   SystemThreadApi threadApi;
@@ -38,23 +32,14 @@ void go( int portNumber, const char* )
   HttpSocketReader socketReader( socketApi );
   HttpResponseSocketWriter socketWriter( socketApi );
 
-  //SystemDirectoryApi directoryApi;
-
-  //SystemFileFactory fileFactory;
-  //SystemFileApi fileApi( fileFactory );
-  //std::string basePath( directory );
-
   HttpRequestParserImpl requestParser;
 
-  //HttpRequestHandlerFactoryImpl requestHandlerFactory( basePath, fileApi, directoryApi );
   ChartRequestHandlerFactory requestHandlerFactory;
 
-
   StlWorkItemQueue workItemQueue;
-  unsigned numberOfThreads = 50;
   SystemSlaveThreadFactory slaveThreadFactory( threadApi );
 
-  ThreadPool threadPool( threadApi, slaveThreadFactory, workItemQueue, numberOfThreads );
+  ThreadPool threadPool( threadApi, slaveThreadFactory, workItemQueue, threads );
 
   ThreadedRequestHandler connectionhandler
     ( socketReader, requestParser, requestHandlerFactory, socketWriter, threadPool );
@@ -70,9 +55,9 @@ void go( int portNumber, const char* )
 
 void ensureParameterCount( int argc )
 {
-  if( 5 != argc )
+  if( 7 != argc )
   {
-    printf("Usage: ./main -p [port] -d [directory]\n\n");
+    printf("Usage: ./main -p [port] -t [threads] -d [directory]\n\n");
     exit( -1 );
   }
 }
@@ -94,13 +79,15 @@ int main( int argc, char** argv )
 
   int port = atoi( argv[2] );
 
+  unsigned threads = atoi( argv[4] );
+
   char directory[256];
-  strcpy( directory, argv[4] );
+  strcpy( directory, argv[6] );
   ensureDirectoryTrailingSlash( directory );
 
   try
   {
-    go( port, directory );
+    go( port, threads, directory );
   }
   catch( std::runtime_error e )
   {
