@@ -1,58 +1,46 @@
 #include "gtest/gtest.h"
 #include "ChartUrlParser.h"
-#include "UrlUtilities.h"
 #include "RunLog.h"
+#include "RunLogToJsonConverter.h"
 
-class ChartUrlParserTests
-  : public ::testing::Test
+TEST( ChartUrlParserTests, parsesOneLog )
 {
-  public:
-    ChartUrlParser parser;
+  RunLog log;
+  log.timeRan = 30;
+  log.dateRan = Date(2012, 4, 15);
 
-    std::string createLogJson(const Date& dateRan, int timeRan)
-    {
-      char json[100];
-      sprintf( json, "{\"date_ran\":\"%d-%02d-%02d\",\"time_ran\":\"%d\"}", dateRan.year(), dateRan.month(), dateRan.day(), timeRan );
+  std::string json = "[" + RunLogToJsonConverter::convert(log) + "]";
 
-      return UrlUtilities::encode( json );
-    }
-
-    void assertLogEquals( const RunLog& log, const Date& dateRan, int timeRan )
-    {
-      ASSERT_EQ(dateRan, log.dateRan);
-      ASSERT_EQ(timeRan, log.timeRan);
-    }
-};
-
-TEST_F( ChartUrlParserTests, parsesOneLog )
-{
-  int timeRan = 30;
-  Date dateRan( "2012-04-15" );
-
-  std::string json = "[" + createLogJson( dateRan, timeRan ) + "]";
-
+  ChartUrlParser parser;
   const std::vector<RunLog>& logs = parser.parse(json);
 
-  assertLogEquals( logs.back(), dateRan, timeRan );
+  ASSERT_EQ( log.dateRan, logs.back().dateRan );
+  ASSERT_EQ( log.timeRan, logs.back().timeRan );
 }
 
-TEST_F( ChartUrlParserTests, Parses2Logs )
+TEST( ChartUrlParserTests, Parses2Logs )
 {
-  Date dateRan1( "2012-04-15" );
-  int timeRan1 = 30;
+  RunLog log1;
+  log1.timeRan = 30;
+  log1.dateRan = Date( 2012, 4, 15 );
 
-  Date dateRan2( "2012-03-30" );
-  int timeRan2 = 15;
+  RunLog log2;
+  log2.timeRan = 15;
+  log2.dateRan = Date( 2012, 3, 30 );
 
   std::string json = 
     "[" + 
-    createLogJson( dateRan1, timeRan1 ) +
+    RunLogToJsonConverter::convert( log1 ) +
     "," +
-    createLogJson( dateRan2, timeRan2 ) +
+    RunLogToJsonConverter::convert( log2 ) +
     "]";
 
+  ChartUrlParser parser;
   const std::vector<RunLog>& logs = parser.parse(json);
 
-  assertLogEquals( logs.front(), dateRan1, timeRan1 );
-  assertLogEquals( logs.back(), dateRan2, timeRan2 );
+  ASSERT_EQ( log1.dateRan, logs.front().dateRan );
+  ASSERT_EQ( log1.timeRan, logs.front().timeRan );
+
+  ASSERT_EQ( log2.dateRan, logs.back().dateRan );
+  ASSERT_EQ( log2.timeRan, logs.back().timeRan );
 }
