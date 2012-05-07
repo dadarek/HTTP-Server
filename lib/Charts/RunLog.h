@@ -3,15 +3,20 @@
 
 #include "Date.h"
 
-struct RunLog
+class RunLog
 {
-  Date dateRan;
-  int timeRan;
+  private:
+    Date dateRan_;
+    int timeRan_;
 
-  RunLog( const char* dateRan, int timeRan )
-    : dateRan( dateRan )
-    , timeRan( timeRan )
-  { }
+  public:
+    RunLog( const char* dateRan, int timeRan );
+    virtual ~RunLog();
+
+    bool operator==( const RunLog& other ) const;
+
+    const Date& dateRan() const;
+    int timeRan() const;
 };
 
 #endif

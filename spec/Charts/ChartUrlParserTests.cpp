@@ -12,8 +12,7 @@ TEST( ChartUrlParserTests, parsesOneLog )
   ChartUrlParser parser;
   const std::vector<RunLog>& logs = parser.parse(json);
 
-  ASSERT_EQ( log.dateRan, logs.back().dateRan );
-  ASSERT_EQ( log.timeRan, logs.back().timeRan );
+  ASSERT_EQ( log, logs.back());
 }
 
 TEST( ChartUrlParserTests, Parses2Logs )
@@ -31,9 +30,6 @@ TEST( ChartUrlParserTests, Parses2Logs )
   ChartUrlParser parser;
   const std::vector<RunLog>& logs = parser.parse(json);
 
-  ASSERT_EQ( log1.dateRan, logs.front().dateRan );
-  ASSERT_EQ( log1.timeRan, logs.front().timeRan );
-
-  ASSERT_EQ( log2.dateRan, logs.back().dateRan );
-  ASSERT_EQ( log2.timeRan, logs.back().timeRan );
+  ASSERT_EQ( log1, logs.front() );
+  ASSERT_EQ( log2, logs.back() );
 }
