@@ -22,6 +22,9 @@ class Date
     int day() const;
 
     void addDays( int );
+
+  private:
+    void init( int year, int month, int day );
 };
 
 #endif

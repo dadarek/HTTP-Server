@@ -7,35 +7,20 @@ Date::Date()
   time_t t = time(0);
   struct tm* now = localtime( &t );
 
-  memset( &date_, 0, sizeof(date_) );
-  date_.tm_year = now->tm_year;
-  date_.tm_mon = now->tm_mon;
-  date_.tm_mday = now->tm_mday;
+  init( now->tm_year + 1900, now->tm_mon + 1, now->tm_mday );
 }
 
 Date::Date( const char* date )
 {
-  memset( &date_, 0, sizeof(date_) );
-
   int year, month, day;
   sscanf( date, "%d-%d-%d", &year, &month, &day );
 
-  date_.tm_year = year - 1900;
-  date_.tm_mon = month - 1;
-  date_.tm_mday = day;
-
-  mktime( &date_ );
+  init( year, month, day );
 }
 
 Date::Date( int year, int month, int day )
 {
-  memset( &date_, 0, sizeof(date_) );
-
-  date_.tm_year = year - 1900;
-  date_.tm_mon = month - 1;
-  date_.tm_mday = day;
-
-  mktime( &date_ );
+  init( year, month, day );
 }
 
 Date::~Date()
@@ -74,5 +59,16 @@ int Date::day() const
 void Date::addDays( int days )
 {
   date_.tm_mday -= days;
+  mktime( &date_ );
+}
+
+void Date::init( int year, int month, int day )
+{
+  memset( &date_, 0, sizeof(date_) );
+
+  date_.tm_year = year - 1900;
+  date_.tm_mon = month - 1;
+  date_.tm_mday = day;
+
   mktime( &date_ );
 }
