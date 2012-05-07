@@ -34,8 +34,8 @@ RunLog ChartUrlParser::parseNextLog( const char* bracket )
     sscanf(bracket, pattern, dateRan, &timeRan);
 
     RunLog log;
-    log.dateRan = std::string(dateRan);
     log.timeRan = timeRan;
+    log.dateRan = Date(dateRan);
     return log;
 }
 

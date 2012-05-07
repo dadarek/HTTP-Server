@@ -9,25 +9,25 @@ class ChartUrlParserTests
   public:
     ChartUrlParser parser;
 
-    std::string createLogJson(const char* dateRan, int timeRan)
+    std::string createLogJson(const Date& dateRan, int timeRan)
     {
       char json[100];
-      sprintf( json, "{\"date_ran\":\"%s\",\"time_ran\":\"%d\"}", dateRan, timeRan );
+      sprintf( json, "{\"date_ran\":\"%d-%02d-%02d\",\"time_ran\":\"%d\"}", dateRan.year(), dateRan.month(), dateRan.day(), timeRan );
 
       return UrlUtilities::encode( json );
     }
 
-    void assertLogEquals( const RunLog& log, const char* dateRan, int timeRan )
+    void assertLogEquals( const RunLog& log, const Date& dateRan, int timeRan )
     {
-      ASSERT_STREQ(dateRan, log.dateRan.c_str());
+      ASSERT_EQ(dateRan, log.dateRan);
       ASSERT_EQ(timeRan, log.timeRan);
     }
 };
 
 TEST_F( ChartUrlParserTests, parsesOneLog )
 {
-  const char* dateRan = "2012-04-15";
   int timeRan = 30;
+  Date dateRan( "2012-04-15" );
 
   std::string json = "[" + createLogJson( dateRan, timeRan ) + "]";
 
@@ -38,10 +38,10 @@ TEST_F( ChartUrlParserTests, parsesOneLog )
 
 TEST_F( ChartUrlParserTests, Parses2Logs )
 {
-  const char* dateRan1 = "2012-04-15";
+  Date dateRan1( "2012-04-15" );
   int timeRan1 = 30;
 
-  const char* dateRan2 = "2012-03-30";
+  Date dateRan2( "2012-03-30" );
   int timeRan2 = 15;
 
   std::string json = 
