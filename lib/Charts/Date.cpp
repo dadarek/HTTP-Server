@@ -1,6 +1,6 @@
-#include "DateUtilities.h"
+#include "Date.h"
 
-struct tm DateUtilities::parse( std::string dateString )
+struct tm Date::parse( std::string dateString )
 {
   struct tm result;
   memset( &result, 0, sizeof(result) );
@@ -16,7 +16,7 @@ struct tm DateUtilities::parse( std::string dateString )
   return result;
 }
 
-bool DateUtilities::equal(const struct tm& date1, const struct tm& date2 )
+bool Date::equal(const struct tm& date1, const struct tm& date2 )
 {
   return date1.tm_year == date2.tm_year
     && date1.tm_mon == date2.tm_mon

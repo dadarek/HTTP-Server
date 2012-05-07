@@ -1,14 +1,14 @@
-#ifndef DATE_UTILITIES_H
-#define DATE_UTILITIES_H
+#ifndef DATE_H
+#define DATE_H
 
 #include <string>
 #include <ctime>
 
-class DateUtilities
+class Date
 {
   private:
-    DateUtilities();
-    virtual ~DateUtilities();
+    Date();
+    virtual ~Date();
 
   public:
     static struct tm parse( std::string );

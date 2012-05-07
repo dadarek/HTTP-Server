@@ -1,11 +1,11 @@
 #include "gtest/gtest.h"
-#include "DateUtilities.h"
+#include "Date.h"
 
-class DateUtilitiesTests
+class DateTests
   : public ::testing::Test
 {
   public:
-    DateUtilitiesTests(){ }
+    DateTests(){ }
 
     time_t createDate(struct tm& date, int year, int month, int day)
     {
@@ -20,17 +20,17 @@ class DateUtilitiesTests
     }
 };
 
-TEST_F( DateUtilitiesTests, ParsesDateFromString )
+TEST_F( DateTests, ParsesDateFromString )
 {
   std::string dateString("2011-04-18");
-  const struct tm& result = DateUtilities::parse(dateString);
+  const struct tm& result = Date::parse(dateString);
 
   ASSERT_EQ( 18, result.tm_mday );
   ASSERT_EQ( 4-1, result.tm_mon );
   ASSERT_EQ( 2011-1900, result.tm_year );
 }
 
-TEST_F( DateUtilitiesTests, Compares2Dates )
+TEST_F( DateTests, Compares2Dates )
 {
   struct tm date, sameDate, diffYear, diffMonth, diffDay;
   createDate( date, 2008, 9, 21 );
@@ -38,20 +38,20 @@ TEST_F( DateUtilitiesTests, Compares2Dates )
   createDate( diffYear, 2007, 9, 21 );
   createDate( diffMonth, 2008, 8, 21 );
   createDate( diffDay, 2008, 9, 22 );
-  ASSERT_EQ( true, DateUtilities::equal( date, sameDate ) );
-  ASSERT_EQ( false, DateUtilities::equal( date, diffYear) );
-  ASSERT_EQ( false, DateUtilities::equal( date, diffMonth ) );
-  ASSERT_EQ( false, DateUtilities::equal( date, diffDay ) );
+  ASSERT_EQ( true, Date::equal( date, sameDate ) );
+  ASSERT_EQ( false, Date::equal( date, diffYear) );
+  ASSERT_EQ( false, Date::equal( date, diffMonth ) );
+  ASSERT_EQ( false, Date::equal( date, diffDay ) );
 }
 
-TEST_F( DateUtilitiesTests, SetsDayOfWeekCorrectly )
+TEST_F( DateTests, SetsDayOfWeekCorrectly )
 {
   struct tm expected;
   createDate(expected, 2012, 5, 4);
   ASSERT_EQ( 5, expected.tm_wday );
 }
 
-TEST_F( DateUtilitiesTests, SubtractsDaysCorrectly )
+TEST_F( DateTests, SubtractsDaysCorrectly )
 {
   struct tm expected;
   createDate(expected, 2012, 5, 5-15);
@@ -62,7 +62,7 @@ TEST_F( DateUtilitiesTests, SubtractsDaysCorrectly )
   ASSERT_EQ( 2012-1900, expected.tm_year );
 }
 
-TEST_F( DateUtilitiesTests, ComparesCorrectly )
+TEST_F( DateTests, ComparesCorrectly )
 {
   struct tm date;
   time_t t_may_5 = createDate(date, 2012, 5, 5);
