@@ -36,5 +36,6 @@ TEST( DateTests, ComparesCorrectly )
   Date nextYear  ("2013-05-06");
 
   ASSERT_GT( today, yesterday );
+  ASSERT_LT( yesterday, today );
 }
 

@@ -15,6 +15,7 @@ class Date
     bool operator==( const Date& ) const;
     bool operator!=( const Date& ) const;
     bool operator>( const Date& ) const;
+    bool operator<( const Date& ) const;
 
     int year() const;
     int month() const;

@@ -39,6 +39,11 @@ bool Date::operator>( const Date& other ) const
   return this->day() > other.day();
 }
 
+bool Date::operator<( const Date& other ) const
+{
+  return this->day() < other.day();
+}
+
 int Date::year() const
 {
   return date_.tm_year + 1900;
