@@ -41,7 +41,10 @@ TEST_F( ChartRequestHandlerTests, Writes2WeekOf0sOnEmptyRequest)
   HttpRequest request( "", "" );
   HttpResponse* response = handler_.handle( request );
 
-  ASSERT_STREQ( "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]", response->body() );
+  char body[1024];
+  memset( body, 0, 1024 );
+  memcpy( body, response->body(), response->bodyLength() );
+  ASSERT_STREQ( "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]", body );
 }
 
 TEST_F( ChartRequestHandlerTests, WritesHistoricalLogsInCorrectPlace)
@@ -64,6 +67,10 @@ TEST_F( ChartRequestHandlerTests, WritesHistoricalLogsInCorrectPlace)
 
   HttpResponse* response = handler_.handle( request );
 
-  ASSERT_STREQ( "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 45, 33, 30]", response->body() );
+  char body[1024];
+  memset( body, 0, 1024 );
+  memcpy( body, response->body(), response->bodyLength() );
+  ASSERT_STREQ( "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 45, 33, 30]", body );
 }
+
 

@@ -10,6 +10,9 @@ class RunLogToJsonConverter
   public:
     static std::string convert( const RunLog& );
     static std::string convert( const std::vector<RunLog>& );
+
+  private:
+    static std::string toJson( const RunLog& );
 };
 
 #endif
