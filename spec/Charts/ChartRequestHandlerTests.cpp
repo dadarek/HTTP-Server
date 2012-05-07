@@ -5,16 +5,25 @@
 #include "RunLog.h"
 #include "RunLogToJsonConverter.h"
 
-TEST( ChartRequestHandlerTests, Sets200Status )
+class ChartRequestHandlerTests
+  : public ::testing::Test
+{
+  public:
+    ChartRequestHandler handler_;
+
+    ChartRequestHandlerTests()
+    { }
+};
+
+TEST_F( ChartRequestHandlerTests, Sets200Status )
 {
   HttpRequest request( "", "" );
 
-  ChartRequestHandler handler;
-  HttpResponse* response = handler.handle( request );
+  HttpResponse* response = handler_.handle( request );
   ASSERT_STREQ( "200 OK", response->status().c_str() );
 }
 
-TEST( ChartRequestHandlerTests, IncludesRunLogTimeInJavascriptArray )
+TEST_F( ChartRequestHandlerTests, IncludesRunLogTimeInJavascriptArray )
 {
   Date today;
   RunLog log( today, 99999 );
@@ -22,8 +31,7 @@ TEST( ChartRequestHandlerTests, IncludesRunLogTimeInJavascriptArray )
   const std::string& json = RunLogToJsonConverter::convert( log );
   HttpRequest request( "", json.c_str() );
 
-  ChartRequestHandler handler;
-  HttpResponse* response = handler.handle( request );
+  HttpResponse* response = handler_.handle( request );
 
   ASSERT_NE( (char*) 0, strstr(response->body(), "[99999]" ));
 }
