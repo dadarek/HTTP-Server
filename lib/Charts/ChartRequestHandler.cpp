@@ -11,5 +11,6 @@ ChartRequestHandler::~ChartRequestHandler()
 
 HttpResponse* ChartRequestHandler::handle( HttpRequest& )
 {
-  throw 0;
+  HttpResponse* response = new HttpResponse( "", 0, "200 OK" );
+  return response;
 }
