@@ -5,8 +5,13 @@
 
 struct RunLog
 {
-  int timeRan;
   Date dateRan;
+  int timeRan;
+
+  RunLog( const char* dateRan, int timeRan )
+    : dateRan( dateRan )
+    , timeRan( timeRan )
+  { }
 };
 
 #endif

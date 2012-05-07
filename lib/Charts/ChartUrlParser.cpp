@@ -33,9 +33,7 @@ RunLog ChartUrlParser::parseNextLog( const char* bracket )
     const char* pattern = "{\"date_ran\":\"%10s\",\"time_ran\":\"%d\"}";
     sscanf(bracket, pattern, dateRan, &timeRan);
 
-    RunLog log;
-    log.timeRan = timeRan;
-    log.dateRan = Date(dateRan);
+    RunLog log( dateRan, timeRan );
     return log;
 }
 

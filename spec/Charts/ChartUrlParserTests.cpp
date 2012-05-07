@@ -5,9 +5,7 @@
 
 TEST( ChartUrlParserTests, parsesOneLog )
 {
-  RunLog log;
-  log.timeRan = 30;
-  log.dateRan = Date(2012, 4, 15);
+  RunLog log( "2012-04-15", 30 );
 
   std::string json = "[" + RunLogToJsonConverter::convert(log) + "]";
 
@@ -20,13 +18,8 @@ TEST( ChartUrlParserTests, parsesOneLog )
 
 TEST( ChartUrlParserTests, Parses2Logs )
 {
-  RunLog log1;
-  log1.timeRan = 30;
-  log1.dateRan = Date( 2012, 4, 15 );
-
-  RunLog log2;
-  log2.timeRan = 15;
-  log2.dateRan = Date( 2012, 3, 30 );
+  RunLog log1( "2012-04-15", 30 );
+  RunLog log2( "2012-03-30", 15 );
 
   std::string json = 
     "[" + 
