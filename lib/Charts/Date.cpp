@@ -1,5 +1,37 @@
 #include "Date.h"
 
+Date::Date( const char* date )
+{
+  memset( &date_, 0, sizeof(date_) );
+
+  int year, month, day;
+  sscanf( date, "%d-%d-%d", &year, &month, &day );
+
+  date_.tm_year = year - 1900;
+  date_.tm_mon = month - 1;
+  date_.tm_mday = day;
+
+  mktime( &date_ );
+}
+
+Date::~Date()
+{ }
+
+int Date::year()
+{
+  return date_.tm_year + 1900;
+}
+
+int Date::month()
+{
+  return date_.tm_mon + 1;
+}
+
+int Date::day()
+{
+  return date_.tm_mday;
+}
+
 struct tm Date::parse( std::string dateString )
 {
   struct tm result;

@@ -22,6 +22,11 @@ class DateTests
 
 TEST_F( DateTests, ParsesDateFromString )
 {
+  Date date("2011-04-18");
+  ASSERT_EQ( 18, date.day() );
+  ASSERT_EQ( 4, date.month() );
+  ASSERT_EQ( 2011, date.year() );
+
   std::string dateString("2011-04-18");
   const struct tm& result = Date::parse(dateString);
 
