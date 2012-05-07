@@ -1,7 +1,8 @@
 #include "ChartRequestHandler.h"
 #include "HttpResponse.h"
 #include "HttpRequest.h"
-#include <sstream>
+#include "ChartUrlParser.h"
+#include "RunLog.h"
 
 ChartRequestHandler::ChartRequestHandler()
 { }
@@ -9,8 +10,21 @@ ChartRequestHandler::ChartRequestHandler()
 ChartRequestHandler::~ChartRequestHandler()
 { }
 
-HttpResponse* ChartRequestHandler::handle( HttpRequest& )
+HttpResponse* ChartRequestHandler::handle( HttpRequest& request )
 {
-  HttpResponse* response = new HttpResponse( "[99999]", 7, "200 OK" );
+  ChartUrlParser parser;
+  std::vector<RunLog> logs = parser.parse( request.url() );
+
+  const char* body;
+  if( 0 == logs.size() )
+  {
+    body = "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]";
+  }
+  else
+  {
+    body = "[99999]"; 
+  }
+
+  HttpResponse* response = new HttpResponse( body, strlen(body), "200 OK" );
   return response;
 }
