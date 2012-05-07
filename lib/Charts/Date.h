@@ -15,10 +15,11 @@ class Date
 
     bool operator==( const Date& ) const;
     bool operator!=( const Date& ) const;
+    bool operator>( const Date& ) const;
 
-    int year();
-    int month();
-    int day();
+    int year() const;
+    int month() const;
+    int day() const;
 
     static struct tm parse( std::string );
     static bool equal( const struct tm& date1, const struct tm& date2 );

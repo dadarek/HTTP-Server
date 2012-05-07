@@ -32,17 +32,22 @@ bool Date::operator!=( const Date& other ) const
   return !(this == &other);
 }
 
-int Date::year()
+bool Date::operator>( const Date& other ) const
+{
+  return this->day() > other.day();
+}
+
+int Date::year() const
 {
   return date_.tm_year + 1900;
 }
 
-int Date::month()
+int Date::month() const
 {
   return date_.tm_mon + 1;
 }
 
-int Date::day()
+int Date::day() const
 {
   return date_.tm_mday;
 }

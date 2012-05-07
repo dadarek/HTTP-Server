@@ -44,6 +44,11 @@ TEST_F( DateTests, Compares2Dates )
 
 TEST_F( DateTests, ComparesCorrectly )
 {
+  Date yesterday ("2012-05-05");
+  Date today     ("2012-05-06");
+
+  ASSERT_GT( today, yesterday );
+
   struct tm date;
   time_t t_may_5 = createDate(date, 2012, 5, 5);
   time_t t_may_6 = createDate(date, 2012, 5, 6);
