@@ -10,6 +10,7 @@ class RunLog
     int timeRan_;
 
   public:
+    RunLog( const Date& dateRan, int timeRan );
     RunLog( const char* dateRan, int timeRan );
     virtual ~RunLog();
 
