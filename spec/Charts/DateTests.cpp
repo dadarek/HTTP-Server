@@ -45,10 +45,16 @@ TEST( DateTests, InitiatesToday )
 TEST( DateTests, SubtractsDates )
 {
   Date date("2012-03-05");
-  date.addDays( 14 );
+  date.addDays( -14 );
 
   ASSERT_EQ( 2012, date.year() );
   ASSERT_EQ( 2, date.month() );
   ASSERT_EQ( 20, date.day() );
 }
 
+TEST( DateTests, DoesNotUsePointerComparison )
+{
+  Date d1;
+  Date d2;
+  ASSERT_EQ( false, d1 != d2 );
+}

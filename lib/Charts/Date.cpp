@@ -38,7 +38,7 @@ bool Date::operator==( const Date& other ) const
 
 bool Date::operator!=( const Date& other ) const
 {
-  return !(this == &other);
+  return !(*this == other);
 }
 
 int Date::year() const
@@ -58,7 +58,7 @@ int Date::day() const
 
 void Date::addDays( int days )
 {
-  date_.tm_mday -= days;
+  date_.tm_mday += days;
   mktime( &date_ );
 }
 
