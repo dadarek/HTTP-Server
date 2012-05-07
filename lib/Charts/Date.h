@@ -9,6 +9,7 @@ class Date
     struct tm date_;
 
   public:
+    Date();
     Date( const char* );
     virtual ~Date();
 

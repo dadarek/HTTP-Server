@@ -2,6 +2,17 @@
 #include <cstring>
 #include <cstdio>
 
+Date::Date()
+{
+  time_t t = time(0);
+  struct tm* now = localtime( &t );
+
+  memset( &date_, 0, sizeof(date_) );
+  date_.tm_year = now->tm_year;
+  date_.tm_mon = now->tm_mon;
+  date_.tm_mday = now->tm_mday;
+}
+
 Date::Date( const char* date )
 {
   memset( &date_, 0, sizeof(date_) );

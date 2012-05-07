@@ -23,4 +23,15 @@ TEST( DateTests, Compares2Dates )
   ASSERT_NE( date, diffDay );
 }
 
+TEST( DateTests, InitiatesToday )
+{
+  Date today;
+
+  time_t t = time(0);
+  struct tm* now = localtime( &t );
+  ASSERT_EQ( now->tm_year + 1900, today.year() );
+  ASSERT_EQ( now->tm_mon + 1, today.month() );
+  ASSERT_EQ( now->tm_mday, today.day() );
+}
+
 
