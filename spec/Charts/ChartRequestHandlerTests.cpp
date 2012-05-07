@@ -13,6 +13,20 @@ class ChartRequestHandlerTests
 
     ChartRequestHandlerTests()
     { }
+
+    std::string getResponse( const std::vector<RunLog> logs )
+    {
+      const std::string& json = RunLogToJsonConverter::convert( logs );
+      HttpRequest request( "", json.c_str() );
+
+      HttpResponse* response = handler_.handle( request );
+
+      char body[1024];
+      memset( body, 0, 1024 );
+      memcpy( body, response->body(), response->bodyLength() );
+
+      return std::string(body);
+    }
 };
 
 TEST_F( ChartRequestHandlerTests, Sets200Status )
@@ -25,26 +39,17 @@ TEST_F( ChartRequestHandlerTests, Sets200Status )
 
 TEST_F( ChartRequestHandlerTests, IncludesRunLogTimeInJavascriptArray )
 {
-  Date today;
-  RunLog log( today, 99999 );
+  RunLog log( Date(), 99999 );
+  std::vector<RunLog> logs;
+  logs.push_back( log );
 
-  const std::string& json = RunLogToJsonConverter::convert( log );
-  HttpRequest request( "", json.c_str() );
-
-  HttpResponse* response = handler_.handle( request );
-
-  ASSERT_STREQ( "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 99999]", response->body() );
+  ASSERT_STREQ( "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 99999]", getResponse(logs).c_str() );
 }
 
 TEST_F( ChartRequestHandlerTests, Writes2WeekOf0sOnEmptyRequest)
 {
-  HttpRequest request( "", "" );
-  HttpResponse* response = handler_.handle( request );
-
-  char body[1024];
-  memset( body, 0, 1024 );
-  memcpy( body, response->body(), response->bodyLength() );
-  ASSERT_STREQ( "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]", body );
+  std::vector<RunLog> logs;
+  ASSERT_STREQ( "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]", getResponse(logs).c_str() );
 }
 
 TEST_F( ChartRequestHandlerTests, WritesHistoricalLogsInCorrectPlace)
@@ -62,15 +67,23 @@ TEST_F( ChartRequestHandlerTests, WritesHistoricalLogsInCorrectPlace)
   logs.push_back( log2 );
   logs.push_back( log3 );
 
-  const std::string& json = RunLogToJsonConverter::convert( logs );
-  HttpRequest request( "", json.c_str() );
-
-  HttpResponse* response = handler_.handle( request );
-
-  char body[1024];
-  memset( body, 0, 1024 );
-  memcpy( body, response->body(), response->bodyLength() );
-  ASSERT_STREQ( "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 45, 33, 30]", body );
+  ASSERT_STREQ( "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 45, 33, 30]", getResponse(logs).c_str() );
 }
+
+TEST_F( ChartRequestHandlerTests, WritesFirstAndLastDateLogs)
+{
+  Date today;
+  Date thirteenDaysAgo; thirteenDaysAgo.addDays( -13 );
+
+  RunLog log1( today, 67 );
+  RunLog log2( thirteenDaysAgo, 472 );
+
+  std::vector<RunLog> logs;
+  logs.push_back( log1 );
+  logs.push_back( log2 );
+
+  ASSERT_STREQ( "[472, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 67]", getResponse(logs).c_str() );
+}
+
 
 
