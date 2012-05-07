@@ -10,13 +10,14 @@ class ChartRequestHandlerTests
 {
   public:
     ChartRequestHandler handler_;
+    std::vector<RunLog> logs_;
 
     ChartRequestHandlerTests()
     { }
 
-    std::string getResponse( const std::vector<RunLog> logs )
+    std::string getResponse()
     {
-      const std::string& json = RunLogToJsonConverter::convert( logs );
+      const std::string& json = RunLogToJsonConverter::convert( logs_ );
       HttpRequest request( "", json.c_str() );
 
       HttpResponse* response = handler_.handle( request );
@@ -40,16 +41,14 @@ TEST_F( ChartRequestHandlerTests, Sets200Status )
 TEST_F( ChartRequestHandlerTests, IncludesRunLogTimeInJavascriptArray )
 {
   RunLog log( Date(), 99999 );
-  std::vector<RunLog> logs;
-  logs.push_back( log );
+  logs_.push_back( log );
 
-  ASSERT_STREQ( "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 99999]", getResponse(logs).c_str() );
+  ASSERT_STREQ( "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 99999]", getResponse().c_str() );
 }
 
 TEST_F( ChartRequestHandlerTests, Writes2WeekOf0sOnEmptyRequest)
 {
-  std::vector<RunLog> logs;
-  ASSERT_STREQ( "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]", getResponse(logs).c_str() );
+  ASSERT_STREQ( "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]", getResponse().c_str() );
 }
 
 TEST_F( ChartRequestHandlerTests, WritesHistoricalLogsInCorrectPlace)
@@ -62,12 +61,11 @@ TEST_F( ChartRequestHandlerTests, WritesHistoricalLogsInCorrectPlace)
   RunLog log2( twoDaysAgo, 45 );
   RunLog log3( yesterday, 33 );
 
-  std::vector<RunLog> logs;
-  logs.push_back( log1 );
-  logs.push_back( log2 );
-  logs.push_back( log3 );
+  logs_.push_back( log1 );
+  logs_.push_back( log2 );
+  logs_.push_back( log3 );
 
-  ASSERT_STREQ( "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 45, 33, 30]", getResponse(logs).c_str() );
+  ASSERT_STREQ( "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 45, 33, 30]", getResponse().c_str() );
 }
 
 TEST_F( ChartRequestHandlerTests, WritesFirstAndLastDateLogs)
@@ -78,11 +76,10 @@ TEST_F( ChartRequestHandlerTests, WritesFirstAndLastDateLogs)
   RunLog log1( today, 67 );
   RunLog log2( thirteenDaysAgo, 472 );
 
-  std::vector<RunLog> logs;
-  logs.push_back( log1 );
-  logs.push_back( log2 );
+  logs_.push_back( log1 );
+  logs_.push_back( log2 );
 
-  ASSERT_STREQ( "[472, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 67]", getResponse(logs).c_str() );
+  ASSERT_STREQ( "[472, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 67]", getResponse().c_str() );
 }
 
 
