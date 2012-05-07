@@ -26,45 +26,20 @@ TEST_F( DateTests, ParsesDateFromString )
   ASSERT_EQ( 18, date.day() );
   ASSERT_EQ( 4, date.month() );
   ASSERT_EQ( 2011, date.year() );
-
-  std::string dateString("2011-04-18");
-  const struct tm& result = Date::parse(dateString);
-
-  ASSERT_EQ( 18, result.tm_mday );
-  ASSERT_EQ( 4-1, result.tm_mon );
-  ASSERT_EQ( 2011-1900, result.tm_year );
 }
 
 TEST_F( DateTests, Compares2Dates )
 {
-  struct tm date, sameDate, diffYear, diffMonth, diffDay;
-  createDate( date, 2008, 9, 21 );
-  createDate( sameDate, 2008, 9, 21 );
-  createDate( diffYear, 2007, 9, 21 );
-  createDate( diffMonth, 2008, 8, 21 );
-  createDate( diffDay, 2008, 9, 22 );
-  ASSERT_EQ( true, Date::equal( date, sameDate ) );
-  ASSERT_EQ( false, Date::equal( date, diffYear) );
-  ASSERT_EQ( false, Date::equal( date, diffMonth ) );
-  ASSERT_EQ( false, Date::equal( date, diffDay ) );
-}
+  Date date("2008-04-18");
+  Date sameDate("2008-04-18");
+  Date diffYear("1999-04-18");
+  Date diffMonth("2008-01-18");
+  Date diffDay("2008-04-19");
 
-TEST_F( DateTests, SetsDayOfWeekCorrectly )
-{
-  struct tm expected;
-  createDate(expected, 2012, 5, 4);
-  ASSERT_EQ( 5, expected.tm_wday );
-}
-
-TEST_F( DateTests, SubtractsDaysCorrectly )
-{
-  struct tm expected;
-  createDate(expected, 2012, 5, 5-15);
-
-  ASSERT_EQ( 5, expected.tm_wday );
-  ASSERT_EQ( 20, expected.tm_mday );
-  ASSERT_EQ( 4-1, expected.tm_mon );
-  ASSERT_EQ( 2012-1900, expected.tm_year );
+  ASSERT_EQ( date, sameDate );
+  ASSERT_NE( date, diffYear );
+  ASSERT_NE( date, diffMonth );
+  ASSERT_NE( date, diffDay );
 }
 
 TEST_F( DateTests, ComparesCorrectly )

@@ -17,6 +17,21 @@ Date::Date( const char* date )
 Date::~Date()
 { }
 
+bool Date::operator==( const Date& other ) const
+{
+  const struct tm& date1 = this->date_;
+  const struct tm& date2 = other.date_;
+
+  return date1.tm_year == date2.tm_year
+    && date1.tm_mon == date2.tm_mon
+    && date1.tm_mday == date2.tm_mday;
+}
+
+bool Date::operator!=( const Date& other ) const
+{
+  return !(this == &other);
+}
+
 int Date::year()
 {
   return date_.tm_year + 1900;
