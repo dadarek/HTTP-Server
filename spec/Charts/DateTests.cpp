@@ -23,19 +23,4 @@ TEST( DateTests, Compares2Dates )
   ASSERT_NE( date, diffDay );
 }
 
-TEST( DateTests, ComparesCorrectly )
-{
-  Date yesterday ("2012-05-05");
-  Date today     ("2012-05-06");
-  Date tomorrow  ("2012-05-07");
-
-  Date lastMonth ("2012-04-04");
-  Date nextMonth ("2012-06-04");
-
-  Date lastYear  ("2011-05-06");
-  Date nextYear  ("2013-05-06");
-
-  ASSERT_GT( today, yesterday );
-  ASSERT_LT( yesterday, today );
-}
 
