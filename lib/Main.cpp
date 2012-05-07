@@ -25,9 +25,11 @@
 #include "ThreadPool.h"
 #include "ThreadedRequestHandler.h"
 
+#include "ChartRequestHandlerFactory.h"
+
 #include <stdexcept>
 
-void go( int portNumber, const char* directory )
+void go( int portNumber, const char* )
 {
   printf("Creating objects ...\n");
   SystemThreadApi threadApi;
@@ -36,15 +38,16 @@ void go( int portNumber, const char* directory )
   HttpSocketReader socketReader( socketApi );
   HttpResponseSocketWriter socketWriter( socketApi );
 
-  SystemDirectoryApi directoryApi;
+  //SystemDirectoryApi directoryApi;
 
-  SystemFileFactory fileFactory;
-  SystemFileApi fileApi( fileFactory );
-  std::string basePath( directory );
+  //SystemFileFactory fileFactory;
+  //SystemFileApi fileApi( fileFactory );
+  //std::string basePath( directory );
 
   HttpRequestParserImpl requestParser;
 
-  HttpRequestHandlerFactoryImpl requestHandlerFactory( basePath, fileApi, directoryApi );
+  //HttpRequestHandlerFactoryImpl requestHandlerFactory( basePath, fileApi, directoryApi );
+  ChartRequestHandlerFactory requestHandlerFactory;
 
 
   StlWorkItemQueue workItemQueue;
