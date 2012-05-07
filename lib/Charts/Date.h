@@ -19,6 +19,8 @@ class Date
     int year() const;
     int month() const;
     int day() const;
+
+    void addDays( int );
 };
 
 #endif

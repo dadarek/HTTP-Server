@@ -34,4 +34,13 @@ TEST( DateTests, InitiatesToday )
   ASSERT_EQ( now->tm_mday, today.day() );
 }
 
+TEST( DateTests, SubtractsDates )
+{
+  Date date("2012-03-05");
+  date.addDays( 14 );
+
+  ASSERT_EQ( 2012, date.year() );
+  ASSERT_EQ( 2, date.month() );
+  ASSERT_EQ( 20, date.day() );
+}
 

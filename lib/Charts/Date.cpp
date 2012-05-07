@@ -59,3 +59,9 @@ int Date::day() const
 {
   return date_.tm_mday;
 }
+
+void Date::addDays( int days )
+{
+  date_.tm_mday -= days;
+  mktime( &date_ );
+}
