@@ -2,6 +2,10 @@
 #define CHART_REQUEST_HANDLER_H
 
 #include "HttpRequestHandler.h"
+#include <vector>
+
+class RunLog;
+class Date;
 
 class ChartRequestHandler
   : public HttpRequestHandler
@@ -14,5 +18,8 @@ class ChartRequestHandler
     virtual ~ChartRequestHandler();
 
     HttpResponse* handle( HttpRequest& request );
+
+  private:
+    const RunLog* findLog( const Date&, const std::vector<RunLog>& );
 };
 #endif
