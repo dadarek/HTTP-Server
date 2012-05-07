@@ -27,6 +27,17 @@ Date::Date( const char* date )
   mktime( &date_ );
 }
 
+Date::Date( int year, int month, int day )
+{
+  memset( &date_, 0, sizeof(date_) );
+
+  date_.tm_year = year - 1900;
+  date_.tm_mon = month - 1;
+  date_.tm_mday = day;
+
+  mktime( &date_ );
+}
+
 Date::~Date()
 { }
 

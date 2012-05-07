@@ -9,6 +9,14 @@ TEST( DateTests, ParsesDateFromString )
   ASSERT_EQ( 2011, date.year() );
 }
 
+TEST( DateTests, ParsesFromInts )
+{
+  Date date( 1999, 1, 2 );
+  ASSERT_EQ( 2, date.day() );
+  ASSERT_EQ( 1, date.month() );
+  ASSERT_EQ( 1999, date.year() );
+}
+
 TEST( DateTests, Compares2Dates )
 {
   Date date("2008-04-18");

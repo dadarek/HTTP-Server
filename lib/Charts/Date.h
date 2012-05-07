@@ -11,6 +11,7 @@ class Date
   public:
     Date();
     Date( const char* );
+    Date( int year, int month, int day );
     virtual ~Date();
 
     bool operator==( const Date& ) const;
