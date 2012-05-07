@@ -1,26 +1,7 @@
 #include "gtest/gtest.h"
 #include "Date.h"
 
-class DateTests
-  : public ::testing::Test
-{
-  public:
-    DateTests(){ }
-
-    time_t createDate(struct tm& date, int year, int month, int day)
-    {
-      memset( &date, 0, sizeof(date) );
-
-      date.tm_year = year - 1900;
-      date.tm_mon = month - 1;
-      date.tm_mday = day;
-
-      time_t result = mktime( &date );
-      return result;
-    }
-};
-
-TEST_F( DateTests, ParsesDateFromString )
+TEST( DateTests, ParsesDateFromString )
 {
   Date date("2011-04-18");
   ASSERT_EQ( 18, date.day() );
@@ -28,7 +9,7 @@ TEST_F( DateTests, ParsesDateFromString )
   ASSERT_EQ( 2011, date.year() );
 }
 
-TEST_F( DateTests, Compares2Dates )
+TEST( DateTests, Compares2Dates )
 {
   Date date("2008-04-18");
   Date sameDate("2008-04-18");
@@ -42,20 +23,18 @@ TEST_F( DateTests, Compares2Dates )
   ASSERT_NE( date, diffDay );
 }
 
-TEST_F( DateTests, ComparesCorrectly )
+TEST( DateTests, ComparesCorrectly )
 {
   Date yesterday ("2012-05-05");
   Date today     ("2012-05-06");
+  Date tomorrow  ("2012-05-07");
+
+  Date lastMonth ("2012-04-04");
+  Date nextMonth ("2012-06-04");
+
+  Date lastYear  ("2011-05-06");
+  Date nextYear  ("2013-05-06");
 
   ASSERT_GT( today, yesterday );
-
-  struct tm date;
-  time_t t_may_5 = createDate(date, 2012, 5, 5);
-  time_t t_may_6 = createDate(date, 2012, 5, 6);
-
-  ASSERT_GT( (double) 0, difftime(t_may_5, t_may_6) );
-  ASSERT_LT( (double) 0, difftime(t_may_6, t_may_5) );
-  ASSERT_EQ( (double) 0, difftime(t_may_5, t_may_5) );
-  ASSERT_EQ( (double) 0, difftime(t_may_6, t_may_6) );
 }
 
