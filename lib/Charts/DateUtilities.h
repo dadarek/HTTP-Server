@@ -12,6 +12,7 @@ class DateUtilities
 
   public:
     static struct tm parse( std::string );
+    static bool equal( const struct tm& date1, const struct tm& date2 );
 };
 
 #endif

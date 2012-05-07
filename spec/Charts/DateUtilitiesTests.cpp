@@ -30,6 +30,20 @@ TEST_F( DateUtilitiesTests, ParsesDateFromString )
   ASSERT_EQ( 2011-1900, result.tm_year );
 }
 
+TEST_F( DateUtilitiesTests, Compares2Dates )
+{
+  struct tm date, sameDate, diffYear, diffMonth, diffDay;
+  createDate( date, 2008, 9, 21 );
+  createDate( sameDate, 2008, 9, 21 );
+  createDate( diffYear, 2007, 9, 21 );
+  createDate( diffMonth, 2008, 8, 21 );
+  createDate( diffDay, 2008, 9, 22 );
+  ASSERT_EQ( true, DateUtilities::equal( date, sameDate ) );
+  ASSERT_EQ( false, DateUtilities::equal( date, diffYear) );
+  ASSERT_EQ( false, DateUtilities::equal( date, diffMonth ) );
+  ASSERT_EQ( false, DateUtilities::equal( date, diffDay ) );
+}
+
 TEST_F( DateUtilitiesTests, SetsDayOfWeekCorrectly )
 {
   struct tm expected;

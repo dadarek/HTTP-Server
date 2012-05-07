@@ -16,3 +16,9 @@ struct tm DateUtilities::parse( std::string dateString )
   return result;
 }
 
+bool DateUtilities::equal(const struct tm& date1, const struct tm& date2 )
+{
+  return date1.tm_year == date2.tm_year
+    && date1.tm_mon == date2.tm_mon
+    && date1.tm_mday == date2.tm_mday;
+}
