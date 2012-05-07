@@ -20,6 +20,16 @@ class DateUtilitiesTests
     }
 };
 
+TEST_F( DateUtilitiesTests, ParsesDateFromString )
+{
+  std::string dateString("2011-04-18");
+  const struct tm& result = DateUtilities::parse(dateString);
+
+  ASSERT_EQ( 18, result.tm_mday );
+  ASSERT_EQ( 4-1, result.tm_mon );
+  ASSERT_EQ( 2011-1900, result.tm_year );
+}
+
 TEST_F( DateUtilitiesTests, SetsDayOfWeekCorrectly )
 {
   struct tm expected;

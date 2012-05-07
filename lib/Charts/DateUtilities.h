@@ -1,6 +1,7 @@
 #ifndef DATE_UTILITIES_H
 #define DATE_UTILITIES_H
 
+#include <string>
 #include <ctime>
 
 class DateUtilities
@@ -10,8 +11,7 @@ class DateUtilities
     virtual ~DateUtilities();
 
   public:
-    static int get();
-
+    static struct tm parse( std::string );
 };
 
 #endif
