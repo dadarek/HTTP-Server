@@ -33,7 +33,7 @@ TEST_F( ChartRequestHandlerTests, IncludesRunLogTimeInJavascriptArray )
 
   HttpResponse* response = handler_.handle( request );
 
-  ASSERT_NE( (char*) 0, strstr(response->body(), "[99999]" ));
+  ASSERT_NE( (char*) 0, strstr(response->body(), "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 99999]" ));
 }
 
 TEST_F( ChartRequestHandlerTests, Writes2WeekOf0sOnEmptyRequest)

@@ -22,7 +22,7 @@ HttpResponse* ChartRequestHandler::handle( HttpRequest& request )
   }
   else
   {
-    body = "[99999]"; 
+    body = "[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 99999]";
   }
 
   HttpResponse* response = new HttpResponse( body, strlen(body), "200 OK" );
